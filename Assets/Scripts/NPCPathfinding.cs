@@ -23,7 +23,7 @@ public class NPCPathfinding : MonoBehaviour
     {
         agent.SetDestination(target.position);
         transform.position = agent.nextPosition;
-        Debug.Log(Mathf.Abs(target.position.x - agent.nextPosition.x) + Mathf.Abs(target.position.y - agent.nextPosition.y));
+        //Debug.Log(Mathf.Abs(target.position.x - agent.nextPosition.x) + Mathf.Abs(target.position.y - agent.nextPosition.y));
         if ((Mathf.Abs(target.position.x - agent.nextPosition.x) + Mathf.Abs(target.position.y - agent.nextPosition.y)) > 5)
         {
            agent.speed = 10.0f;
