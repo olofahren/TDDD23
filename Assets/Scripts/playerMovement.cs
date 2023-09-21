@@ -9,7 +9,7 @@ public class playerMovement : MonoBehaviour
     public float moveSpeed = 5.0f;
     public Rigidbody2D rb;
     private Vector2 moveDirection;
-    public bool facingRight;
+    private bool facingRight;
 
     private Animator anim;
 
@@ -44,14 +44,44 @@ public class playerMovement : MonoBehaviour
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
 
         //Change animation if player is walking
-        if (rb.velocity.x != 0 || rb.velocity.y != 0)
+        if ((rb.velocity.x != 0 || rb.velocity.y != 0))
         {
-            anim.SetBool("isWalking", true);
+
+            if (Input.GetButton("Sprint"))
+            {
+                anim.SetBool("isRunning", true);
+                anim.SetBool("isWalking", false);
+                moveSpeed = 10.0f;
+
+            }
+
+            else
+            {
+                moveSpeed = 5.0f;
+                anim.SetBool("isRunning", false);
+                anim.SetBool("isWalking", true);
+            }
+
         }
+
+       
+
         else
         {
             anim.SetBool("isWalking", false);
+            anim.SetBool("isRunning", false);
+
+
         }
+
+        if (Input.GetButton("Fire1"))
+        {
+            anim.SetTrigger("attack");
+
+        }
+
+
+        
 
         //Flip player if walking to the left while keeping the right scale of the character
         if (rb.velocity.x < 0 && !facingRight)
