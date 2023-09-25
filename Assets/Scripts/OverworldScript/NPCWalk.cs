@@ -21,7 +21,7 @@ public class NPCWalk : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)));
+        //Debug.Log((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)));
         if(rb.position != lastPosition)
         {
             if((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)) > 0.21 || Input.GetButton("Sprint"))
