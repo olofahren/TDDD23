@@ -225,18 +225,21 @@ public class BattleSystem : MonoBehaviour
     void EnableBattleMenu(int playerNr)
     {
         Debug.Log("Unit Player Nr: " + playerNr);
-        if(playerNr == 1)
+        Vector3 temp = new(-1.5f, 0, 0);
+        if (playerNr == 1)
         {
             if (player1BattleMenu == false)
             {
                 player1BattleMenu = true;
                 battleMenu1.SetActive(true);
+                playerBattleStation1.transform.position += temp;
             }
             else
             {
                 Debug.Log("tured off battle menu");
                 player1BattleMenu = false;
                 battleMenu1.SetActive(false);
+                playerBattleStation1.transform.position -= temp;
                 setTurnIndex();
             }
 
@@ -247,12 +250,14 @@ public class BattleSystem : MonoBehaviour
             {
                 player2BattleMenu = true;
                 battleMenu2.SetActive(true);
+                playerBattleStation2.transform.position +=temp;
             }
             else
             {
                 Debug.Log("tured off battle menu");
                 player2BattleMenu = false;
                 battleMenu2.SetActive(false);
+                playerBattleStation2.transform.position -= temp;
                 setTurnIndex();
             }
         }
@@ -262,12 +267,14 @@ public class BattleSystem : MonoBehaviour
             {
                 player3BattleMenu = true;
                 battleMenu3.SetActive(true);
+                playerBattleStation3.transform.position += temp;
             }
             else
             {
                 Debug.Log("tured off battle menu");
                 player3BattleMenu = false;
                 battleMenu3.SetActive(false);
+                playerBattleStation3.transform.position -= temp;
                 setTurnIndex();
             }
         }
@@ -292,7 +299,7 @@ public class BattleSystem : MonoBehaviour
     // On players turn
     void PlayerTurn()
     {
-        dialogueText.text = "Choose an action for " + allUnit[turnIndex];
+        dialogueText.text = "Choose an action for " + allUnit[turnIndex].unitName;
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
