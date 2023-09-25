@@ -52,7 +52,7 @@ MonoBehaviour:
   maxHP: 10
   currentHP: 10
   deffense: 1
-  speed: 10
+  speed: 3
   specialSill1: 0
   specialSill2: 0
   specialSill3: 0

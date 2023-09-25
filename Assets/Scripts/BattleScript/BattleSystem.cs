@@ -70,7 +70,6 @@ public class BattleSystem : MonoBehaviour
 
     //Array for turn order
     public Unit[] allUnit;
-    public List<Unit> sortedUnit;
     public int turnIndex = 0; 
 
     // Start is called before the first frame update
@@ -83,35 +82,26 @@ public class BattleSystem : MonoBehaviour
 
     public void getState(string unitType)
     {
-        Debug.Log(sortedUnit[turnIndex].unitName + "'s turn");
 
         if (unitType == "player")
         {
             state = BattleState.PLAYERTURN;
             PlayerTurn();
-            Debug.Log(state);
         }
         else
         {
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
-            Debug.Log(state);
         }
     }
 
     public void setTurnIndex()
     {
-        Debug.Log(sortedUnit.Count);
-        if (turnIndex >=  sortedUnit.Count)
+        turnIndex += 1;
+        if (turnIndex >=  allUnit.Length)
         {
             turnIndex = 0;
         }
-        else
-        {
-            turnIndex += 1; // When turn is over increase the turn with one
-        }
-
-        Debug.Log("TurnIndex: " + turnIndex);
     }
 
     IEnumerator setUpBattle()
@@ -138,22 +128,17 @@ public class BattleSystem : MonoBehaviour
 
         // Assign the turn order
         allUnit = new Unit[] { playerUnit1, playerUnit2, playerUnit3, enemyUnit };
-        sortedUnit = allUnit.OrderByDescending(turnOrder => turnOrder.speed).ToList(); // Sort by speed
+        allUnit = allUnit.OrderByDescending(turnOrder => turnOrder.speed).ToArray(); // Sort by speed
 
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
 
-        state = BattleState.PLAYERTURN; // After setting up battle enter player turn
-        PlayerTurn();
-
-        //getState(sortedUnit[turnIndex].unitType);
+        getState(allUnit[turnIndex].unitType);
 
     }
 
     IEnumerator PlayerAttack()
     {
         // Damage the enemy
-        //enemyUnit.TakeDamage(playerUnit.damage
-        //Debug.Log(sortedUnit[turnIndex].name + " is attacking");
         bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
@@ -172,11 +157,7 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
-            // Enemys turn
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-            //setTurnIndex();
-            //getState(sortedUnit[turnIndex].unitType);
+            getState(allUnit[turnIndex].unitType);
         }
         // Change state based on what has happened
 
@@ -195,7 +176,7 @@ public class BattleSystem : MonoBehaviour
         {
             isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.deffense);
             blockingPlayer1 = false;
-            Debug.Log(blockingPlayer1);
+            //Debug.Log(blockingPlayer1);
         }
         else
         {
@@ -213,51 +194,18 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
+            setTurnIndex();
+            getState(allUnit[turnIndex].unitType);
+            //state = BattleState.PLAYERTURN;
             //setTurnIndex();
-            // getState(sortedUnit[turnIndex].unitType);
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            //PlayerTurn();
         }
 
     }
 
     // Enable/Diable battle menu
-    private void enableBattleMenu(Unit playerUnit)
+    private void EnableBattleMenu() // Remove function
     {
-        /*if (playerUnit.showBattleMenu == true)
-        {
-            if(playerUnit.unitNr == 1) {
-                battleMenu1.SetActive(false);
-            }
-            else if(playerUnit.unitNr == 2)
-            {
-                battleMenu2.SetActive(false);
-            }
-            else //unit nr3.
-            {
-                battleMenu3.SetActive(false);
-            }
-
-            playerUnit.showBattleMenu = false;
-        }
-        else
-        {
-            if (playerUnit.unitNr == 1)
-            {
-                battleMenu1.SetActive(true);
-            }
-            else if (playerUnit.unitNr == 2)
-            {
-                battleMenu2.SetActive(true);
-            }
-            else //unit nr3.
-            {
-                battleMenu3.SetActive(true);
-            }
-
-            setTurnIndex();
-            playerUnit.showBattleMenu = true;
-        }*/
 
         if(player1BattleMenu == false)
         {
@@ -268,8 +216,61 @@ public class BattleSystem : MonoBehaviour
         {
             player1BattleMenu = false;
             battleMenu1.SetActive(false);
+            setTurnIndex();
         }
 
+
+    }
+
+    void EnableBattleMenu(int playerNr)
+    {
+        Debug.Log("Unit Player Nr: " + playerNr);
+        if(playerNr == 1)
+        {
+            if (player1BattleMenu == false)
+            {
+                player1BattleMenu = true;
+                battleMenu1.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("tured off battle menu");
+                player1BattleMenu = false;
+                battleMenu1.SetActive(false);
+                setTurnIndex();
+            }
+
+        }
+        else if(playerNr == 2)
+        {
+            if (player2BattleMenu == false)
+            {
+                player2BattleMenu = true;
+                battleMenu2.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("tured off battle menu");
+                player2BattleMenu = false;
+                battleMenu2.SetActive(false);
+                setTurnIndex();
+            }
+        }
+        else
+        {
+            if (player3BattleMenu == false)
+            {
+                player3BattleMenu = true;
+                battleMenu3.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("tured off battle menu");
+                player3BattleMenu = false;
+                battleMenu3.SetActive(false);
+                setTurnIndex();
+            }
+        }
     }
     
 
@@ -291,15 +292,14 @@ public class BattleSystem : MonoBehaviour
     // On players turn
     void PlayerTurn()
     {
-
-        dialogueText.text = "Choose an action";
-        enableBattleMenu(sortedUnit[turnIndex]);
+        dialogueText.text = "Choose an action for " + allUnit[turnIndex];
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
 
     IEnumerator PlayerHeal()
     {
-        Unit currentUnit = sortedUnit[turnIndex];
+        Unit currentUnit = allUnit[turnIndex];
 
         currentUnit.Heal(5);
 
@@ -307,12 +307,9 @@ public class BattleSystem : MonoBehaviour
 
         state = BattleState.WAITING; // Prevent button spamming
 
-        dialogueText.text = "You feel renewed!";
+        dialogueText.text = allUnit[turnIndex].unitName + " feel renewed!";
 
         yield return new WaitForSeconds(2f);
-
-        //setTurnIndex();
-        //getState(sortedUnit[turnIndex].unitType);
 
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
@@ -321,7 +318,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerBlock()
     {
         blockingPlayer1 = true;
-        Debug.Log(blockingPlayer1);
+        //Debug.Log(blockingPlayer1);
         //dialogueText.text = playerUnit.unitName + " is blocking.";
 
         state = BattleState.WAITING; // Prevent button spamming
@@ -350,8 +347,8 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        enableBattleMenu(sortedUnit[turnIndex]);
-        Debug.Log("Attack button is pressed");
+        //EnableBattleMenu();
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
         StartCoroutine(PlayerAttack());
     }
     public void OnHealButton()
@@ -360,7 +357,8 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        enableBattleMenu(sortedUnit[turnIndex]);
+        //EnableBattleMenu();
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
         StartCoroutine(PlayerHeal());
     }
 
@@ -370,7 +368,8 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        enableBattleMenu(sortedUnit[turnIndex]);
+        //EnableBattleMenu();
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
         StartCoroutine(PlayerBlock());
     }
 
@@ -380,8 +379,9 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        //
-        enableBattleMenu(sortedUnit[turnIndex]);
+
+        //EnableBattleMenu();
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
         StartCoroutine(PlayerFlee());
     }
 
