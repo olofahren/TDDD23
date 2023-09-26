@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 // Defining enums
 // The different battle states
@@ -70,7 +71,11 @@ public class BattleSystem : MonoBehaviour
 
     //Array for turn order
     public Unit[] allUnit;
-    public int turnIndex = 0; 
+    public int turnIndex = 0;
+
+    //Timer
+    private float delay = 5.0f;
+    private float timer = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -316,6 +321,10 @@ public class BattleSystem : MonoBehaviour
         {
             dialogueText.text = "You fled the battle";
         }
+
+
+
+            SceneManager.LoadScene("World1");
     }
 
     // On players turn
