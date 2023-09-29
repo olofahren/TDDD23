@@ -15,7 +15,6 @@ public class startGame : MonoBehaviour
         PlayerPrefs.SetFloat("PlayerY", -60.02f);
         PlayerPrefs.SetFloat("PlayerZ", -5.0f);
         PlayerPrefs.SetInt("BattleIsFinished", 0);
-        PlayerPrefs.SetInt("EggCount", 0);
         PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
         SceneManager.LoadScene("Intro World");
 
