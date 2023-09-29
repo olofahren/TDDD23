@@ -34,7 +34,7 @@ public class detectPlayer : MonoBehaviour
     {
         if (IsPlayerNear() && battleIsFinished == 0)
         {
-            Debug.Log(timer);
+            //Debug.Log(timer);
             anim.SetTrigger("triggerBattle");
             rend.sortingOrder = 1;
             timer += Time.deltaTime;
