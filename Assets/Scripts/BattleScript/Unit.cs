@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,20 +14,33 @@ public class Unit : MonoBehaviour
     public int maxHP;
     public int currentHP;
 
-    public int deffense;
+    public int defense;
     public int speed;
 
     public int specialSill1; 
     public int specialSill2;
     public int specialSill3;
 
-    public GameObject battleMenu;
-    public Boolean showBattleMenu;
+    //public GameObject battleMenu;
+   // public Boolean showBattleMenu;
 
     public string unitType;
     public int unitNr;
 
-    public BattleHud battleHud;
+    //public BattleHud battleHud;
+
+    public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
+    {
+        unitLevel = lvl;
+        damage = dmg;
+        maxHP = mHP;
+        currentHP = cHP;
+        defense = def;  
+        speed = spe;
+        specialSill1 = special1;
+        specialSill2 = special2;
+        specialSill3 = special3;
+    }
 
     private Boolean CheckIfDead()
     {

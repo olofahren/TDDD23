@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
+
 // Defining enums
 // The different battle states
 public enum BattleState { START, PLAYERTURN, PLAYERTURN1, PLAYERTURN2, PLAYER3, ENEMYTURN, WON, LOST, WAITING, FLEE }
@@ -77,10 +78,17 @@ public class BattleSystem : MonoBehaviour
     private float delay = 5.0f;
     private float timer = 0.0f;
 
+    // Other functions in other scripts 
+    public GameObject battleScript;
+    BattleFunctions battleFunctions;
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START; // Start of the battle
+
+        //battleScript = GameObject.Find("BattleFunctions");
+        battleFunctions = battleScript.GetComponent<BattleFunctions>();
 
         StartCoroutine(setUpBattle()); // Calling set up battle function
     }
@@ -121,10 +129,26 @@ public class BattleSystem : MonoBehaviour
         playerUnit3 = playerGO3.GetComponent<Unit>(); // Access the UI units
 
 
+        playerUnit1.setUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
+            PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
+            PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"));
+
+        playerUnit2.setUnit(PlayerPrefs.GetInt("Chicken2Lvl"), PlayerPrefs.GetInt("Chicken2dmg"), PlayerPrefs.GetInt("Chicken2maxHP"),
+             PlayerPrefs.GetInt("Chicken2cHP"), PlayerPrefs.GetInt("Chicken2def"), PlayerPrefs.GetInt("Chicken2speed"),
+            PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"));
+
+        playerUnit3.setUnit(PlayerPrefs.GetInt("Chicken3Lvl"), PlayerPrefs.GetInt("Chicken3dmg"), PlayerPrefs.GetInt("Chicken3maxHP"),
+             PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
+            PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
+
+        Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
+
+
         GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
+
 
         playerHUD1.SetHUD(playerUnit1);
         playerHUD2.SetHUD(playerUnit2);
@@ -194,18 +218,18 @@ public class BattleSystem : MonoBehaviour
 
         if (blockingPlayer1)
         {
-            isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.deffense);
+            isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.defense);
             blockingPlayer1 = false;
             //Debug.Log(blockingPlayer1);
         }
         else if(blockingPlayer2)
         {
-            isDead = playerUnit2.BlockDamage(enemyUnit.damage, playerUnit2.deffense);
+            isDead = playerUnit2.BlockDamage(enemyUnit.damage, playerUnit2.defense);
             blockingPlayer2 = false;
         }
         else if(blockingPlayer3)
         {
-            isDead = playerUnit3.BlockDamage(enemyUnit.damage, playerUnit3.deffense);
+            isDead = playerUnit3.BlockDamage(enemyUnit.damage, playerUnit3.defense);
             blockingPlayer2 = false;
         }
         else
@@ -322,9 +346,60 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text = "You fled the battle";
         }
 
+        /*PlayerPrefs.SetInt("Chicken1HP", playerUnit1.currentHP); // Set the current HP so it can be used again in another battle
+        PlayerPrefs.SetInt("Chicken2HP", playerUnit2.currentHP);
+        PlayerPrefs.SetInt("Chicken3HP", playerUnit3.currentHP);*/
+
+        // Player Unit Set Stats, Save them for other battles
+        /*PlayerPrefs.SetInt("Chicken1Lvl", playerUnit1.unitLevel);
+        PlayerPrefs.SetInt("Chicken2Lvl", playerUnit2.unitLevel);
+        PlayerPrefs.SetInt("Chicken3Lvl", playerUnit3.unitLevel);
+
+        PlayerPrefs.SetInt("Chicken1dmg", playerUnit1.damage);
+        PlayerPrefs.SetInt("Chicken2dmg", playerUnit2.damage);
+        PlayerPrefs.SetInt("Chicken3dmg", playerUnit3.damage);*/
+
+        /*PlayerPrefs.SetInt("Chicken1maxHP", playerUnit1.maxHP);
+        PlayerPrefs.SetInt("Chicken2maxHP", playerUnit2.maxHP);
+        PlayerPrefs.SetInt("Chicken3maxHP", playerUnit3.maxHP);*/
+
+        /*PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP); // Base Hp for lvl 1 is 10 HP
+        PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP); // Base Hp for lvl 1 is 10 HP
+        PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);*/ // Base Hp for lvl 1 is 10 HP
+
+        /*PlayerPrefs.SetInt("Chicken1speed", playerUnit1.speed);
+        PlayerPrefs.SetInt("Chicken2speed", playerUnit2.speed);
+        PlayerPrefs.SetInt("Chicken3speed", playerUnit3.speed);*/
+
+        /*PlayerPrefs.SetInt("Chicken1special1", 1);
+        PlayerPrefs.SetInt("Chicken2special1", 1);
+        PlayerPrefs.SetInt("Chicken3special1", 1);
+
+        PlayerPrefs.SetInt("Chicken1special2", 1);
+        PlayerPrefs.SetInt("Chicken2special2", 1);
+        PlayerPrefs.SetInt("Chicken3special2", 1);
+
+        PlayerPrefs.SetInt("Chicken1special3", 1);
+        PlayerPrefs.SetInt("Chicken2special3", 1);
+        PlayerPrefs.SetInt("Chicken3special3", 1);*/
+
+        battleFunctions.assignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
+                    playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
+                    playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
+
+        battleFunctions.assignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
+                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
+                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
+
+        battleFunctions.assignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
+                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
+                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
 
 
-            SceneManager.LoadScene("World1");
+
+        Debug.Log("CHicken2HP: " + PlayerPrefs.GetInt("Chicken2HP"));
+
+        SceneManager.LoadScene("World1");
     }
 
     // On players turn

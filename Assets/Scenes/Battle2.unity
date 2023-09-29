@@ -811,6 +811,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &650101482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 650101484}
+  - component: {fileID: 650101483}
+  m_Layer: 0
+  m_Name: BattleFunctions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &650101483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650101482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca1a70b09585a84f966ac2d151f5a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &650101484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650101482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.30887043, y: 0.18082917, z: 1686.0524}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &658548377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,6 +1446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459059163}
   - component: {fileID: 1459059164}
+  - component: {fileID: 1459059165}
   m_Layer: 0
   m_Name: BattleSystem
   m_TagString: Untagged
@@ -1456,6 +1501,19 @@ MonoBehaviour:
   battleMenu3: {fileID: 569623803325150685}
   allUnit: []
   turnIndex: 0
+  battleScript: {fileID: 650101482}
+--- !u!114 &1459059165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459059162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca1a70b09585a84f966ac2d151f5a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1745005171
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,6 +2580,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1459059163}
+  - {fileID: 650101484}
   - {fileID: 2133874602}
   - {fileID: 1448595264}
   - {fileID: 584622806}
