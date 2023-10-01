@@ -56,7 +56,7 @@ public class ResetGame : MonoBehaviour
         Debug.Log("Chicken1HP: " + PlayerPrefs.GetInt("Chicken1maxHP"));
 
         // Reload the scene
-        SceneManager.LoadScene("Battle2");
+        SceneManager.LoadScene("World1");
 
     }
 }
