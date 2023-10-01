@@ -29,6 +29,9 @@ public class Unit : MonoBehaviour
 
     //public BattleHud battleHud;
 
+    // Enemny unit type
+    public string enemyUnit; 
+
     public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
     {
         unitLevel = lvl;

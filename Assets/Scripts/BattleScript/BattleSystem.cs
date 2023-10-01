@@ -17,6 +17,8 @@ public enum BattleState { START, PLAYERTURN, PLAYERTURN1, PLAYERTURN2, PLAYER3, 
 public class BattleSystem : MonoBehaviour
 {
 
+    public GameObject[] allEnemies;
+
     public GameObject playerPrefab1;
     public GameObject playerPrefab2;
     public GameObject playerPrefab3;
@@ -143,8 +145,20 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
 
+        string enemyType = PlayerPrefs.GetString("EnemyUnitType");
+        GameObject tempEnemy = allEnemies[0];
 
-        GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation); // Spawn enemy on enemy battle station
+        // Finding the correct enemy type from the array with all enemytypes
+        for (int i = 0; i < allEnemies.Length; i++)
+        {
+            Unit tempEnemyUnit = allEnemies[i].GetComponent<Unit>();
+            if(tempEnemyUnit.enemyUnit == enemyType.ToString()) {
+                tempEnemy = allEnemies[i];
+            }
+        }
+
+        // Initiate enemy
+        GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
@@ -345,43 +359,6 @@ public class BattleSystem : MonoBehaviour
         {
             dialogueText.text = "You fled the battle";
         }
-
-        /*PlayerPrefs.SetInt("Chicken1HP", playerUnit1.currentHP); // Set the current HP so it can be used again in another battle
-        PlayerPrefs.SetInt("Chicken2HP", playerUnit2.currentHP);
-        PlayerPrefs.SetInt("Chicken3HP", playerUnit3.currentHP);*/
-
-        // Player Unit Set Stats, Save them for other battles
-        /*PlayerPrefs.SetInt("Chicken1Lvl", playerUnit1.unitLevel);
-        PlayerPrefs.SetInt("Chicken2Lvl", playerUnit2.unitLevel);
-        PlayerPrefs.SetInt("Chicken3Lvl", playerUnit3.unitLevel);
-
-        PlayerPrefs.SetInt("Chicken1dmg", playerUnit1.damage);
-        PlayerPrefs.SetInt("Chicken2dmg", playerUnit2.damage);
-        PlayerPrefs.SetInt("Chicken3dmg", playerUnit3.damage);*/
-
-        /*PlayerPrefs.SetInt("Chicken1maxHP", playerUnit1.maxHP);
-        PlayerPrefs.SetInt("Chicken2maxHP", playerUnit2.maxHP);
-        PlayerPrefs.SetInt("Chicken3maxHP", playerUnit3.maxHP);*/
-
-        /*PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP); // Base Hp for lvl 1 is 10 HP
-        PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP); // Base Hp for lvl 1 is 10 HP
-        PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);*/ // Base Hp for lvl 1 is 10 HP
-
-        /*PlayerPrefs.SetInt("Chicken1speed", playerUnit1.speed);
-        PlayerPrefs.SetInt("Chicken2speed", playerUnit2.speed);
-        PlayerPrefs.SetInt("Chicken3speed", playerUnit3.speed);*/
-
-        /*PlayerPrefs.SetInt("Chicken1special1", 1);
-        PlayerPrefs.SetInt("Chicken2special1", 1);
-        PlayerPrefs.SetInt("Chicken3special1", 1);
-
-        PlayerPrefs.SetInt("Chicken1special2", 1);
-        PlayerPrefs.SetInt("Chicken2special2", 1);
-        PlayerPrefs.SetInt("Chicken3special2", 1);
-
-        PlayerPrefs.SetInt("Chicken1special3", 1);
-        PlayerPrefs.SetInt("Chicken2special3", 1);
-        PlayerPrefs.SetInt("Chicken3special3", 1);*/
 
         battleFunctions.assignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
                     playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,

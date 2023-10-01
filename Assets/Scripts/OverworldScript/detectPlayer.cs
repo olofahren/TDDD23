@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -18,14 +19,15 @@ public class detectPlayer : MonoBehaviour
     float timer = 0.0f;
     private GameObject player;
     private int battleIsFinished;
+
+    public Unit enemy;
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rend  = GetComponentInChildren<Renderer>();
         player = GameObject.Find("Player");
         battleIsFinished = PlayerPrefs.GetInt("BattleIsFinished");
-
-
+        enemy = enemy.GetComponent<Unit>(); 
 
     }
 
@@ -45,6 +47,7 @@ public class detectPlayer : MonoBehaviour
                 PlayerPrefs.SetFloat("PlayerZ", player.transform.position.z);
                 PlayerPrefs.SetInt("BattleIsFinished", 1);
                 SceneManager.LoadScene("Battle2");
+                PlayerPrefs.SetString("EnemyUnitType", enemy.enemyUnit);
             }
         }
     }

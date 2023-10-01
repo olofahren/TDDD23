@@ -134,13 +134,11 @@ MonoBehaviour:
   damage: 1
   maxHP: 5
   currentHP: 5
-  deffense: 1
+  defense: 0
   speed: 1
   specialSill1: 0
   specialSill2: 0
   specialSill3: 0
-  battleMenu: {fileID: 0}
-  showBattleMenu: 0
   unitType: enemy
   unitNr: 1
-  battleHud: {fileID: 0}
+  enemyUnit: rock

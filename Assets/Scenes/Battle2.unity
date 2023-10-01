@@ -1481,6 +1481,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3cd732107b13642a076a88bcd6835d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allEnemies:
+  - {fileID: 908507616598334892, guid: 92a389829ed16644c900ab35b02150c5, type: 3}
+  - {fileID: 908507616598334892, guid: d2382af4e17764e4badf647658f1a8d9, type: 3}
   playerPrefab1: {fileID: 1298863995700801437, guid: 380fe635395e41646953ececd8e2012b, type: 3}
   playerPrefab2: {fileID: 3170709494023158260, guid: d398ce0b613251b47a63c84898760d42, type: 3}
   playerPrefab3: {fileID: 8444344174550181992, guid: 4d4af37b4624fe149b46c259969ab8fa, type: 3}
