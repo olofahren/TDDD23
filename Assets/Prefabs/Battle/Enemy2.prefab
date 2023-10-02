@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7634159778323172403}
   - component: {fileID: 2349644926761147870}
+  - component: {fileID: -2080984032829808776}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Untagged
@@ -142,3 +143,20 @@ MonoBehaviour:
   unitType: enemy
   unitNr: 1
   enemyUnit: rock
+--- !u!114 &-2080984032829808776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908507616598334892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50fe96aaf9a3414eb7cb4eebf427fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectEnemy: {fileID: 908507616598334892}
+  gameObjectPlayer1: {fileID: 1298863995700801437, guid: 380fe635395e41646953ececd8e2012b, type: 3}
+  gameObjectPlayer2: {fileID: 3170709494023158260, guid: d398ce0b613251b47a63c84898760d42, type: 3}
+  gameObjectPlayer3: {fileID: 8444344174550181992, guid: 4d4af37b4624fe149b46c259969ab8fa, type: 3}
+  gameObjectBattleSystem: {fileID: 0}

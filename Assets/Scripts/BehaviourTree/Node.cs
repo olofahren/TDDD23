@@ -14,10 +14,9 @@ namespace BehaviourTree
 
     public class Node
     {
-        protected NodeState state;
-
-        public Node parent;
-        protected List<Node> children = new List<Node>();
+        protected NodeState state; // Node state, one of the three above
+        public Node parent; // Parent of the nodes
+        protected List<Node> children = new List<Node>(); // a list of the children nodes going out from the parent node
 
         private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
 
@@ -34,9 +33,11 @@ namespace BehaviourTree
             }
         }
 
+        // Attaches the child node to the parent
         private void _Attach(Node node) 
         {
             node.parent = this;
+            children.Add(node);
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;

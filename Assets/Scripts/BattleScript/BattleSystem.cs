@@ -111,6 +111,7 @@ public class BattleSystem : MonoBehaviour
         else
         {
             state = BattleState.ENEMYTURN;
+            PlayerPrefs.SetInt("behaviorTreeDoOnce", 1); // To make the behavior tree do once
             StartCoroutine(EnemyTurn());
         }
     }
@@ -221,32 +222,45 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        bool isDead;
+        bool isDead = false;
 
-        if (blockingPlayer1)
+        // Get the behavior tree for the enemy to do stuff
+
+        if(playerUnit1.currentHP < 0 ) // Re-write later to make it check all chickens
         {
-            isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.defense);
-            blockingPlayer1 = false;
-            //Debug.Log(blockingPlayer1);
+            isDead = true;
         }
-        else if(blockingPlayer2)
-        {
-            isDead = playerUnit2.BlockDamage(enemyUnit.damage, playerUnit2.defense);
-            blockingPlayer2 = false;
-        }
-        else if(blockingPlayer3)
-        {
-            isDead = playerUnit3.BlockDamage(enemyUnit.damage, playerUnit3.defense);
-            blockingPlayer2 = false;
-        }
-        else
-        {
-            isDead = playerUnit2.TakeDamage(enemyUnit.damage); // Damage the player
-        }
+
+
+        /* if (blockingPlayer1)
+         {
+             isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.defense);
+             blockingPlayer1 = false;
+             //Debug.Log(blockingPlayer1);
+         }
+         else if(blockingPlayer2)
+         {
+             isDead = playerUnit2.BlockDamage(enemyUnit.damage, playerUnit2.defense);
+             blockingPlayer2 = false;
+         }
+         else if(blockingPlayer3)
+         {
+             isDead = playerUnit3.BlockDamage(enemyUnit.damage, playerUnit3.defense);
+             blockingPlayer2 = false;
+         }
+         else
+         {
+             isDead = playerUnit2.TakeDamage(enemyUnit.damage); // Damage the player
+         }*/
+
+        // Update the current HP since the units are copies and not the actual prefab
+        playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
         
-        playerHUD2.SetHP(playerUnit2.currentHP);
+        playerHUD1.SetHP(playerUnit1.currentHP);
 
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
+
+        yield return new WaitForSeconds(2f);
 
         if (isDead)
         {
@@ -377,6 +391,8 @@ public class BattleSystem : MonoBehaviour
         
         SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
     }
+
+
 
     // On players turn
     void PlayerTurn()

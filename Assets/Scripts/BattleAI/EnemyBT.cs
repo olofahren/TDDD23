@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class EnemyBT : MonoBehaviour
+using BehaviourTree;
+
+public class EnemyBT : Tree
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override Node SetupTree()
     {
-        
+        Node root = new TaskAttack(enemy, player1);
+
+        return root;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
