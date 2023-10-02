@@ -18,9 +18,13 @@ public class playerMovement : MonoBehaviour
         anim = GetComponent<Animator> ();
         moveSpeed = 5.0f;
 
-        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
+        if(new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ")) != Vector3.zero)
+        {
+            transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
+        }
 
-    }
+
+}
 
     // Update is called once per frame
     void Update()

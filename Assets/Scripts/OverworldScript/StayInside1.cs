@@ -11,6 +11,9 @@ public class StayInside1 : MonoBehaviour {
     SpriteRenderer spriteRenderer;
     public Sprite farAwaySprite;
     public Sprite closeSprite;
+    private List<int> completedBattles;
+    private int battleNumber;
+
 
 
     private void Start()
@@ -19,6 +22,15 @@ public class StayInside1 : MonoBehaviour {
     }
 
     void FixedUpdate () {
+
+        completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
+        battleNumber = PlayerPrefs.GetInt("currentBattle");
+
+
+        if (completedBattles[battleNumber] == 1)
+        {
+            spriteRenderer.enabled = false;
+        }
 
         enemyLocation = transform.parent.transform.position;
 		pointTransform = new Vector2(transform.position.x, transform.position.y);

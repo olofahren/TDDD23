@@ -7,14 +7,18 @@ using UnityEngine.SceneManagement;
 public class ResetGame : MonoBehaviour
 {
     private List<int> collectedEggs = Enumerable.Repeat(0, 10).ToList();
+    private List<int> completedBattles = Enumerable.Repeat(0, 7).ToList();
+
     public void resetGame()
     {
         collectedEggs.ForEach(egg => Debug.Log(egg));
-        PlayerPrefs.SetFloat("PlayerX", -2.98f);
-        PlayerPrefs.SetFloat("PlayerY", -60.02f);
-        PlayerPrefs.SetFloat("PlayerZ", -5.0f);
-        PlayerPrefs.SetInt("BattleIsFinished", 0);
         PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
+        PlayerPrefsExtra.SetList("completedBattles", completedBattles);
+
+        PlayerPrefs.SetFloat("PlayerX", 0);
+        PlayerPrefs.SetFloat("PlayerY", 0);
+        PlayerPrefs.SetFloat("PlayerZ", 0);
+
 
         // Player Unit Set Stats
         PlayerPrefs.SetInt("Chicken1Lvl", 1);
@@ -56,7 +60,7 @@ public class ResetGame : MonoBehaviour
         Debug.Log("Chicken1HP: " + PlayerPrefs.GetInt("Chicken1maxHP"));
 
         // Reload the scene
-        SceneManager.LoadScene("World1");
+        SceneManager.LoadScene("Main World");
 
     }
 }

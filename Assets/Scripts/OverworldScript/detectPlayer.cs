@@ -11,14 +11,17 @@ public class detectPlayer : MonoBehaviour
 
     public float detectionDistance = 5.0f;
     public GameObject Player;
+    public int battleNumber;
     private Animator anim;
     private Renderer rend;
     private PlayableDirector director;
     public GameObject controlPanel;
-    public float delay = 10.0f;
+    public float delay = 3.0f;
     float timer = 0.0f;
     private GameObject player;
-    private int battleIsFinished;
+    private List<int> completedBattles;
+    private Vector3 lockedPos;
+    Rigidbody2D rb;
 
     public Unit enemy;
     void Start()
@@ -26,28 +29,39 @@ public class detectPlayer : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rend  = GetComponentInChildren<Renderer>();
         player = GameObject.Find("Player");
-        battleIsFinished = PlayerPrefs.GetInt("BattleIsFinished");
-        enemy = enemy.GetComponent<Unit>(); 
+        rb = player.GetComponent<Rigidbody2D>();
+        completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
+        enemy = enemy.GetComponent<Unit>();
+        lockedPos = Vector3.zero;
 
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if (IsPlayerNear() && battleIsFinished == 0)
+        if(completedBattles[battleNumber] == 1)
+        {
+            enemy.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else if (IsPlayerNear() && completedBattles[battleNumber] == 0)
         {
             //Debug.Log(timer);
+            if(lockedPos == Vector3.zero) { 
+                lockedPos = player.transform.position;
+            }
+            rb.simulated = false;
             anim.SetTrigger("triggerBattle");
             rend.sortingOrder = 1;
             timer += Time.deltaTime;
             if (timer > delay)
             {
                 PlayerPrefs.SetFloat("PlayerX", player.transform.position.x);
-                PlayerPrefs.SetFloat("PlayerY", player.transform.position.y);
+                PlayerPrefs.SetFloat("PlayerY", player.transform.position.y-2);
                 PlayerPrefs.SetFloat("PlayerZ", player.transform.position.z);
-                PlayerPrefs.SetInt("BattleIsFinished", 1);
+                PlayerPrefs.SetString("currentWorld", "Main World");
+                PlayerPrefs.SetInt("currentBattle", battleNumber);
                 SceneManager.LoadScene("Battle2");
                 PlayerPrefs.SetString("EnemyUnitType", enemy.enemyUnit);
+                rb.simulated = true;
             }
         }
     }

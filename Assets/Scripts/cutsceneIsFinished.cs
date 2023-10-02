@@ -39,8 +39,8 @@ public class cutsceneIsFinished : MonoBehaviour
     void OnPlayableDirectorStopped(PlayableDirector aDirector)
     {
         if (director == aDirector)
-            SceneManager.LoadScene("World1");
-            PlayerPrefs.SetString("CurrentWorld", "World1");
+            PlayerPrefs.SetString("currentWorld", "Main World");
+            SceneManager.LoadScene("Main World");
 
     }
 

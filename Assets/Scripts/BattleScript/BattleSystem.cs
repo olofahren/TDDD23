@@ -17,8 +17,6 @@ public enum BattleState { START, PLAYERTURN, PLAYERTURN1, PLAYERTURN2, PLAYER3, 
 public class BattleSystem : MonoBehaviour
 {
 
-    public GameObject[] allEnemies;
-
     public GameObject playerPrefab1;
     public GameObject playerPrefab2;
     public GameObject playerPrefab3;
@@ -84,10 +82,17 @@ public class BattleSystem : MonoBehaviour
     public GameObject battleScript;
     BattleFunctions battleFunctions;
 
+    private List<int> completedBattles;
+    private int battleNumber;
+
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START; // Start of the battle
+
+        completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
+
 
         //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
@@ -145,20 +150,8 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
 
-        string enemyType = PlayerPrefs.GetString("EnemyUnitType");
-        GameObject tempEnemy = allEnemies[0];
 
-        // Finding the correct enemy type from the array with all enemytypes
-        for (int i = 0; i < allEnemies.Length; i++)
-        {
-            Unit tempEnemyUnit = allEnemies[i].GetComponent<Unit>();
-            if(tempEnemyUnit.enemyUnit == enemyType.ToString()) {
-                tempEnemy = allEnemies[i];
-            }
-        }
-
-        // Initiate enemy
-        GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
+        GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
@@ -351,6 +344,11 @@ public class BattleSystem : MonoBehaviour
     {
         if(state == BattleState.WON)
         {
+            battleNumber = PlayerPrefs.GetInt("currentBattle");
+
+            completedBattles[battleNumber] = 1;
+            PlayerPrefsExtra.SetList("completedBattles", completedBattles);
+
             dialogueText.text = "You won the battle!";
         }else if(state == BattleState.LOST)
         {
@@ -376,7 +374,8 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("CHicken2HP: " + PlayerPrefs.GetInt("Chicken2HP"));
 
-        SceneManager.LoadScene("World1");
+        
+        SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
     }
 
     // On players turn
