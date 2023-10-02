@@ -51,16 +51,14 @@ MonoBehaviour:
   damage: 1
   maxHP: 10
   currentHP: 10
-  deffense: 1
+  defense: 0
   speed: 3
   specialSill1: 0
   specialSill2: 0
   specialSill3: 0
-  battleMenu: {fileID: 1386451623709340013, guid: 4f44e0c5a33342b47b21357d9eb6ab73, type: 3}
-  showBattleMenu: 0
   unitType: player
   unitNr: 1
-  battleHud: {fileID: -8895980190474154203, guid: bc7b63550e57efb428a5b51e36afe725, type: 3}
+  enemyUnit: 
 --- !u!95 &4349111280090964387
 Animator:
   serializedVersion: 5
