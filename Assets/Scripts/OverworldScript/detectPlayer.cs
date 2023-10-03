@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class detectPlayer : MonoBehaviour
     // Start is called before the first frame update
 
     public float detectionDistance = 5.0f;
+    private float orgDetectionDistance;
     public GameObject Player;
     public int battleNumber;
     private Animator anim;
@@ -22,6 +24,9 @@ public class detectPlayer : MonoBehaviour
     private List<int> completedBattles;
     private Vector3 lockedPos;
     Rigidbody2D rb;
+    private Vector3 newSpawnSpot;
+    private Vector2 playerTestTransfrom;
+    private NavMeshAgent agent;
 
     public Unit enemy;
     void Start()
@@ -33,6 +38,9 @@ public class detectPlayer : MonoBehaviour
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
         enemy = enemy.GetComponent<Unit>();
         lockedPos = Vector3.zero;
+        agent = transform.GetComponentInParent<NavMeshAgent>();
+
+        orgDetectionDistance = detectionDistance;
 
     }
 
@@ -44,24 +52,47 @@ public class detectPlayer : MonoBehaviour
         }
         else if (IsPlayerNear() && completedBattles[battleNumber] == 0)
         {
-            //Debug.Log(timer);
-            if(lockedPos == Vector3.zero) { 
-                lockedPos = player.transform.position;
-            }
+            
             rb.simulated = false;
+            agent.speed = 0;
             anim.SetTrigger("triggerBattle");
             rend.sortingOrder = 1;
             timer += Time.deltaTime;
+            
+            if(detectionDistance < orgDetectionDistance + 2)
+            {
+                detectionDistance = detectionDistance + 2;
+            }
+
             if (timer > delay)
             {
-                PlayerPrefs.SetFloat("PlayerX", player.transform.position.x);
-                PlayerPrefs.SetFloat("PlayerY", player.transform.position.y-2);
+
+                //Sets the player spawn position after the battle outside of the detection zone of the enemy
+                Vector2 playerTestTransfrom = Player.transform.position;
+                Vector2 transformPosition = transform.position;
+                Vector2 direction = playerTestTransfrom - transformPosition;
+                direction = direction.normalized;
+                while (Vector2.Distance(playerTestTransfrom, transform.position) < detectionDistance+1)
+                {
+
+                    Debug.Log(Vector2.Distance(playerTestTransfrom, transform.position));
+                    playerTestTransfrom += direction * 1.1f;
+                }
+
+
+
+                
+                PlayerPrefs.SetFloat("PlayerX", playerTestTransfrom.x);
+                PlayerPrefs.SetFloat("PlayerY", playerTestTransfrom.y);
                 PlayerPrefs.SetFloat("PlayerZ", player.transform.position.z);
                 PlayerPrefs.SetString("currentWorld", "Main World");
                 PlayerPrefs.SetInt("currentBattle", battleNumber);
                 SceneManager.LoadScene("Battle2");
                 PlayerPrefs.SetString("EnemyUnitType", enemy.enemyUnit);
                 rb.simulated = true;
+                agent.speed = 0;
+                detectionDistance = detectionDistance - 2;
+
             }
         }
     }

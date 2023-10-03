@@ -21,6 +21,7 @@ public class NPCWalk : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        transform.localPosition = new Vector3(0,0,-0.5f);
         //Debug.Log((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)));
         if(rb.position != lastPosition)
         {
