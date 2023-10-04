@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 // Defining enums
@@ -275,24 +276,7 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    // Enable/Diable battle menu
-    private void EnableBattleMenu() // Remove function
-    {
-
-        if(player1BattleMenu == false)
-        {
-            player1BattleMenu = true;
-            battleMenu1.SetActive(true);
-        }
-        else
-        {
-            player1BattleMenu = false;
-            battleMenu1.SetActive(false);
-            setTurnIndex();
-        }
-
-
-    }
+    // Enable/Disable battle menu
 
     void EnableBattleMenu(int playerNr)
     {
@@ -354,7 +338,7 @@ public class BattleSystem : MonoBehaviour
     
 
     // On battle end
-    void EndBattle()
+    public void EndBattle()
     {
         if(state == BattleState.WON)
         {
@@ -463,14 +447,6 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    IEnumerator PlayerFlee() {
-
-        state = BattleState.WAITING;
-        state = BattleState.FLEE;
-
-        EndBattle();
-        yield return new WaitForSeconds(2f);
-    }
 
     // When the attack button is pressed
     public void OnAttackButton()
@@ -513,7 +489,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         //EnableBattleMenu();
-        StartCoroutine(PlayerFlee());
+        StartCoroutine(battleFunctions.PlayerFlee());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 

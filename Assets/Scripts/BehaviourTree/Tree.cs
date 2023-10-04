@@ -40,7 +40,6 @@ namespace BehaviourTree
             _root = SetupTree();
         }
 
-        // Få funktionen att bara köra en gång när vi vill att den ska köras en gång 
         public void FixedUpdate()
         {
             int doOnce = PlayerPrefs.GetInt("behaviorTreeDoOnce");
@@ -60,20 +59,6 @@ namespace BehaviourTree
                 }
             }
         }
-
-        /*public void GetEvaluate()
-        {
-            currentState = GameObject.FindObjectOfType<BattleSystem>().state;
-            if (currentState == BattleState.ENEMYTURN)
-            {
-                Debug.Log("Tree node created");
-                if (_root != null)
-                {
-                    _root.Evaluate();
-                }
-            }
-
-        }*/
 
         protected abstract Node SetupTree();
     }
