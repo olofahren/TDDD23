@@ -9,7 +9,7 @@ public class ContinueGame : MonoBehaviour
     public void continueGame()
     {
         
-        SceneManager.LoadScene(PlayerPrefs.GetString("CurrentWorld"));
+        SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
     }
 
 }

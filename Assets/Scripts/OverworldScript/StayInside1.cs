@@ -19,18 +19,19 @@ public class StayInside1 : MonoBehaviour {
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        battleNumber = transform.parent.GetComponentInChildren<detectPlayer>().battleNumber;
     }
 
     void FixedUpdate () {
 
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
-        battleNumber = PlayerPrefs.GetInt("currentBattle");
-
+        //Debug.Log(battleNumber);
 
         if (completedBattles[battleNumber] == 1)
         {
             spriteRenderer.enabled = false;
         }
+
 
         enemyLocation = transform.parent.transform.position;
 		pointTransform = new Vector2(transform.position.x, transform.position.y);
