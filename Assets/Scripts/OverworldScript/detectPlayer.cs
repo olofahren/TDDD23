@@ -54,7 +54,10 @@ public class detectPlayer : MonoBehaviour
         {
             
             rb.simulated = false;
-            agent.speed = 0;
+            if (agent)
+            {
+                agent.speed = 0;
+            }
             anim.SetTrigger("triggerBattle");
             rend.sortingOrder = 1;
             timer += Time.deltaTime;
@@ -90,7 +93,7 @@ public class detectPlayer : MonoBehaviour
                 SceneManager.LoadScene("Battle2");
                 PlayerPrefs.SetString("EnemyUnitType", enemy.enemyUnit);
                 rb.simulated = true;
-                agent.speed = 0;
+                if(agent) agent.speed = 0;
                 detectionDistance = detectionDistance - 2;
 
             }
