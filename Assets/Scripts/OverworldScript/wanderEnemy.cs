@@ -19,6 +19,7 @@ public class wanderEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        delay = Random.value * 10;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updatePosition = false;
@@ -38,6 +39,7 @@ public class wanderEnemy : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > delay)
         {
+            delay = Random.value * 20;
             timer = 0.0f;
             target = new Vector3(Random.Range(minPos.x, maxPos.x), Random.Range(minPos.y, maxPos.y), transform.position.z);
             agent.SetDestination(target);
