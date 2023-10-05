@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 // Defining enums
@@ -30,11 +31,11 @@ public class BattleSystem : MonoBehaviour
 
     public Transform enemyBattleStation;
 
-    Unit playerUnit1;
-    Unit playerUnit2;
-    Unit playerUnit3;
+    public Unit playerUnit1;
+    public Unit playerUnit2;
+    public Unit playerUnit3;
 
-    Unit enemyUnit;
+    public Unit enemyUnit;
 
     // UI Texts
     public TextMeshProUGUI dialogueText;
@@ -46,25 +47,20 @@ public class BattleSystem : MonoBehaviour
 
     public BattleHud enemyHUD;
 
-    // UI Skills menu
-    //public Image battleMenu1;
-    //public Image battleMenu2;
-    //public Image battleMenu3;
-
     //public Image skillMenu;
     public GameObject skillMenu;
 
     public BattleState state;
 
     // Block -> Flytta till Unit klassen???
-    private Boolean blockingPlayer1 = false;
-    private Boolean blockingPlayer2 = false;
-    private Boolean blockingPlayer3 = false;
+    public Boolean blockingPlayer1 = false;
+    public Boolean blockingPlayer2 = false;
+    public Boolean blockingPlayer3 = false;
 
     // Show battlemenu
-    private Boolean player1BattleMenu = false;
-    private Boolean player2BattleMenu = false;
-    private Boolean player3BattleMenu = false;
+    public Boolean player1BattleMenu = false;
+    public Boolean player2BattleMenu = false;
+    public Boolean player3BattleMenu = false;
 
     public GameObject battleMenu1;
     public GameObject battleMenu2;
@@ -93,13 +89,13 @@ public class BattleSystem : MonoBehaviour
 
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
 
-
         //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
 
         StartCoroutine(setUpBattle()); // Calling set up battle function
     }
 
+    // Checkking if its enemy or player turn
     public void getState(string unitType)
     {
 
@@ -116,17 +112,22 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    // Sets who's turn it is in the index
     public void setTurnIndex()
     {
         turnIndex += 1;
+        // If the turnIndex is larger than tot amount of units set turnIndex back to 0
+        // to restart the turn order
         if (turnIndex >=  allUnit.Length)
         {
             turnIndex = 0;
         }
     }
 
+    // Sets up the battle 
     IEnumerator setUpBattle()
     {
+        // Initiate player to show up on the right battle staion
         GameObject playerGO1 = Instantiate(playerPrefab1, playerBattleStation1); // Spawn player on player battle station
         playerUnit1 = playerGO1.GetComponent<Unit>(); // Access the UI units
 
@@ -136,7 +137,7 @@ public class BattleSystem : MonoBehaviour
         GameObject playerGO3 = Instantiate(playerPrefab3, playerBattleStation3); // Spawn player on player battle station
         playerUnit3 = playerGO3.GetComponent<Unit>(); // Access the UI units
 
-
+        // Set player units from the global variables
         playerUnit1.setUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
             PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
             PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"));
@@ -149,15 +150,16 @@ public class BattleSystem : MonoBehaviour
              PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
             PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
 
-        Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
+        //Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
 
-
+        // Initiate enemy 
         GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
 
+        // Battle dialogue
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
-
+        // Set UI 
         playerHUD1.SetHUD(playerUnit1);
         playerHUD2.SetHUD(playerUnit2);
         playerHUD3.SetHUD(playerUnit3);
@@ -169,50 +171,114 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
 
+        // Get who's first turn it is
         getState(allUnit[turnIndex].unitType);
-
     }
 
-    IEnumerator PlayerAttack()
+    // Enable/Disable battle menu
+    void EnableBattleMenu(int playerNr)
     {
-        // Damage the enemy
-        //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
-        bool isDead = false;
-
-        if (allUnit[turnIndex].unitNr == 1)
+        //Debug.Log("Unit Player Nr: " + playerNr);
+        Vector3 temp = new(-1.5f, 0, 0);
+        if (playerNr == 1)
         {
-            isDead = enemyUnit.TakeDamage(playerUnit1.damage);
+            if (player1BattleMenu == false)
+            {
+                player1BattleMenu = true;
+                battleMenu1.SetActive(true);
+                playerBattleStation1.transform.position += temp;
+            }
+            else
+            {
+                //Debug.Log("tured off battle menu");
+                player1BattleMenu = false;
+                battleMenu1.SetActive(false);
+                playerBattleStation1.transform.position -= temp;
+                setTurnIndex();
+            }
 
         }
-        else if (allUnit[turnIndex].unitNr == 2)
+        else if(playerNr == 2)
         {
-             isDead = enemyUnit.TakeDamage(playerUnit2.damage);
-        }
-        else // Unit 3
-        {
-            isDead = enemyUnit.TakeDamage(playerUnit3.damage);
-        }
-
-        enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
-        state = BattleState.WAITING; // Prevent button spamming
-
-        dialogueText.text = "The attack is succesfull!";
-
-        yield return new WaitForSeconds(2f);
-
-        // Check if enemy is dead 
-        if (isDead)
-        {
-            // End the battle
-            state = BattleState.WON;
-            EndBattle();
+            if (player2BattleMenu == false)
+            {
+                player2BattleMenu = true;
+                battleMenu2.SetActive(true);
+                playerBattleStation2.transform.position +=temp;
+            }
+            else
+            {
+                //Debug.Log("tured off battle menu");
+                player2BattleMenu = false;
+                battleMenu2.SetActive(false);
+                playerBattleStation2.transform.position -= temp;
+                setTurnIndex();
+            }
         }
         else
         {
-            getState(allUnit[turnIndex].unitType);
+            if (player3BattleMenu == false)
+            {
+                player3BattleMenu = true;
+                battleMenu3.SetActive(true);
+                playerBattleStation3.transform.position += temp;
+            }
+            else
+            {
+                //Debug.Log("tured off battle menu");
+                player3BattleMenu = false;
+                battleMenu3.SetActive(false);
+                playerBattleStation3.transform.position -= temp;
+                setTurnIndex();
+            }
         }
-        // Change state based on what has happened
+    }
+    
 
+    // On battle end
+    public void EndBattle()
+    {
+        if(state == BattleState.WON)
+        {
+            battleNumber = PlayerPrefs.GetInt("currentBattle");
+
+            completedBattles[battleNumber] = 1;
+            PlayerPrefsExtra.SetList("completedBattles", completedBattles);
+
+            dialogueText.text = "You won the battle!";
+        }else if(state == BattleState.LOST)
+        {
+            dialogueText.text = "You lost the battle.";
+        }else if(state==BattleState.FLEE)
+        {
+            dialogueText.text = "You fled the battle";
+        }
+
+        // Re-assign global variables for the player units
+        // Used in other battles
+        battleFunctions.assignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
+                    playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
+                    playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
+
+        battleFunctions.assignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
+                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
+                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
+
+        battleFunctions.assignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
+                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
+                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
+
+        //Debug.Log("CHicken2HP: " + PlayerPrefs.GetInt("Chicken2HP"));
+
+        // Move back to the overworld
+        SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+    }
+
+    // On players turn
+    void PlayerTurn()
+    {
+        dialogueText.text = "Choose an action for " + allUnit[turnIndex].unitName;
+        EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
     IEnumerator EnemyTurn()
@@ -226,7 +292,7 @@ public class BattleSystem : MonoBehaviour
 
         // Get the behavior tree for the enemy to do stuff
 
-        if(playerUnit1.currentHP < 0 ) // Re-write later to make it check all chickens
+        if (playerUnit1.currentHP < 0) // Re-write later to make it check all chickens
         {
             isDead = true;
         }
@@ -255,7 +321,7 @@ public class BattleSystem : MonoBehaviour
 
         // Update the current HP since the units are copies and not the actual prefab
         playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
-        
+
         playerHUD1.SetHP(playerUnit1.currentHP);
 
         Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
@@ -275,202 +341,7 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    // Enable/Diable battle menu
-    private void EnableBattleMenu() // Remove function
-    {
-
-        if(player1BattleMenu == false)
-        {
-            player1BattleMenu = true;
-            battleMenu1.SetActive(true);
-        }
-        else
-        {
-            player1BattleMenu = false;
-            battleMenu1.SetActive(false);
-            setTurnIndex();
-        }
-
-
-    }
-
-    void EnableBattleMenu(int playerNr)
-    {
-        Debug.Log("Unit Player Nr: " + playerNr);
-        Vector3 temp = new(-1.5f, 0, 0);
-        if (playerNr == 1)
-        {
-            if (player1BattleMenu == false)
-            {
-                player1BattleMenu = true;
-                battleMenu1.SetActive(true);
-                playerBattleStation1.transform.position += temp;
-            }
-            else
-            {
-                Debug.Log("tured off battle menu");
-                player1BattleMenu = false;
-                battleMenu1.SetActive(false);
-                playerBattleStation1.transform.position -= temp;
-                setTurnIndex();
-            }
-
-        }
-        else if(playerNr == 2)
-        {
-            if (player2BattleMenu == false)
-            {
-                player2BattleMenu = true;
-                battleMenu2.SetActive(true);
-                playerBattleStation2.transform.position +=temp;
-            }
-            else
-            {
-                Debug.Log("tured off battle menu");
-                player2BattleMenu = false;
-                battleMenu2.SetActive(false);
-                playerBattleStation2.transform.position -= temp;
-                setTurnIndex();
-            }
-        }
-        else
-        {
-            if (player3BattleMenu == false)
-            {
-                player3BattleMenu = true;
-                battleMenu3.SetActive(true);
-                playerBattleStation3.transform.position += temp;
-            }
-            else
-            {
-                Debug.Log("tured off battle menu");
-                player3BattleMenu = false;
-                battleMenu3.SetActive(false);
-                playerBattleStation3.transform.position -= temp;
-                setTurnIndex();
-            }
-        }
-    }
-    
-
-    // On battle end
-    void EndBattle()
-    {
-        if(state == BattleState.WON)
-        {
-            battleNumber = PlayerPrefs.GetInt("currentBattle");
-
-            completedBattles[battleNumber] = 1;
-            PlayerPrefsExtra.SetList("completedBattles", completedBattles);
-
-            dialogueText.text = "You won the battle!";
-        }else if(state == BattleState.LOST)
-        {
-            dialogueText.text = "You lost the battle.";
-        }else if(state==BattleState.FLEE)
-        {
-            dialogueText.text = "You fled the battle";
-        }
-
-        battleFunctions.assignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
-                    playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-                    playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
-
-        battleFunctions.assignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
-                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
-
-        battleFunctions.assignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
-                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
-
-
-
-        Debug.Log("CHicken2HP: " + PlayerPrefs.GetInt("Chicken2HP"));
-
-        
-        SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
-    }
-
-
-
-    // On players turn
-    void PlayerTurn()
-    {
-        dialogueText.text = "Choose an action for " + allUnit[turnIndex].unitName;
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
-    }
-
-
-    IEnumerator PlayerHeal()
-    {
-        Unit currentUnit = allUnit[turnIndex];
-
-        currentUnit.Heal(5);
-
-        if (currentUnit.unitNr == 1)
-        {
-            playerHUD1.SetHP(currentUnit.currentHP);
-
-        }
-        else if (allUnit[turnIndex].unitNr == 2)
-        {
-            playerHUD2.SetHP(currentUnit.currentHP);
-        }
-        else // Unit 3
-        {
-            playerHUD2.SetHP(currentUnit.currentHP);
-        }
-
-        //currentUnit.battleHud.SetHP(currentUnit.currentHP);
-
-        state = BattleState.WAITING; // Prevent button spamming
-
-        dialogueText.text = allUnit[turnIndex].unitName + " feel renewed!";
-
-        yield return new WaitForSeconds(2f);
-
-        //state = BattleState.ENEMYTURN;
-        //StartCoroutine(EnemyTurn());
-        getState(allUnit[turnIndex].unitType);
-    }
-
-    IEnumerator PlayerBlock()
-    {
-
-        if (allUnit[turnIndex].unitNr == 1)
-        {
-            blockingPlayer1 = true;
-
-        }
-        else if (allUnit[turnIndex].unitNr == 2)
-        {
-            blockingPlayer2 = true;
-        }
-        else // Unit 3
-        {
-            blockingPlayer3 = true;
-        }
-            
-            
-        state = BattleState.WAITING; // Prevent button spamming
-
-        yield return new WaitForSeconds(2f);
-
-        //state = BattleState.ENEMYTURN;
-        //StartCoroutine(EnemyTurn());
-        getState(allUnit[turnIndex].unitType);
-
-    }
-
-    IEnumerator PlayerFlee() {
-
-        state = BattleState.WAITING;
-        state = BattleState.FLEE;
-
-        EndBattle();
-        yield return new WaitForSeconds(2f);
-    }
+    /* ---------------------------- Button functions ---------------------------- */
 
     // When the attack button is pressed
     public void OnAttackButton()
@@ -480,7 +351,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         //EnableBattleMenu();
-        StartCoroutine(PlayerAttack());
+        StartCoroutine(battleFunctions.PlayerAttack());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
     public void OnHealButton()
@@ -490,7 +361,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         //EnableBattleMenu();
-        StartCoroutine(PlayerHeal());
+        StartCoroutine(battleFunctions.PlayerHeal());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
@@ -501,7 +372,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         //EnableBattleMenu();
-        StartCoroutine(PlayerBlock());
+        StartCoroutine(battleFunctions.PlayerBlock());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
@@ -513,13 +384,8 @@ public class BattleSystem : MonoBehaviour
         }
 
         //EnableBattleMenu();
-        StartCoroutine(PlayerFlee());
+        StartCoroutine(battleFunctions.PlayerFlee());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
-    }
-
-    public void OnSkillButton()
-    {
-        skillMenu.SetActive(true);
     }
 
 }
