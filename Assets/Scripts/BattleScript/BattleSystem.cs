@@ -17,6 +17,7 @@ using UnityEngine.EventSystems;
 public enum BattleState { START, PLAYERTURN, PLAYERTURN1, PLAYERTURN2, PLAYER3, ENEMYTURN, WON, LOST, WAITING, FLEE }
 public class BattleSystem : MonoBehaviour
 {
+    public GameObject[] allEnemies;
 
     public GameObject playerPrefab1;
     public GameObject playerPrefab2;
@@ -94,7 +95,6 @@ public class BattleSystem : MonoBehaviour
 
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
 
-
         //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
 
@@ -152,8 +152,22 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
 
+        // Finding the correct enemy from the array of prefab enemies 
+        String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
+        GameObject tempEnemy = allEnemies[0];
+        for (int i = 0; i < allEnemies.Length; i++)
+        {
+            GameObject tempEnemy2 = allEnemies[i];
+            Unit tempEnemyUnit = tempEnemy2.GetComponent<Unit>();
 
-        GameObject enemyGo = Instantiate(enemyPrefab, enemyBattleStation); // Spawn enemy on enemy battle station
+            if(tempEnemyUnit.enemyUnit == tempEnemyType)
+            {
+                tempEnemy = allEnemies[i];
+            }
+
+        }
+
+        GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
@@ -256,10 +270,11 @@ public class BattleSystem : MonoBehaviour
 
         // Update the current HP since the units are copies and not the actual prefab
         playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
-
         playerHUD1.SetHP(playerUnit1.currentHP);
 
-        Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
+        //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
+
+        // Lägg till att UI uppdateras
 
         yield return new WaitForSeconds(2f);
 
