@@ -1494,9 +1494,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allEnemies:
   - {fileID: 908507616598334892, guid: d2382af4e17764e4badf647658f1a8d9, type: 3}
-  - {fileID: 5676998954539863999, guid: 70b0f95a2d432d64b820145b6e06f0cc, type: 3}
-  - {fileID: 1708779767599686334, guid: fe5cbecc4548e7a49ac48ad2ec669ab0, type: 3}
-  - {fileID: 4273189303544784007, guid: d0b9d6c6bc78ee142bf541c2cac2bcdd, type: 3}
+  - {fileID: 2175751029133967280, guid: ac46c3658d112e946ab238288a11f614, type: 3}
+  - {fileID: 3652028830333233030, guid: 6975bb26bc458684fa89231300dc34d8, type: 3}
+  - {fileID: 6543507762408623842, guid: 094c1dedc70017840866d70231398356, type: 3}
   playerPrefab1: {fileID: 1298863995700801437, guid: 380fe635395e41646953ececd8e2012b, type: 3}
   playerPrefab2: {fileID: 3170709494023158260, guid: d398ce0b613251b47a63c84898760d42, type: 3}
   playerPrefab3: {fileID: 8444344174550181992, guid: 4d4af37b4624fe149b46c259969ab8fa, type: 3}
