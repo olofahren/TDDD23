@@ -112,14 +112,22 @@ public class BattleSystem : MonoBehaviour
         {
             // Checks the unit nr and if that player is dead
             // If dead skip that players turn
-            if((currentUnitNr == 1 && !player1Dead) || 
-               (currentUnitNr == 2 && !player2Dead) || 
-               (currentUnitNr == 3 && !player3Dead))
+            if(currentUnitNr == 1 && !player1Dead)
             {
                 state = BattleState.PLAYERTURN;
                 PlayerTurn();
             }
-            else
+            else if (currentUnitNr == 2 && !player2Dead)
+            {
+                state = BattleState.PLAYERTURN;
+                PlayerTurn();
+            }
+            else if (currentUnitNr == 3 && !player3Dead)
+            {
+                state = BattleState.PLAYERTURN;
+                PlayerTurn();
+            }
+            else // If the player is dead
             {
                 // Writing text if it cannot perform its turn
                 StartCoroutine(WriteDialogueText());
@@ -185,11 +193,13 @@ public class BattleSystem : MonoBehaviour
             Debug.Log("Chicken1 is dead");
             player1Dead = true;
         }
-        else if (playerUnit2.currentHP <= 0)
+        if (playerUnit2.currentHP <= 0)
+
         {
             player2Dead = true;
         }
-        else if (playerUnit3.currentHP <= 0)
+        
+        if (playerUnit3.currentHP <= 0)
         {
             player3Dead = true;
         }
@@ -333,15 +343,19 @@ public class BattleSystem : MonoBehaviour
             Debug.Log("Chicken 1 is dead");
 
         }
-        else if (playerUnit2.currentHP <= 0)
+
+        if (playerUnit2.currentHP <= 0)
         {
             playerUnit2.currentHP = 0;
             player2Dead = true;
+            Debug.Log("Chicken 2 is dead");
         }
-        else if (playerUnit3.currentHP <= 0)
+
+        if (playerUnit3.currentHP <= 0)
         {
             playerUnit3.currentHP = 0;
             player3Dead = true;
+            Debug.Log("Chicken 3 is dead");
         }
 
         yield return new WaitForSeconds(2f);
@@ -444,19 +458,22 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefsExtra.SetList("completedBattles", completedBattles);
 
             dialogueText.text = "You won the battle!";
+
+            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You lost the battle.";
             // Back to menu for now if player loses the battle
-            SceneManager.LoadScene(PlayerPrefs.GetString("Menu"));
+            SceneManager.LoadScene("Menu");
         }
         else if (state == BattleState.FLEE)
         {
             dialogueText.text = "You fled the battle";
+
+            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
 
-        SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
     }
 
 
