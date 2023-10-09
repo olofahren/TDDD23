@@ -65,6 +65,13 @@ public class Unit : MonoBehaviour
         return CheckIfDead();
     }
 
+    public Boolean TakeDamage(int dmg, int special)
+    {
+        currentHP -= (dmg + special);
+
+        return CheckIfDead();
+    }
+
     public Boolean BlockDamage(int dmg, int def)
     {
         int totDmg = dmg - def;

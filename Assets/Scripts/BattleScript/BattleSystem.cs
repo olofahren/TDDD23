@@ -522,6 +522,70 @@ public class BattleSystem : MonoBehaviour
         GetState(allUnit[turnIndex].unitType);
     }
 
+    // Enemy and other 
+    IEnumerator PlayerSpecialAttack()
+    {
+        // Damage the enemy
+        //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
+        bool isDead = false;
+
+        Unit currentUnit = allUnit[turnIndex];
+
+        // Check which chicken is attacking
+        // Return bool if enemy is dead
+        if (currentUnit.unitNr == 1)
+        {
+            isDead = enemyUnit.TakeDamage(playerUnit1.damage, playerUnit1.specialSkill2);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+
+            //playerUnit1.currentHP -= playerUnit1.specialSkill2;
+            player1Dead = playerUnit1.TakeDamage(playerUnit1.specialSkill2);
+            PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
+            playerHUD1.SetHP(playerUnit1.currentHP);
+
+        }
+        else if (currentUnit.unitNr == 2)
+        {
+            isDead = enemyUnit.TakeDamage(playerUnit2.damage, playerUnit2.specialSkill2);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+
+            playerUnit2.currentHP -= playerUnit2.specialSkill2;
+            PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
+            playerHUD2.SetHP(playerUnit2.currentHP);
+        }
+        else // Unit 3
+        {
+            isDead = enemyUnit.TakeDamage(playerUnit3.damage, playerUnit3.specialSkill2);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+
+            playerUnit3.currentHP -= playerUnit3.specialSkill2;
+            PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
+            playerHUD3.SetHP(playerUnit3.currentHP);
+        }
+
+        enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
+        state = BattleState.WAITING; // Prevent button spamming
+
+        // Change the name of the attack later
+        dialogueText.text = "The special attack is succesfull! \n" + currentUnit.unitName + " took " + currentUnit.specialSkill2 + " damage.";
+
+        yield return new WaitForSeconds(2f);
+
+        // Check if enemy is dead 
+        if (isDead)
+        {
+            // End the battle
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else
+        {
+            GetState(allUnit[turnIndex].unitType);
+        }
+        // Change state based on what has happened
+
+    }
+
     IEnumerator PlayerBlock()
     {
 
@@ -588,7 +652,8 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         //EnableBattleMenu();
-        StartCoroutine(PlayerBlock());
+        //StartCoroutine(PlayerBlock());
+        StartCoroutine(PlayerSpecialAttack());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
