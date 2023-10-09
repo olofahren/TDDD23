@@ -17,8 +17,9 @@ public class CheckHP : Node
 
     public override NodeState Evaluate()
     {
-        if (unit.currentHP < HPLevel)
+        if (unit.currentHP <= HPLevel)
         {
+            Debug.Log("CheckHP SUCCESS");
             state = NodeState.SUCCESS;
             return state;
         }

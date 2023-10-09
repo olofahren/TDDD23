@@ -16,7 +16,9 @@ public class TaskHeal : Node
     }
     public override NodeState Evaluate()
     {
+
         unit.Heal(healHp);
+
         PlayerPrefs.SetInt("EnemycHP", unit.currentHP);
 
         state = NodeState.SUCCESS; // State succeed??? 

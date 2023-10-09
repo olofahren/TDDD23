@@ -137,9 +137,9 @@ MonoBehaviour:
   currentHP: 5
   defense: 0
   speed: 1
-  specialSill1: 0
-  specialSill2: 0
-  specialSill3: 0
+  specialSkill1: 4
+  specialSkill2: 0
+  specialSkill3: 0
   unitType: enemy
   unitNr: 1
   enemyUnit: rock
@@ -159,4 +159,4 @@ MonoBehaviour:
   gameObjectPlayer1: {fileID: 1298863995700801437, guid: 380fe635395e41646953ececd8e2012b, type: 3}
   gameObjectPlayer2: {fileID: 3170709494023158260, guid: d398ce0b613251b47a63c84898760d42, type: 3}
   gameObjectPlayer3: {fileID: 8444344174550181992, guid: 4d4af37b4624fe149b46c259969ab8fa, type: 3}
-  gameObjectBattleSystem: {fileID: 0}
+  unitIsDead: 0
