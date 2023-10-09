@@ -36,7 +36,7 @@ public class wanderEnemy : MonoBehaviour
         transform.position = agent.nextPosition;
 
 
-        timer += Time.deltaTime;
+        timer += Time.deltaTime; 
         if (timer > delay)
         {
             delay = Random.value * 20;
