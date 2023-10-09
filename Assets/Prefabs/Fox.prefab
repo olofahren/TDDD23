@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e624e108c89b41892ca467bacb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: capybara
+  unitName: Fox
   unitLevel: 2
   damage: 4
   maxHP: 30
@@ -185,7 +185,7 @@ MonoBehaviour:
   specialSill3: 0
   unitType: enemy
   unitNr: 0
-  enemyUnit: capybara
+  enemyUnit: fox
 --- !u!114 &7886530393165624742
 MonoBehaviour:
   m_ObjectHideFlags: 0
