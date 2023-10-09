@@ -143,13 +143,11 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator WriteDialogueText()
     {
-        dialogueText.text = "Chicken has fainted.";
+        dialogueText.text = allUnit[turnIndex].unitName + " has fainted.";
         yield return new WaitForSeconds(2f);
         // Next turn
         SetTurnIndex();
         GetState(allUnit[turnIndex].unitType);
-
-
     }
 
     public void SetTurnIndex()
@@ -292,7 +290,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         // Add AI here if wanted
-        dialogueText.text = enemyUnit.unitName + " attacks";
+        dialogueText.text = enemyUnit.unitName + " turn";
 
         yield return new WaitForSeconds(1f);
 
@@ -333,6 +331,8 @@ public class BattleSystem : MonoBehaviour
         enemyUnit.currentHP = PlayerPrefs.GetInt("EnemycHP");
         enemyHUD.SetHP(enemyUnit.currentHP);
 
+        dialogueText.text = enemyUnit.unitName + " attacks the chickens!";
+
         //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
 
         // Checks the current HP of all chickens if all are below 0
@@ -365,6 +365,7 @@ public class BattleSystem : MonoBehaviour
         {
             state = BattleState.LOST;
             EndBattle();
+            yield return new WaitForSeconds(2f);
         }
         else
         {
@@ -440,15 +441,15 @@ public class BattleSystem : MonoBehaviour
         // Re-sets the PlayerPrefs variables for the chickens
         battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
             playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-            playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
+            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3);
 
         battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
                     playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
+                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3);
 
         battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
                     playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
+                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3);
 
         if (state == BattleState.WON)
         {

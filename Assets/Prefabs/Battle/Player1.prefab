@@ -53,9 +53,9 @@ MonoBehaviour:
   currentHP: 1
   defense: 0
   speed: 3
-  specialSill1: 0
-  specialSill2: 0
-  specialSill3: 0
+  specialSkill1: 1
+  specialSkill2: 0
+  specialSkill3: 0
   unitType: player
   unitNr: 1
   enemyUnit: 

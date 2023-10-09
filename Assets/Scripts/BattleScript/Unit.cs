@@ -17,9 +17,9 @@ public class Unit : MonoBehaviour
     public int defense;
     public int speed;
 
-    public int specialSill1; 
-    public int specialSill2;
-    public int specialSill3;
+    public int specialSkill1; 
+    public int specialSkill2;
+    public int specialSkill3;
 
     //public GameObject battleMenu;
    // public Boolean showBattleMenu;
@@ -40,9 +40,9 @@ public class Unit : MonoBehaviour
         currentHP = cHP;
         defense = def;  
         speed = spe;
-        specialSill1 = special1;
-        specialSill2 = special2;
-        specialSill3 = special3;
+        specialSkill1 = special1;
+        specialSkill2 = special2;
+        specialSkill3 = special3;
     }
 
     private Boolean CheckIfDead()

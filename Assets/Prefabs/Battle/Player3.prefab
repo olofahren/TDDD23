@@ -50,12 +50,12 @@ MonoBehaviour:
   unitLevel: 1
   damage: 1
   maxHP: 1
-  currentHP: 1
+  currentHP: 0
   defense: 0
   speed: 2
-  specialSill1: 0
-  specialSill2: 0
-  specialSill3: 0
+  specialSkill1: 1
+  specialSkill2: 0
+  specialSkill3: 0
   unitType: player
   unitNr: 3
   enemyUnit: 
