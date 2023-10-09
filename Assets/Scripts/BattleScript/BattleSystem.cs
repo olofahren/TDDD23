@@ -175,9 +175,6 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
-        // Resets enemy HP to max at start of battle
-        PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
-
         // Checking if any of the chickens are dead
         if (playerUnit1.currentHP <= 0)
         {
@@ -209,6 +206,9 @@ public class BattleSystem : MonoBehaviour
 
         GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
         enemyUnit = enemyGo.GetComponent<Unit>();
+
+        // Resets enemy HP to max at start of battle
+        PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
