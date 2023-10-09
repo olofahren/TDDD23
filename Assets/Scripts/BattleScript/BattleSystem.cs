@@ -123,9 +123,7 @@ public class BattleSystem : MonoBehaviour
             {
                 // Writing text if it cannot perform its turn
                 StartCoroutine(WriteDialogueText());
-                // Next turn
-                SetTurnIndex();
-                GetState(allUnit[turnIndex].unitType);
+      
             }
         }
         else
@@ -176,6 +174,9 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
 
         Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
+
+        // Resets enemy HP to max at start of battle
+        PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
 
         // Checking if any of the chickens are dead
         if (playerUnit1.currentHP <= 0)
@@ -238,15 +239,18 @@ public class BattleSystem : MonoBehaviour
         if (allUnit[turnIndex].unitNr == 1)
         {
             isDead = enemyUnit.TakeDamage(playerUnit1.damage);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
         }
         else if (allUnit[turnIndex].unitNr == 2)
         {
             isDead = enemyUnit.TakeDamage(playerUnit2.damage);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         }
         else // Unit 3
         {
             isDead = enemyUnit.TakeDamage(playerUnit3.damage);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         }
 
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
@@ -472,15 +476,17 @@ public class BattleSystem : MonoBehaviour
         if (currentUnit.unitNr == 1)
         {
             playerHUD1.SetHP(currentUnit.currentHP);
-
+            PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
         }
         else if (allUnit[turnIndex].unitNr == 2)
         {
             playerHUD2.SetHP(currentUnit.currentHP);
+            PlayerPrefs.SetInt("Chicken2cHP", playerUnit3.currentHP);
         }
-        else // Unit 3
+        else if(allUnit[turnIndex].unitNr == 3)// Unit 3
         {
             playerHUD2.SetHP(currentUnit.currentHP);
+            PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
         }
 
         //currentUnit.battleHud.SetHP(currentUnit.currentHP);
