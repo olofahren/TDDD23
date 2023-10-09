@@ -123,7 +123,6 @@ public class BattleSystem : MonoBehaviour
             {
                 // Writing text if it cannot perform its turn
                 StartCoroutine(WriteDialogueText());
-      
             }
         }
         else
@@ -138,6 +137,11 @@ public class BattleSystem : MonoBehaviour
     {
         dialogueText.text = "Chicken has fainted.";
         yield return new WaitForSeconds(2f);
+        // Next turn
+        SetTurnIndex();
+        GetState(allUnit[turnIndex].unitType);
+
+
     }
 
     public void SetTurnIndex()
@@ -284,24 +288,6 @@ public class BattleSystem : MonoBehaviour
 
         // Get the behavior tree for the enemy to do stuff
 
-        // Checks the current HP of all chickens if all are below 0
-        if (playerUnit1.currentHP <= 0)
-        {
-            playerUnit1.currentHP = 0;
-            player1Dead = true;
-
-        }else if(playerUnit2.currentHP <= 0)
-        {
-            playerUnit2.currentHP = 0;
-            player2Dead = true;
-        }
-        else if(playerUnit3.currentHP <= 0)
-        {
-            playerUnit3.currentHP = 0;
-            player3Dead = true;
-        }
-
-
         /* if (blockingPlayer1)
          {
              isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.defense);
@@ -324,6 +310,7 @@ public class BattleSystem : MonoBehaviour
          }*/
 
         // Update the current HP since the units are copies and not the actual prefab
+        // UI also gets updated
         playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
         playerHUD1.SetHP(playerUnit1.currentHP);
 
@@ -338,7 +325,24 @@ public class BattleSystem : MonoBehaviour
 
         //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
 
-        // Lägg till att UI uppdateras
+        // Checks the current HP of all chickens if all are below 0
+        if (playerUnit1.currentHP <= 0)
+        {
+            playerUnit1.currentHP = 0;
+            player1Dead = true;
+            Debug.Log("Chicken 1 is dead");
+
+        }
+        else if (playerUnit2.currentHP <= 0)
+        {
+            playerUnit2.currentHP = 0;
+            player2Dead = true;
+        }
+        else if (playerUnit3.currentHP <= 0)
+        {
+            playerUnit3.currentHP = 0;
+            player3Dead = true;
+        }
 
         yield return new WaitForSeconds(2f);
 
@@ -359,7 +363,7 @@ public class BattleSystem : MonoBehaviour
     // Enable/Disable battle menu
     void EnableBattleMenu(int playerNr)
     {
-        Debug.Log("Unit Player Nr: " + playerNr);
+        //Debug.Log("Unit Player Nr: " + playerNr);
         Vector3 temp = new(-1.5f, 0, 0);
         if (playerNr == 1)
         {
@@ -371,7 +375,7 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                Debug.Log("tured off battle menu");
+                //Debug.Log("tured off battle menu");
                 player1BattleMenu = false;
                 battleMenu1.SetActive(false);
                 playerBattleStation1.transform.position -= temp;
@@ -389,7 +393,7 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                Debug.Log("tured off battle menu");
+                //Debug.Log("tured off battle menu");
                 player2BattleMenu = false;
                 battleMenu2.SetActive(false);
                 playerBattleStation2.transform.position -= temp;
@@ -406,7 +410,7 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-                Debug.Log("tured off battle menu");
+                //Debug.Log("tured off battle menu");
                 player3BattleMenu = false;
                 battleMenu3.SetActive(false);
                 playerBattleStation3.transform.position -= temp;
@@ -419,6 +423,19 @@ public class BattleSystem : MonoBehaviour
     // On battle end
     public void EndBattle()
     {
+        // Re-sets the PlayerPrefs variables for the chickens
+        battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
+            playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
+            playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
+
+        battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
+                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
+                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
+
+        battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
+                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
+                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
+
         if (state == BattleState.WON)
         {
             battleNumber = PlayerPrefs.GetInt("currentBattle");
@@ -431,28 +448,13 @@ public class BattleSystem : MonoBehaviour
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You lost the battle.";
+            // Back to menu for now if player loses the battle
+            SceneManager.LoadScene(PlayerPrefs.GetString("Menu"));
         }
         else if (state == BattleState.FLEE)
         {
             dialogueText.text = "You fled the battle";
         }
-
-        battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
-                    playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-                    playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
-
-        battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
-                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
-
-        battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
-                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
-
-
-
-        Debug.Log("CHicken2HP: " + PlayerPrefs.GetInt("Chicken2HP"));
-
 
         SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
     }

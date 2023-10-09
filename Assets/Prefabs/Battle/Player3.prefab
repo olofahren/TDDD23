@@ -49,8 +49,8 @@ MonoBehaviour:
   unitName: Chicken3
   unitLevel: 1
   damage: 1
-  maxHP: 12
-  currentHP: 12
+  maxHP: 1
+  currentHP: 1
   defense: 0
   speed: 2
   specialSill1: 0

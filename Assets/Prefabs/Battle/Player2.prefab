@@ -49,8 +49,8 @@ MonoBehaviour:
   unitName: Chicken2
   unitLevel: 1
   damage: 2
-  maxHP: 8
-  currentHP: 8
+  maxHP: 1
+  currentHP: 1
   defense: 0
   speed: 4
   specialSill1: 0

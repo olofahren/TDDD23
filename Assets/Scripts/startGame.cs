@@ -28,17 +28,22 @@ public class startGame : MonoBehaviour
 
 
         // Player Unit Set Stats
-        battleFunctions.AssignStats(player1.unitNr, player1.unitLevel, player1.damage,
-            player1.maxHP, player1.currentHP, player1.defense, player1.speed,
+        /*battleFunctions.AssignStats(player1.unitNr, player1.unitLevel, player1.damage,
+            player1.maxHP, player1.maxHP, player1.defense, player1.speed,
             player1.specialSill1, player1.specialSill2, player1.specialSill3);
 
         battleFunctions.AssignStats(player2.unitNr, player2.unitLevel, player2.damage,
-            player2.maxHP, player2.currentHP, player2.defense, player2.speed,
+            player2.maxHP, player2.maxHP, player2.defense, player2.speed,
             player2.specialSill1, player2.specialSill2, player2.specialSill3);
 
         battleFunctions.AssignStats(player3.unitNr, player3.unitLevel, player3.damage,
-            player3.maxHP, player3.currentHP, player3.defense, player3.speed,
-            player3.specialSill1, player3.specialSill2, player3.specialSill3);
+            player3.maxHP, player3.maxHP, player3.defense, player3.speed,
+            player3.specialSill1, player3.specialSill2, player3.specialSill3);*/
+
+        // AssignStats(unitNr, lvl, damage, maxHP, currentHP, defense, speed, specialSkill1, spcialSkill2, speicalSkill3)
+        battleFunctions.AssignStats(1, 1, 1, 10, 10, 2, 1, 1, 1, 1);
+        battleFunctions.AssignStats(2, 1, 2, 8, 8, 1, 3, 1, 1, 1);
+        battleFunctions.AssignStats(3, 1, 1, 12, 12, 1, 1, 1, 1, 1);
 
         // Load scene
         SceneManager.LoadScene("Intro World");
