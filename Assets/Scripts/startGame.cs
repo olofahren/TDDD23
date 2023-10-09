@@ -9,6 +9,12 @@ public class startGame : MonoBehaviour
     private List<int> collectedEggs = Enumerable.Repeat(1, 11).ToList();
     private List<int> completedBattles= Enumerable.Repeat(0, 7).ToList();
 
+    // To be set the player prefs
+    public Unit player1;
+    public Unit player2;
+    public Unit player3;
+
+    public BattleFunctions battleFunctions;
 
     public void StartGame()
     {
@@ -22,37 +28,17 @@ public class startGame : MonoBehaviour
 
 
         // Player Unit Set Stats
-        PlayerPrefs.SetInt("Chicken1Lvl", 1);
-        PlayerPrefs.SetInt("Chicken2Lvl", 1);
-        PlayerPrefs.SetInt("Chicken3Lvl", 1);
+        battleFunctions.AssignStats(player1.unitNr, player1.unitLevel, player1.damage,
+            player1.maxHP, player1.currentHP, player1.defense, player1.speed,
+            player1.specialSill1, player1.specialSill2, player1.specialSill3);
 
-        PlayerPrefs.SetInt("Chicken1dmg", 1);
-        PlayerPrefs.SetInt("Chicken2dmg", 1);
-        PlayerPrefs.SetInt("Chicken3dmg", 1);
+        battleFunctions.AssignStats(player2.unitNr, player2.unitLevel, player2.damage,
+            player2.maxHP, player2.currentHP, player2.defense, player2.speed,
+            player2.specialSill1, player2.specialSill2, player2.specialSill3);
 
-        PlayerPrefs.SetInt("Chicken1maxHP", 10);
-        PlayerPrefs.SetInt("Chicken2maxHP", 10);
-        PlayerPrefs.SetInt("Chicken3maxHP", 10);
-
-        PlayerPrefs.SetInt("Chicken1cHP", 10); // Base Hp for lvl 1 is 10 HP
-        PlayerPrefs.SetInt("Chicken2cHP", 10); // Base Hp for lvl 1 is 10 HP
-        PlayerPrefs.SetInt("Chicken3cHP", 10); // Base Hp for lvl 1 is 10 HP
-
-        PlayerPrefs.SetInt("Chicken1speed", 3);
-        PlayerPrefs.SetInt("Chicken2speed", 5);
-        PlayerPrefs.SetInt("Chicken3speed", 2);
-
-        PlayerPrefs.SetInt("Chicken1special1", 1);
-        PlayerPrefs.SetInt("Chicken2special1", 1);
-        PlayerPrefs.SetInt("Chicken3special1", 1);
-
-        PlayerPrefs.SetInt("Chicken1special2", 1);
-        PlayerPrefs.SetInt("Chicken2special2", 1);
-        PlayerPrefs.SetInt("Chicken3special2", 1);
-
-        PlayerPrefs.SetInt("Chicken1special3", 1);
-        PlayerPrefs.SetInt("Chicken2special3", 1);
-        PlayerPrefs.SetInt("Chicken3special3", 1);
+        battleFunctions.AssignStats(player3.unitNr, player3.unitLevel, player3.damage,
+            player3.maxHP, player3.currentHP, player3.defense, player3.speed,
+            player3.specialSill1, player3.specialSill2, player3.specialSill3);
 
         // Load scene
         SceneManager.LoadScene("Intro World");

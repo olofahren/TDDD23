@@ -50,7 +50,7 @@ MonoBehaviour:
   unitLevel: 1
   damage: 1
   maxHP: 10
-  currentHP: 10
+  currentHP: 0
   defense: 0
   speed: 3
   specialSill1: 0

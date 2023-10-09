@@ -77,8 +77,8 @@ public class BattleSystem : MonoBehaviour
     public int turnIndex = 0;
 
     //Timer
-    private float delay = 5.0f;
-    private float timer = 0.0f;
+    //private float delay = 5.0f;
+    //private float timer = 0.0f;
 
     // Other functions in other scripts 
     public GameObject battleScript;
@@ -87,27 +87,46 @@ public class BattleSystem : MonoBehaviour
     private List<int> completedBattles;
     private int battleNumber;
 
+    public bool player1Dead = false;
+    public bool player2Dead = false;
+    public bool player3Dead = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START; // Start of the battle
-
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
 
         //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
 
-        StartCoroutine(setUpBattle()); // Calling set up battle function
+        StartCoroutine(SetUpBattle()); // Calling set up battle function
     }
 
-    public void getState(string unitType)
+    public void GetState(string unitType)
     {
+        int currentUnitNr = allUnit[turnIndex].unitNr;
 
         if (unitType == "player")
         {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            // Checks the unit nr and if that player is dead
+            // If dead skip that players turn
+            if((currentUnitNr == 1 && !player1Dead) || 
+               (currentUnitNr == 2 && !player2Dead) || 
+               (currentUnitNr == 3 && !player3Dead))
+            {
+                state = BattleState.PLAYERTURN;
+                PlayerTurn();
+            }
+            else
+            {
+                // Writing text if it cannot perform its turn
+                StartCoroutine(WriteDialogueText());
+                // Next turn
+                SetTurnIndex();
+                GetState(allUnit[turnIndex].unitType);
+            }
         }
         else
         {
@@ -117,7 +136,13 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void setTurnIndex()
+    IEnumerator WriteDialogueText()
+    {
+        dialogueText.text = "Chicken has fainted.";
+        yield return new WaitForSeconds(2f);
+    }
+
+    public void SetTurnIndex()
     {
         turnIndex += 1;
         if (turnIndex >= allUnit.Length)
@@ -126,7 +151,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator setUpBattle()
+    IEnumerator SetUpBattle()
     {
         GameObject playerGO1 = Instantiate(playerPrefab1, playerBattleStation1); // Spawn player on player battle station
         playerUnit1 = playerGO1.GetComponent<Unit>(); // Access the UI units
@@ -150,7 +175,22 @@ public class BattleSystem : MonoBehaviour
              PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
             PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
 
-        Debug.Log("Chicken2 HP: " + playerUnit2.currentHP.ToString());
+        Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
+
+        // Checking if any of the chickens are dead
+        if (playerUnit1.currentHP <= 0)
+        {
+            Debug.Log("Chicken1 is dead");
+            player1Dead = true;
+        }
+        else if (playerUnit2.currentHP <= 0)
+        {
+            player2Dead = true;
+        }
+        else if (playerUnit3.currentHP <= 0)
+        {
+            player3Dead = true;
+        }
 
         // Finding the correct enemy from the array of prefab enemies 
         String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
@@ -164,7 +204,6 @@ public class BattleSystem : MonoBehaviour
             {
                 tempEnemy = allEnemies[i];
             }
-
         }
 
         GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
@@ -184,7 +223,7 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
 
-        getState(allUnit[turnIndex].unitType);
+        GetState(allUnit[turnIndex].unitType);
 
     }
 
@@ -194,6 +233,8 @@ public class BattleSystem : MonoBehaviour
         //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
         bool isDead = false;
 
+        // Check which chicken is attacking
+        // Return bool if enemy is dead
         if (allUnit[turnIndex].unitNr == 1)
         {
             isDead = enemyUnit.TakeDamage(playerUnit1.damage);
@@ -224,7 +265,7 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
-            getState(allUnit[turnIndex].unitType);
+            GetState(allUnit[turnIndex].unitType);
         }
         // Change state based on what has happened
 
@@ -237,13 +278,23 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        bool isDead = false;
-
         // Get the behavior tree for the enemy to do stuff
 
-        if (playerUnit1.currentHP < 0) // Re-write later to make it check all chickens
+        // Checks the current HP of all chickens if all are below 0
+        if (playerUnit1.currentHP <= 0)
         {
-            isDead = true;
+            playerUnit1.currentHP = 0;
+            player1Dead = true;
+
+        }else if(playerUnit2.currentHP <= 0)
+        {
+            playerUnit2.currentHP = 0;
+            player2Dead = true;
+        }
+        else if(playerUnit3.currentHP <= 0)
+        {
+            playerUnit3.currentHP = 0;
+            player3Dead = true;
         }
 
 
@@ -272,27 +323,36 @@ public class BattleSystem : MonoBehaviour
         playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
         playerHUD1.SetHP(playerUnit1.currentHP);
 
+        playerUnit2.currentHP = PlayerPrefs.GetInt("Chicken2cHP");
+        playerHUD2.SetHP(playerUnit2.currentHP);
+
+        playerUnit3.currentHP = PlayerPrefs.GetInt("Chicken3cHP");
+        playerHUD3.SetHP(playerUnit3.currentHP);
+
+        enemyUnit.currentHP = PlayerPrefs.GetInt("EnemycHP");
+        enemyHUD.SetHP(enemyUnit.currentHP);
+
         //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
 
         // Lägg till att UI uppdateras
 
         yield return new WaitForSeconds(2f);
 
-        if (isDead)
+        // If all chickens are dead the battle ends
+        if ((player1Dead && player2Dead && player3Dead))
         {
             state = BattleState.LOST;
             EndBattle();
         }
         else
         {
-            setTurnIndex();
-            getState(allUnit[turnIndex].unitType);
+            SetTurnIndex();
+            GetState(allUnit[turnIndex].unitType);
         }
 
     }
 
     // Enable/Disable battle menu
-
     void EnableBattleMenu(int playerNr)
     {
         Debug.Log("Unit Player Nr: " + playerNr);
@@ -311,7 +371,7 @@ public class BattleSystem : MonoBehaviour
                 player1BattleMenu = false;
                 battleMenu1.SetActive(false);
                 playerBattleStation1.transform.position -= temp;
-                setTurnIndex();
+                SetTurnIndex();
             }
 
         }
@@ -329,7 +389,7 @@ public class BattleSystem : MonoBehaviour
                 player2BattleMenu = false;
                 battleMenu2.SetActive(false);
                 playerBattleStation2.transform.position -= temp;
-                setTurnIndex();
+                SetTurnIndex();
             }
         }
         else
@@ -346,7 +406,7 @@ public class BattleSystem : MonoBehaviour
                 player3BattleMenu = false;
                 battleMenu3.SetActive(false);
                 playerBattleStation3.transform.position -= temp;
-                setTurnIndex();
+                SetTurnIndex();
             }
         }
     }
@@ -373,15 +433,15 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text = "You fled the battle";
         }
 
-        battleFunctions.assignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
+        battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
                     playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
                     playerUnit1.specialSill1, playerUnit1.specialSill2, playerUnit1.specialSill3);
 
-        battleFunctions.assignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
+        battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
                     playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
                     playerUnit2.specialSill1, playerUnit2.specialSill2, playerUnit2.specialSill3);
 
-        battleFunctions.assignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
+        battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
                     playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
                     playerUnit3.specialSill1, playerUnit3.specialSill2, playerUnit3.specialSill3);
 
@@ -433,7 +493,7 @@ public class BattleSystem : MonoBehaviour
 
         //state = BattleState.ENEMYTURN;
         //StartCoroutine(EnemyTurn());
-        getState(allUnit[turnIndex].unitType);
+        GetState(allUnit[turnIndex].unitType);
     }
 
     IEnumerator PlayerBlock()
@@ -460,8 +520,16 @@ public class BattleSystem : MonoBehaviour
 
         //state = BattleState.ENEMYTURN;
         //StartCoroutine(EnemyTurn());
-        getState(allUnit[turnIndex].unitType);
+        GetState(allUnit[turnIndex].unitType);
 
+    }
+    public IEnumerator PlayerFlee()
+    {
+        state = BattleState.WAITING;
+        state = BattleState.FLEE;
+
+        EndBattle();
+        yield return new WaitForSeconds(2f);
     }
 
 
@@ -506,7 +574,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         //EnableBattleMenu();
-        StartCoroutine(battleFunctions.PlayerFlee());
+        StartCoroutine(PlayerFlee());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
