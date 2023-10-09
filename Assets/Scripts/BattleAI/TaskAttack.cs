@@ -16,20 +16,14 @@ public class TaskAttack : Node
     }
     public override NodeState Evaluate()
     {
-        Debug.Log("Evaluating Node");
-        // If the enemy HP is more then half the HP it should attack
-        if (enemyUnit.currentHP > enemyUnit.maxHP / 2)
-        {
-            // Player take damage
-            // Player tar inte skada just nu, fixa
-            bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
-            Debug.Log("Enemy attacked " + playerUnit.unitName);
-            String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
+       
+        // Player take damage
+        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        Debug.Log("Enemy attacked " + playerUnit.unitName);
+        String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
 
-            // Update the current HP so it can update the UI
-            PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
-
-        }// else do nothing
+        // Update the current HP so it can update the UI
+        PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
        
 
         state = NodeState.SUCCESS; // State succeed??? 

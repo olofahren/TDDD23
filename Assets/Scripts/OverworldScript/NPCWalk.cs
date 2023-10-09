@@ -12,51 +12,56 @@ public class NPCWalk : MonoBehaviour
     private bool facingRight;
 
 
+
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         transform.localPosition = new Vector3(0,0,-0.5f);
-        //Debug.Log((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)));
-        if(rb.position != lastPosition)
-        {
-            if((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)) > 0.21 || Input.GetButton("Sprint"))
+
+
+            if (rb.position != lastPosition)
             {
-                anim.SetBool("isWalking", false);
-                anim.SetBool("isRunning", true);
-            }
-            else
-            {
-                anim.SetBool("isWalking", true);
-                anim.SetBool("isRunning", false);
+                if((Mathf.Abs(rb.position.x - lastPosition.x) + Mathf.Abs(rb.position.y - lastPosition.y)) > 0.21 || Input.GetButton("Sprint"))
+                {
+                    anim.SetBool("isWalking", false);
+                    anim.SetBool("isRunning", true);
+                }
+                else
+                {
+                    anim.SetBool("isWalking", true);
+                    anim.SetBool("isRunning", false);
 
-            }
-
-
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
+                }
 
 
-        if(lastPosition.x > rb.position.x && !facingRight)
-        {
-            Flip();
-        }
-        if (lastPosition.x < rb.position.x && facingRight)
-        {
-            Flip();
-        }
+                }
+                else
+                {
+                    anim.SetBool("isWalking", false);
+                }
+
+
+                if(lastPosition.x > rb.position.x && !facingRight)
+                {
+                    Flip();
+                }
+                if (lastPosition.x < rb.position.x && facingRight)
+                {
+                    Flip();
+                }
 
 
 
-        lastPosition = rb.position;
+                lastPosition = rb.position;
+
 
     }
 

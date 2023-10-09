@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ResetGame : MonoBehaviour
 {
     private List<int> collectedEggs = Enumerable.Repeat(0, 10).ToList();
-    private List<int> completedBattles = Enumerable.Repeat(0, 7).ToList();
+    private List<int> completedBattles = Enumerable.Repeat(0, 10).ToList();
 
     // To be set the player prefs
     public Unit player1;
