@@ -481,11 +481,11 @@ public class BattleSystem : MonoBehaviour
         else if (allUnit[turnIndex].unitNr == 2)
         {
             playerHUD2.SetHP(currentUnit.currentHP);
-            PlayerPrefs.SetInt("Chicken2cHP", playerUnit3.currentHP);
+            PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
         }
         else if(allUnit[turnIndex].unitNr == 3)// Unit 3
         {
-            playerHUD2.SetHP(currentUnit.currentHP);
+            playerHUD3.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
         }
 
