@@ -13,6 +13,11 @@ public class EnemyBT : Tree
         {
             new Sequence(new List<Node>
             {
+                new CheckHP(enemy, (enemy.maxHP/2)),
+                new TaskHeal(enemy, enemy.specialSkill1),
+            }),
+            new Sequence(new List<Node>
+            {
                 new CheckChickenAlive(player1),
                 new TaskAttack(enemy, player1),
             }),
