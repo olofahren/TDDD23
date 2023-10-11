@@ -15,6 +15,7 @@ public class CheckHP : Node
         HPLevel = hpl;
     }
 
+
     public override NodeState Evaluate()
     {
         if (unit.currentHP <= HPLevel)

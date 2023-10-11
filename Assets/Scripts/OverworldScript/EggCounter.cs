@@ -19,7 +19,7 @@ public class EggCounter : MonoBehaviour
         animator = GetComponent<Animator>();
         collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
         eggCounterValue = collectedEggs.Sum();
-        eggCounterText.text = eggCounterValue.ToString() + "/10";
+        eggCounterText.text = eggCounterValue.ToString() + "/20";
 
     }
 
@@ -33,7 +33,7 @@ public class EggCounter : MonoBehaviour
         {
             //collectedEggs.ForEach( egg => Debug.Log(egg));
 
-            eggCounterText.text = eggCounterValue.ToString() + "/10";
+            eggCounterText.text = eggCounterValue.ToString() + "/20";
             lastEggCounterValue = eggCounterValue;
             animator.SetTrigger("animateEggIcon");
 

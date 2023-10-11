@@ -24,12 +24,6 @@ public class cutsceneIsFinished : MonoBehaviour
         egg3 = GameObject.Find("3");
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
-
-
     // Update is called once per frame
     void OnEnable()
     {
@@ -56,7 +50,7 @@ public class cutsceneIsFinished : MonoBehaviour
         collectedEggs = Enumerable.Repeat(0, 11).ToList();
         PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
         eggCounterValue = collectedEggs.Sum();
-        eggCounterText.text = eggCounterValue.ToString() + "/10";
+        eggCounterText.text = eggCounterValue.ToString() + "/20";
 
         egg1.GetComponent<Renderer>().enabled = true;
         egg2.GetComponent<Renderer>().enabled = true;
