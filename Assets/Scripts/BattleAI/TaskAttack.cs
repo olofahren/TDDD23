@@ -19,7 +19,7 @@ public class TaskAttack : Node
        
         // Player take damage
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
-        Debug.Log("Enemy attacked " + playerUnit.unitName);
+        Debug.Log("-TaskAttack- says: " + enemyUnit.unitName + " has attacked " + playerUnit.unitName + " and dealt " + enemyUnit.damage);
         String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
 
         // Update the current HP so it can update the UI

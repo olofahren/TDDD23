@@ -183,7 +183,7 @@ public class BattleSystem : MonoBehaviour
              PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
             PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
 
-        Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
+        //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
         // Checking if any of the chickens are dead
         if (playerUnit1.currentHP <= 0)
@@ -542,6 +542,7 @@ public class BattleSystem : MonoBehaviour
             player1Dead = playerUnit1.TakeDamage(playerUnit1.specialSkill2);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
             playerHUD1.SetHP(playerUnit1.currentHP);
+            Debug.Log(playerUnit1 + " current HP: " +playerUnit1.currentHP);
 
         }
         else if (currentUnit.unitNr == 2)
@@ -549,7 +550,8 @@ public class BattleSystem : MonoBehaviour
             isDead = enemyUnit.TakeDamage(playerUnit2.damage, playerUnit2.specialSkill2);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
-            playerUnit2.currentHP -= playerUnit2.specialSkill2;
+            //playerUnit2.currentHP -= playerUnit2.specialSkill2;
+            player2Dead = playerUnit2.TakeDamage(playerUnit2.specialSkill2);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
             playerHUD2.SetHP(playerUnit2.currentHP);
         }
@@ -558,7 +560,8 @@ public class BattleSystem : MonoBehaviour
             isDead = enemyUnit.TakeDamage(playerUnit3.damage, playerUnit3.specialSkill2);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
-            playerUnit3.currentHP -= playerUnit3.specialSkill2;
+            //playerUnit3.currentHP -= playerUnit3.specialSkill2;
+            player3Dead = playerUnit3.TakeDamage(playerUnit3.specialSkill2);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
             playerHUD3.SetHP(playerUnit3.currentHP);
         }

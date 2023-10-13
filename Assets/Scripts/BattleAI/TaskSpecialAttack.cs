@@ -19,7 +19,7 @@ public class TaskSpecialAttack : Node
 
         // Player take damage
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage + enemyUnit.specialSkill2);
-        Debug.Log("Enemy special attacked " + playerUnit.unitName);
+        Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " has special attacked " + playerUnit.unitName + " and dealt " + enemyUnit.damage + enemyUnit.specialSkill2);
         String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
 
         //Enemy take damage (Special attack damages the unit using it also)

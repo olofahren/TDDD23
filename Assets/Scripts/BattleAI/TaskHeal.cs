@@ -18,6 +18,7 @@ public class TaskHeal : Node
     {
 
         unit.Heal(healHp);
+        Debug.Log("-TaskHeal- says: " + unit.unitName + " has healed " + healHp + " HP.");
 
         PlayerPrefs.SetInt("EnemycHP", unit.currentHP);
 

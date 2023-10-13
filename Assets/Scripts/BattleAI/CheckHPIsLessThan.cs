@@ -17,9 +17,11 @@ public class CheckHPIsLessThan : Node
 
 
     public override NodeState Evaluate()
-    {
+    { 
+
         if (unitA.currentHP <= unitB.currentHP)
         {
+            Debug.Log("-CheckHPIsLessThan- says: " + unitA.unitName + " has HP " + unitA.currentHP + ", that is less or equal to the HP of " + unitB.unitName + " which has " + unitB.currentHP + "HP.");
             state = NodeState.SUCCESS;
             return state;
         }

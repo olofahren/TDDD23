@@ -34,6 +34,7 @@ public class Unit : MonoBehaviour
 
     public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
     {
+        Debug.Log("-Unit- says: unit " + unitName + " has been set up.");
         unitLevel = lvl;
         damage = dmg;
         maxHP = mHP;
@@ -62,12 +63,27 @@ public class Unit : MonoBehaviour
 
         currentHP -= dmg;
 
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
+        PlayerPrefs.SetInt("Chicken"+ unitNr +"cHP", currentHP);
+
+        Debug.Log("-Unit>TakeDamage(int dmg)- says: " + unitName + " has taken " + dmg + " damage, and now has HP " + currentHP + ".");
+
         return CheckIfDead();
     }
 
     public Boolean TakeDamage(int dmg, int special)
     {
         currentHP -= (dmg + special);
+
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
+
+        Debug.Log("-Unit>TakeDamage(int dmg, int special)- says: " + unitName + " has taken " + dmg + " damage, and now has HP " + currentHP + ".");
 
         return CheckIfDead();
     }

@@ -20,10 +20,11 @@ public class CheckHP : Node
     {
         if (unit.currentHP <= HPLevel)
         {
-            Debug.Log("CheckHP SUCCESS");
+            Debug.Log("-CheckHP- says: " + unit.unitName + " has HP " + unit.currentHP + " that is less or equal to " + HPLevel);
             state = NodeState.SUCCESS;
             return state;
         }
+        Debug.Log("-CheckHP- says: " + unit.unitName + " has HP " + unit.currentHP + "that is greater than " + HPLevel);
         state = NodeState.FAILURE;
         return state;
     }

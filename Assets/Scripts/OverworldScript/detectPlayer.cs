@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
@@ -16,7 +15,6 @@ public class detectPlayer : MonoBehaviour
     public int battleNumber;
     private Animator anim;
     private Renderer rend;
-    private PlayableDirector director;
     public GameObject controlPanel;
     public float delay = 3.0f;
     float timer = 0.0f;
