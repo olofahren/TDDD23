@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6689766384296792143}
   - component: {fileID: 1182345604553704273}
   - component: {fileID: 5408596767112924508}
+  - component: {fileID: -993960060693657407}
   m_Layer: 0
   m_Name: Player3
   m_TagString: Untagged
@@ -49,13 +50,15 @@ MonoBehaviour:
   unitName: Chicken3
   unitLevel: 1
   damage: 1
-  maxHP: 1
-  currentHP: 0
+  maxHP: 5
+  currentHP: 5
   defense: 0
   speed: 2
   specialSkill1: 1
-  specialSkill2: 0
+  specialSkill2: 2
   specialSkill3: 0
+  noOfSpecialAttacks: 0
+  noOfHeals: 10
   unitType: player
   unitNr: 3
   enemyUnit: 
@@ -132,3 +135,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-993960060693657407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444344174550181992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe4b412b412684469e5faa1f5bb92b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

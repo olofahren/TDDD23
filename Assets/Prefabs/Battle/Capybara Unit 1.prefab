@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3330998484999001650}
   - component: {fileID: 1601965363794010770}
   - component: {fileID: 4432868435971337375}
-  - component: {fileID: 3881783426440206460}
+  - component: {fileID: -733899730192936521}
   m_Layer: 0
   m_Name: Capybara Unit 1
   m_TagString: Untagged
@@ -112,6 +112,8 @@ MonoBehaviour:
   specialSkill1: 5
   specialSkill2: 0
   specialSkill3: 0
+  noOfSpecialAttacks: 0
+  noOfHeals: 2
   unitType: enemy
   unitNr: 0
   enemyUnit: capybara
@@ -176,7 +178,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3881783426440206460
+--- !u!114 &-733899730192936521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,7 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2175751029133967280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b50fe96aaf9a3414eb7cb4eebf427fa4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2827b489b5b96e346bf631918ea58f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectEnemy: {fileID: 2175751029133967280}

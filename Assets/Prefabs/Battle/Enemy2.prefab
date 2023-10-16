@@ -133,13 +133,15 @@ MonoBehaviour:
   unitName: A Rock
   unitLevel: 5
   damage: 1
-  maxHP: 5
-  currentHP: 5
+  maxHP: 30
+  currentHP: 30
   defense: 0
   speed: 1
   specialSkill1: 4
   specialSkill2: 0
   specialSkill3: 0
+  noOfSpecialAttacks: 3
+  noOfHeals: 1
   unitType: enemy
   unitNr: 1
   enemyUnit: rock
