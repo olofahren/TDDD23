@@ -172,17 +172,20 @@ public class BattleSystem : MonoBehaviour
         playerUnit3 = playerGO3.GetComponent<Unit>(); // Access the UI units
 
 
-        playerUnit1.setUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
+        playerUnit1.SetUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
             PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
-            PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"), PlayerPrefs.GetInt("Chicken1maxEXP"), PlayerPrefs.GetFloat("Chicken1cEXP"));
+            PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"), 
+            PlayerPrefs.GetInt("Chicken1maxEXP"), PlayerPrefs.GetFloat("Chicken1cEXP"), PlayerPrefs.GetInt("Chicken1nrSpA"), PlayerPrefs.GetInt("Chicken1nrHeal"));
 
-        playerUnit2.setUnit(PlayerPrefs.GetInt("Chicken2Lvl"), PlayerPrefs.GetInt("Chicken2dmg"), PlayerPrefs.GetInt("Chicken2maxHP"),
+        playerUnit2.SetUnit(PlayerPrefs.GetInt("Chicken2Lvl"), PlayerPrefs.GetInt("Chicken2dmg"), PlayerPrefs.GetInt("Chicken2maxHP"),
              PlayerPrefs.GetInt("Chicken2cHP"), PlayerPrefs.GetInt("Chicken2def"), PlayerPrefs.GetInt("Chicken2speed"),
-            PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"), PlayerPrefs.GetInt("Chicken2maxEXP"), PlayerPrefs.GetFloat("Chicken2cEXP"));
+            PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"), 
+            PlayerPrefs.GetInt("Chicken2maxEXP"), PlayerPrefs.GetFloat("Chicken2cEXP"), PlayerPrefs.GetInt("Chicken2nrSpA"), PlayerPrefs.GetInt("Chicken2nrHeal"));
 
-        playerUnit3.setUnit(PlayerPrefs.GetInt("Chicken3Lvl"), PlayerPrefs.GetInt("Chicken3dmg"), PlayerPrefs.GetInt("Chicken3maxHP"),
+        playerUnit3.SetUnit(PlayerPrefs.GetInt("Chicken3Lvl"), PlayerPrefs.GetInt("Chicken3dmg"), PlayerPrefs.GetInt("Chicken3maxHP"),
              PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
-            PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"), PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"));
+            PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"), 
+            PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"), PlayerPrefs.GetInt("Chicken3nrSpA"), PlayerPrefs.GetInt("Chicken3nrHeal"));
 
         //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
@@ -457,15 +460,18 @@ public class BattleSystem : MonoBehaviour
         // Re-sets the PlayerPrefs variables for the chickens
         battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
             playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3, playerUnit1.maxExp, playerUnit1.currentExp);
+            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3, 
+            playerUnit1.maxExp, playerUnit1.currentExp, playerUnit1.noOfSpecialAttacks, playerUnit1.noOfHeals);
 
         battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
                     playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3, playerUnit2.maxExp, playerUnit2.currentExp);
+                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3, 
+                    playerUnit2.maxExp, playerUnit2.currentExp, playerUnit2.noOfSpecialAttacks, playerUnit2.noOfHeals);
 
         battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
                     playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3, playerUnit3.maxExp, playerUnit3.currentExp);
+                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3, 
+                    playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals);
 
         Debug.Log("-BattleSystem- says: re-assigned stats");
 

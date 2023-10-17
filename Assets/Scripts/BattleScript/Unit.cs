@@ -36,13 +36,11 @@ public class Unit : MonoBehaviour
     // Enemny unit type
     public string enemyUnit;
 
-
-    public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
     // EXP
     public int maxExp;
     public float currentExp;
 
-    public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3, int maxEXP, float cEXP)
+    public void SetUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3, int maxEXP, float cEXP, int nrSpA, int nrHeal)
     {
         Debug.Log("-Unit- says: unit " + unitName + " has been set up.");
         unitLevel = lvl;
@@ -56,6 +54,8 @@ public class Unit : MonoBehaviour
         specialSkill3 = special3;
         maxExp = maxEXP;
         currentExp = cEXP;
+        noOfSpecialAttacks = nrSpA;
+        noOfHeals = nrHeal;
     }
 
     private Boolean CheckIfDead()
