@@ -41,9 +41,9 @@ public class startGame : MonoBehaviour
             player3.specialSill1, player3.specialSill2, player3.specialSill3);*/
 
         // AssignStats(unitNr, lvl, damage, maxHP, currentHP, defense, speed, specialSkill1, spcialSkill2, speicalSkill3)
-        battleFunctions.AssignStats(1, 1, 1, 10, 10, 2, 1, 1, 1, 1, 10, 0.0f, 2, 2);
-        battleFunctions.AssignStats(2, 1, 2, 8, 8, 1, 3, 1, 1, 1, 10, 0.0f, 2 ,2);
-        battleFunctions.AssignStats(3, 1, 1, 12, 12, 1, 1, 1, 1, 1, 10, 0.0f, 2, 2);
+        battleFunctions.AssignStats(1, 1, 1, 10, 10, 2, 1, 1, 1, 1, 10, 0.0f, 2, 2, 2, 2);
+        battleFunctions.AssignStats(2, 1, 2, 8, 8, 1, 3, 1, 1, 1, 10, 0.0f, 2 ,2, 2, 2);
+        battleFunctions.AssignStats(3, 1, 1, 12, 12, 1, 1, 1, 1, 1, 10, 0.0f, 2, 2, 2, 2);
 
         // Load scene
         SceneManager.LoadScene("Intro World");

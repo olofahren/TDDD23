@@ -23,7 +23,9 @@ public class Unit : MonoBehaviour
 
     //variables to keep track of special attacks and heals
     public int noOfSpecialAttacks;
+    public int maxOfSpecialAttacks;
     public int noOfHeals;
+    public int maxOfHeals;
 
     //public GameObject battleMenu;
    // public Boolean showBattleMenu;
@@ -40,7 +42,9 @@ public class Unit : MonoBehaviour
     public int maxExp;
     public float currentExp;
 
-    public void SetUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3, int maxEXP, float cEXP, int nrSpA, int nrHeal)
+    public void SetUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, 
+        int special1, int special2, int special3, int maxEXP, float cEXP, 
+        int nrSpA, int nrHeal, int maxNrSpA, int maxNrHeal)
     {
         Debug.Log("-Unit- says: unit " + unitName + " has been set up.");
         unitLevel = lvl;
@@ -56,6 +60,8 @@ public class Unit : MonoBehaviour
         currentExp = cEXP;
         noOfSpecialAttacks = nrSpA;
         noOfHeals = nrHeal;
+        maxOfSpecialAttacks = maxNrSpA;
+        maxOfHeals = maxNrHeal;
     }
 
     private Boolean CheckIfDead()
@@ -100,25 +106,10 @@ public class Unit : MonoBehaviour
         return CheckIfDead();
     }
 
-    public Boolean BlockDamage(int dmg, int def)
-    {
-        int totDmg = dmg - def;
-
-        if (totDmg < 0)
-        {
-            totDmg = 0;
-        }
-
-        Debug.Log(totDmg);
-
-        currentHP -= totDmg;
-
-        return CheckIfDead();
-    }
-
     public bool Heal(int amount)
     {
-        if(noOfHeals >= 1)
+        Debug.Log("-Unit>Heal(int amount)- says: " + unitName + " has noOfHeals" + noOfHeals + " left");
+        if (noOfHeals >= 1)
         {
             currentHP += amount;
             noOfHeals--;
@@ -127,11 +118,12 @@ public class Unit : MonoBehaviour
             {
                 currentHP = maxHP;
             }
+
             return true;
         }
         return false;
-        
     }
+
     public void SetEXP(float exp)
     {
         currentExp += exp;

@@ -177,24 +177,26 @@ public class BattleSystem : MonoBehaviour
         playerUnit1.SetUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
             PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
             PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"), 
-            PlayerPrefs.GetInt("Chicken1maxEXP"), PlayerPrefs.GetFloat("Chicken1cEXP"), PlayerPrefs.GetInt("Chicken1nrSpA"), PlayerPrefs.GetInt("Chicken1nrHeal"));
+            PlayerPrefs.GetInt("Chicken1maxEXP"), PlayerPrefs.GetFloat("Chicken1cEXP"), PlayerPrefs.GetInt("Chicken1nrSpA"), PlayerPrefs.GetInt("Chicken1nrHeal"),
+            PlayerPrefs.GetInt("Chicken1maxNrSpA"), PlayerPrefs.GetInt("Chicken1maxNrHeal"));
 
         playerUnit2.SetUnit(PlayerPrefs.GetInt("Chicken2Lvl"), PlayerPrefs.GetInt("Chicken2dmg"), PlayerPrefs.GetInt("Chicken2maxHP"),
-             PlayerPrefs.GetInt("Chicken2cHP"), PlayerPrefs.GetInt("Chicken2def"), PlayerPrefs.GetInt("Chicken2speed"),
+            PlayerPrefs.GetInt("Chicken2cHP"), PlayerPrefs.GetInt("Chicken2def"), PlayerPrefs.GetInt("Chicken2speed"),
             PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"), 
-            PlayerPrefs.GetInt("Chicken2maxEXP"), PlayerPrefs.GetFloat("Chicken2cEXP"), PlayerPrefs.GetInt("Chicken2nrSpA"), PlayerPrefs.GetInt("Chicken2nrHeal"));
+            PlayerPrefs.GetInt("Chicken2maxEXP"), PlayerPrefs.GetFloat("Chicken2cEXP"), PlayerPrefs.GetInt("Chicken2nrSpA"), PlayerPrefs.GetInt("Chicken2nrHeal"),
+            PlayerPrefs.GetInt("Chicken2maxNrSpA"), PlayerPrefs.GetInt("Chicken2maxNrHeal"));
 
         playerUnit3.SetUnit(PlayerPrefs.GetInt("Chicken3Lvl"), PlayerPrefs.GetInt("Chicken3dmg"), PlayerPrefs.GetInt("Chicken3maxHP"),
-             PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
+            PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
             PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"), 
-            PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"), PlayerPrefs.GetInt("Chicken3nrSpA"), PlayerPrefs.GetInt("Chicken3nrHeal"));
+            PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"), PlayerPrefs.GetInt("Chicken3nrSpA"), PlayerPrefs.GetInt("Chicken3nrHeal"),
+            PlayerPrefs.GetInt("Chicken3maxNrSpA"), PlayerPrefs.GetInt("Chicken3maxNrHeal"));
 
         //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
         // Checking if any of the chickens are dead
         if (playerUnit1.currentHP <= 0)
         {
-            Debug.Log("Chicken1 is dead");
             player1Dead = true;
         }
         if (playerUnit2.currentHP <= 0)
@@ -202,7 +204,6 @@ public class BattleSystem : MonoBehaviour
         {
             player2Dead = true;
         }
-        
         if (playerUnit3.currentHP <= 0)
         {
             player3Dead = true;
@@ -285,6 +286,9 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
+            spaceBarIcon.SetActive(true);
+            yield return new WaitForKey(KeyCode.Space);
+            spaceBarIcon.SetActive(false);
             StartCoroutine(EndBattle());
         }
         else
@@ -462,29 +466,23 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EndBattle()
     {
         // Re-sets the PlayerPrefs variables for the chickens
-        battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
-            playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3, 
-            playerUnit1.maxExp, playerUnit1.currentExp, playerUnit1.noOfSpecialAttacks, playerUnit1.noOfHeals);
+        battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel, playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, 
+            playerUnit1.defense, playerUnit1.speed, playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3, 
+            playerUnit1.maxExp, playerUnit1.currentExp, playerUnit1.noOfSpecialAttacks, playerUnit1.noOfHeals, playerUnit1.maxOfSpecialAttacks, playerUnit1.maxOfHeals);
 
-        battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
-                    playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3, 
-                    playerUnit2.maxExp, playerUnit2.currentExp, playerUnit2.noOfSpecialAttacks, playerUnit2.noOfHeals);
+        battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel, playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, 
+            playerUnit2.defense, playerUnit2.speed, playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3, 
+            playerUnit2.maxExp, playerUnit2.currentExp, playerUnit2.noOfSpecialAttacks, playerUnit2.noOfHeals, playerUnit2.maxOfSpecialAttacks, playerUnit2.maxOfHeals);
 
-        battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
-                    playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3, 
-                    playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals);
+        battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel, playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, 
+            playerUnit3.defense, playerUnit3.speed, playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3, 
+            playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals, playerUnit3.maxOfSpecialAttacks, playerUnit3.maxOfHeals);
 
         Debug.Log("-BattleSystem- says: re-assigned stats");
 
         if (state == BattleState.WON)
         {
-            spaceBarIcon.SetActive(true);
-            yield return new WaitForKey(KeyCode.Space);
-            spaceBarIcon.SetActive(false);
-
+ 
             battleNumber = PlayerPrefs.GetInt("currentBattle");
 
             completedBattles[battleNumber] = 1;
@@ -524,19 +522,19 @@ public class BattleSystem : MonoBehaviour
     {
         Unit currentUnit = allUnit[turnIndex];
 
-        currentUnit.Heal(5);
+        bool hasHealed = currentUnit.Heal(5);
 
-        if (currentUnit.unitNr == 1)
+        if (currentUnit.unitNr == 1 && hasHealed)
         {
             playerHUD1.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
         }
-        else if (allUnit[turnIndex].unitNr == 2)
+        else if (allUnit[turnIndex].unitNr == 2 && hasHealed)
         {
             playerHUD2.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
         }
-        else if(allUnit[turnIndex].unitNr == 3)// Unit 3
+        else if(allUnit[turnIndex].unitNr == 3 && hasHealed)// Unit 3
         {
             playerHUD3.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
@@ -613,6 +611,11 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
+
+            spaceBarIcon.SetActive(true);
+            yield return new WaitForKey(KeyCode.Space);
+            spaceBarIcon.SetActive(false);
+
             StartCoroutine(EndBattle());
         }
         else
@@ -623,33 +626,6 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    IEnumerator PlayerBlock()
-    {
-
-        if (allUnit[turnIndex].unitNr == 1)
-        {
-            blockingPlayer1 = true;
-
-        }
-        else if (allUnit[turnIndex].unitNr == 2)
-        {
-            blockingPlayer2 = true;
-        }
-        else // Unit 3
-        {
-            blockingPlayer3 = true;
-        }
-
-
-        state = BattleState.WAITING; // Prevent button spamming
-
-        yield return new WaitForSeconds(2f);
-
-        //state = BattleState.ENEMYTURN;
-        //StartCoroutine(EnemyTurn());
-        GetState(allUnit[turnIndex].unitType);
-
-    }
     public IEnumerator PlayerFlee()
     {
         state = BattleState.WAITING;
@@ -681,7 +657,7 @@ public class BattleSystem : MonoBehaviour
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
-    public void OnBlockButton()
+    public void OnSpecialAttackButton()
     {
         if (state != BattleState.PLAYERTURN)
         {
