@@ -459,7 +459,6 @@ public class BattleSystem : MonoBehaviour
     // On battle end
     IEnumerator EndBattle()
     {
-        yield return new WaitForKey(KeyCode.Space);
         // Re-sets the PlayerPrefs variables for the chickens
         battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
             playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
@@ -480,6 +479,7 @@ public class BattleSystem : MonoBehaviour
 
         if (state == BattleState.WON)
         {
+            yield return new WaitForKey(KeyCode.Space);
             battleNumber = PlayerPrefs.GetInt("currentBattle");
 
             completedBattles[battleNumber] = 1;
@@ -649,8 +649,7 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.WAITING;
         state = BattleState.FLEE;
-
-        EndBattle();
+        StartCoroutine(EndBattle());
         yield return new WaitForSeconds(2f);
     }
 
