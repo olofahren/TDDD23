@@ -41,6 +41,7 @@ public class BattleSystem : MonoBehaviour
 
     // UI Texts
     public TextMeshProUGUI dialogueText;
+    public Image dialogueImage;
 
     public BattleHud playerHUD1;
     public BattleHud playerHUD2;
@@ -447,7 +448,9 @@ public class BattleSystem : MonoBehaviour
             Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
         }
 
+        dialogueImage.enabled = true;
         yield return new WaitForKey(KeyCode.Space);
+        dialogueImage.enabled = false;
 
         dialogueText.text = "The chickens gained " + enemyUnit.currentExp + " EXP.";
     }
