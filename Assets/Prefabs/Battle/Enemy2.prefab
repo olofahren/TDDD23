@@ -137,14 +137,16 @@ MonoBehaviour:
   currentHP: 30
   defense: 0
   speed: 1
-  specialSkill1: 4
-  specialSkill2: 0
+  specialSkill1: 1
+  specialSkill2: 1
   specialSkill3: 0
   noOfSpecialAttacks: 3
   noOfHeals: 1
   unitType: enemy
   unitNr: 1
   enemyUnit: rock
+  maxExp: 0
+  currentExp: 5
 --- !u!114 &-2080984032829808776
 MonoBehaviour:
   m_ObjectHideFlags: 0

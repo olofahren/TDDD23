@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using static UnityEngine.UI.CanvasScaler;
 
 
 // Defining enums
@@ -87,9 +88,9 @@ public class BattleSystem : MonoBehaviour
     private List<int> completedBattles;
     private int battleNumber;
 
-    public bool player1Dead = false;
-    public bool player2Dead = false;
-    public bool player3Dead = false;
+    public Boolean player1Dead = false;
+    public Boolean player2Dead = false;
+    public Boolean player3Dead = false;
 
 
     // Start is called before the first frame update
@@ -173,15 +174,15 @@ public class BattleSystem : MonoBehaviour
 
         playerUnit1.setUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
             PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
-            PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"));
+            PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"), PlayerPrefs.GetInt("Chicken1maxEXP"), PlayerPrefs.GetFloat("Chicken1cEXP"));
 
         playerUnit2.setUnit(PlayerPrefs.GetInt("Chicken2Lvl"), PlayerPrefs.GetInt("Chicken2dmg"), PlayerPrefs.GetInt("Chicken2maxHP"),
              PlayerPrefs.GetInt("Chicken2cHP"), PlayerPrefs.GetInt("Chicken2def"), PlayerPrefs.GetInt("Chicken2speed"),
-            PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"));
+            PlayerPrefs.GetInt("Chicken2special1"), PlayerPrefs.GetInt("Chicken2special2"), PlayerPrefs.GetInt("Chicken2special3"), PlayerPrefs.GetInt("Chicken2maxEXP"), PlayerPrefs.GetFloat("Chicken2cEXP"));
 
         playerUnit3.setUnit(PlayerPrefs.GetInt("Chicken3Lvl"), PlayerPrefs.GetInt("Chicken3dmg"), PlayerPrefs.GetInt("Chicken3maxHP"),
              PlayerPrefs.GetInt("Chicken3cHP"), PlayerPrefs.GetInt("Chicken3def"), PlayerPrefs.GetInt("Chicken3speed"),
-            PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"));
+            PlayerPrefs.GetInt("Chicken3special1"), PlayerPrefs.GetInt("Chicken3special2"), PlayerPrefs.GetInt("Chicken3special3"), PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"));
 
         //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
@@ -221,6 +222,7 @@ public class BattleSystem : MonoBehaviour
 
         // Resets enemy HP to max at start of battle
         PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
+        PlayerPrefs.SetFloat("EnemycEXP", enemyUnit.currentExp);
 
         dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
 
@@ -277,7 +279,8 @@ public class BattleSystem : MonoBehaviour
         {
             // End the battle
             state = BattleState.WON;
-            EndBattle();
+            StartCoroutine(GetEXP()); // Set exp when the battle is done
+            StartCoroutine(EndBattle());
         }
         else
         {
@@ -295,27 +298,6 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         // Get the behavior tree for the enemy to do stuff
-
-        /* if (blockingPlayer1)
-         {
-             isDead = playerUnit1.BlockDamage(enemyUnit.damage, playerUnit1.defense);
-             blockingPlayer1 = false;
-             //Debug.Log(blockingPlayer1);
-         }
-         else if(blockingPlayer2)
-         {
-             isDead = playerUnit2.BlockDamage(enemyUnit.damage, playerUnit2.defense);
-             blockingPlayer2 = false;
-         }
-         else if(blockingPlayer3)
-         {
-             isDead = playerUnit3.BlockDamage(enemyUnit.damage, playerUnit3.defense);
-             blockingPlayer2 = false;
-         }
-         else
-         {
-             isDead = playerUnit2.TakeDamage(enemyUnit.damage); // Damage the player
-         }*/
 
         // Update the current HP since the units are copies and not the actual prefab
         // UI also gets updated
@@ -364,7 +346,7 @@ public class BattleSystem : MonoBehaviour
         if ((player1Dead && player2Dead && player3Dead))
         {
             state = BattleState.LOST;
-            EndBattle();
+            StartCoroutine(EndBattle());
             yield return new WaitForSeconds(2f);
         }
         else
@@ -434,22 +416,58 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    IEnumerator GetEXP()
+    {
+        dialogueText.text = "You won the battle!";
+
+        Debug.Log("-BattleSystem- says: getEXP function called");
+
+        if (player1Dead == false)
+        {
+            playerUnit1.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD1.SetEXP(PlayerPrefs.GetFloat("Chicken1cEXP"));
+            playerHUD1.SetLVL(PlayerPrefs.GetInt("Chicken1Lvl"));
+            Debug.Log("-BattleSystem- says: " + playerUnit1.unitName + " gained EXP");
+        }
+        if (player2Dead == false)
+        {
+            playerUnit2.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD2.SetEXP(PlayerPrefs.GetFloat("Chicken2cEXP"));
+            playerHUD2.SetLVL(PlayerPrefs.GetInt("Chicken2Lvl"));
+            Debug.Log("-BattleSystem- says: " + playerUnit2.unitName + " gained EXP");
+        }
+        if (player3Dead == false)
+        {
+            playerUnit3.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD3.SetEXP(PlayerPrefs.GetFloat("Chicken3cEXP"));
+            playerHUD3.SetLVL(PlayerPrefs.GetInt("Chicken3Lvl"));
+            Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
+        }
+
+        yield return new WaitForKey(KeyCode.Space);
+
+        dialogueText.text = "The chickens gained " + enemyUnit.currentExp + " EXP.";
+    }
+
 
     // On battle end
-    public void EndBattle()
+    IEnumerator EndBattle()
     {
+        yield return new WaitForKey(KeyCode.Space);
         // Re-sets the PlayerPrefs variables for the chickens
         battleFunctions.AssignStats(playerUnit1.unitNr, playerUnit1.unitLevel,
             playerUnit1.damage, playerUnit1.maxHP, playerUnit1.currentHP, playerUnit1.defense, playerUnit1.speed,
-            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3);
+            playerUnit1.specialSkill1, playerUnit1.specialSkill2, playerUnit1.specialSkill3, playerUnit1.maxExp, playerUnit1.currentExp);
 
         battleFunctions.AssignStats(playerUnit2.unitNr, playerUnit2.unitLevel,
                     playerUnit2.damage, playerUnit2.maxHP, playerUnit2.currentHP, playerUnit2.defense, playerUnit2.speed,
-                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3);
+                    playerUnit2.specialSkill1, playerUnit2.specialSkill2, playerUnit2.specialSkill3, playerUnit2.maxExp, playerUnit2.currentExp);
 
         battleFunctions.AssignStats(playerUnit3.unitNr, playerUnit3.unitLevel,
                     playerUnit3.damage, playerUnit3.maxHP, playerUnit3.currentHP, playerUnit3.defense, playerUnit3.speed,
-                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3);
+                    playerUnit3.specialSkill1, playerUnit3.specialSkill2, playerUnit3.specialSkill3, playerUnit3.maxExp, playerUnit3.currentExp);
+
+        Debug.Log("-BattleSystem- says: re-assigned stats");
 
         if (state == BattleState.WON)
         {
@@ -458,9 +476,12 @@ public class BattleSystem : MonoBehaviour
             completedBattles[battleNumber] = 1;
             PlayerPrefsExtra.SetList("completedBattles", completedBattles);
 
-            dialogueText.text = "You won the battle!";
-
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+            //SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld")); // Load overworld
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("currentWorld"));
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
         }
         else if (state == BattleState.LOST)
         {
@@ -476,8 +497,6 @@ public class BattleSystem : MonoBehaviour
         }
 
     }
-
-
 
     // On players turn
     void PlayerTurn()
@@ -579,7 +598,8 @@ public class BattleSystem : MonoBehaviour
         {
             // End the battle
             state = BattleState.WON;
-            EndBattle();
+            StartCoroutine(GetEXP()); // Set exp when the battle is done
+            StartCoroutine(EndBattle());
         }
         else
         {

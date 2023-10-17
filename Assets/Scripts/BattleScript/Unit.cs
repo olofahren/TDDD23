@@ -34,10 +34,15 @@ public class Unit : MonoBehaviour
     //public BattleHud battleHud;
 
     // Enemny unit type
-    public string enemyUnit; 
+    public string enemyUnit;
 
 
     public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
+    // EXP
+    public int maxExp;
+    public float currentExp;
+
+    public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3, int maxEXP, float cEXP)
     {
         Debug.Log("-Unit- says: unit " + unitName + " has been set up.");
         unitLevel = lvl;
@@ -49,6 +54,8 @@ public class Unit : MonoBehaviour
         specialSkill1 = special1;
         specialSkill2 = special2;
         specialSkill3 = special3;
+        maxExp = maxEXP;
+        currentExp = cEXP;
     }
 
     private Boolean CheckIfDead()
@@ -125,5 +132,22 @@ public class Unit : MonoBehaviour
         return false;
         
     }
+    public void SetEXP(float exp)
+    {
+        currentExp += exp;
+
+        if (currentExp >= maxExp)
+        {
+            currentExp -= maxExp;
+            unitLevel += 1;
+            maxExp += 10;
+            PlayerPrefs.SetInt("Chicken" + unitNr + "Lvl", unitLevel);
+            PlayerPrefs.SetInt("Chicken" + unitNr + "maxEXP", maxExp);
+        }
+
+        PlayerPrefs.SetFloat("Chicken" + unitNr + "cEXP", currentExp);
+        Debug.Log("-Unit- says: " + unitName + "-> lvl: " + unitLevel + ", cEXP: " + currentExp + ", maxEXP: " + maxExp);
+    }
+
 
 }

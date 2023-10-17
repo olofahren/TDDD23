@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleFunctions : MonoBehaviour
 {
-    public void AssignStats(int unitNr, int lvl, int dmg, int mHP, int cHP, int def, int spe, int spec1, int spec2, int spec3)
+    public void AssignStats(int unitNr, int lvl, int dmg, int mHP, int cHP, int def, int spe, int spec1, int spec2, int spec3, int maxEXP, float cEXP)
     {
         PlayerPrefs.SetInt("Chicken" + unitNr + "Lvl", lvl);
         PlayerPrefs.SetInt("Chicken" + unitNr + "dmg", dmg);
@@ -15,8 +15,11 @@ public class BattleFunctions : MonoBehaviour
         PlayerPrefs.SetInt("Chicken" + unitNr + "special1", spec1);
         PlayerPrefs.SetInt("Chicken" + unitNr + "special2", spec2);
         PlayerPrefs.SetInt("Chicken" + unitNr + "special3", spec3);
+        PlayerPrefs.SetInt("Chicken" + unitNr + "maxEXP", maxEXP);
+        PlayerPrefs.SetFloat("Chicken" + unitNr + "cEXP", cEXP);
 
-        Debug.Log("Chicken" + unitNr + "cHP: " + cHP);
+        Debug.Log("-BattleFunction - says: Chicken" + unitNr + " is lvl " + lvl);
+
     }
 
 }

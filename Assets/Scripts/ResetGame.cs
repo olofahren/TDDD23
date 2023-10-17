@@ -29,15 +29,15 @@ public class ResetGame : MonoBehaviour
         // Player Unit Set Stats
         battleFunctions.AssignStats(player1.unitNr, player1.unitLevel, player1.damage,
             player1.maxHP, player1.maxHP, player1.defense, player1.speed,
-            player1.specialSkill1, player1.specialSkill2, player1.specialSkill3);
+            player1.specialSkill1, player1.specialSkill2, player1.specialSkill3, player1.maxExp, player1.currentExp);
 
         battleFunctions.AssignStats(player2.unitNr, player2.unitLevel, player2.damage,
             player2.maxHP, player2.maxHP, player2.defense, player2.speed,
-            player2.specialSkill1, player2.specialSkill2, player2.specialSkill3);
+            player2.specialSkill1, player2.specialSkill2, player2.specialSkill3, player2.maxExp, player2.currentExp);
 
         battleFunctions.AssignStats(player3.unitNr, player3.unitLevel, player3.damage,
             player3.maxHP, player3.maxHP, player3.defense, player3.speed,
-            player3.specialSkill1, player3.specialSkill2, player3.specialSkill3);
+            player3.specialSkill1, player3.specialSkill2, player3.specialSkill3, player3.maxExp, player3.currentExp);
 
         // Reload the scene
         SceneManager.LoadScene("Main World");
