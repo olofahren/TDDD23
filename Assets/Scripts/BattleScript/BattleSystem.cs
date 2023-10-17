@@ -41,7 +41,8 @@ public class BattleSystem : MonoBehaviour
 
     // UI Texts
     public TextMeshProUGUI dialogueText;
-    public Image dialogueImage;
+    //public Image dialogueImage;
+    public GameObject spaceBarIcon;
 
     public BattleHud playerHUD1;
     public BattleHud playerHUD2;
@@ -448,9 +449,10 @@ public class BattleSystem : MonoBehaviour
             Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
         }
 
-        dialogueImage.enabled = true;
+        // Wait for the space bar to be pressed
+        spaceBarIcon.SetActive(true);
         yield return new WaitForKey(KeyCode.Space);
-        dialogueImage.enabled = false;
+        spaceBarIcon.SetActive(false);
 
         dialogueText.text = "The chickens gained " + enemyUnit.currentExp + " EXP.";
     }
@@ -479,7 +481,10 @@ public class BattleSystem : MonoBehaviour
 
         if (state == BattleState.WON)
         {
+            spaceBarIcon.SetActive(true);
             yield return new WaitForKey(KeyCode.Space);
+            spaceBarIcon.SetActive(false);
+
             battleNumber = PlayerPrefs.GetInt("currentBattle");
 
             completedBattles[battleNumber] = 1;
