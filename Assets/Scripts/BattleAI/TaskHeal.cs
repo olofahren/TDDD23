@@ -9,6 +9,7 @@ public class TaskHeal : Node
 {
     private Unit unit;
     private int healHp;
+    private bool healState;
     public TaskHeal(Unit u, int hhp)
     {
         unit = u;
@@ -17,12 +18,23 @@ public class TaskHeal : Node
     public override NodeState Evaluate()
     {
 
-        unit.Heal(healHp);
-        Debug.Log("-TaskHeal- says: " + unit.unitName + " has healed " + healHp + " HP.");
+        healState = unit.Heal(healHp);
 
-        PlayerPrefs.SetInt("EnemycHP", unit.currentHP);
+        if(healState == true )
+        {
+            Debug.Log("-TaskHeal- says: " + unit.unitName + " has healed " + healHp + " HP.");
+            PlayerPrefs.SetInt("EnemycHP", unit.currentHP);
+            state = NodeState.SUCCESS; // State succeed??? 
+            return state;
+        }
+        else
+        {
+            Debug.Log("-TaskHeal- says: " + unit.unitName + " has NOT healed, since it has no heals left.");
+            state = NodeState.FAILURE;
+            return state;
+        }
 
-        state = NodeState.SUCCESS; // State succeed??? 
-        return state;
+
+
     }
 }

@@ -16,22 +16,31 @@ public class TaskSpecialAttack : Node
     }
     public override NodeState Evaluate()
     {
+        if(enemyUnit.noOfSpecialAttacks >= 1)
+        {
+            // Player take damage
+            bool isDead = playerUnit.TakeDamage(enemyUnit.damage + enemyUnit.specialSkill2);
+            Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " has special attacked " + playerUnit.unitName + " and dealt " + enemyUnit.damage + enemyUnit.specialSkill2);
+            String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
 
-        // Player take damage
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage + enemyUnit.specialSkill2);
-        Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " has special attacked " + playerUnit.unitName + " and dealt " + enemyUnit.damage + enemyUnit.specialSkill2);
-        String tempUnit = "Chicken" + playerUnit.unitNr.ToString() + "cHP";
-
-        //Enemy take damage (Special attack damages the unit using it also)
-        enemyUnit.TakeDamage(enemyUnit.specialSkill2);
-
-
-        // Update the current HP so it can update the UI
-        PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
-        PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            //Enemy take damage (Special attack damages the unit using it also)
+            enemyUnit.TakeDamage(enemyUnit.specialSkill2);
 
 
-        state = NodeState.SUCCESS; // State succeed??? 
-        return state;
+            // Update the current HP so it can update the UI
+            PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
+            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+
+
+            state = NodeState.SUCCESS; // State succeed??? 
+            return state;
+        }
+        else
+        {
+            Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " tried to special attacked " + playerUnit.unitName + ", but failed since it has no special attacks left.");
+            state = NodeState.FAILURE; 
+            return state;
+        }
+
     }
 }

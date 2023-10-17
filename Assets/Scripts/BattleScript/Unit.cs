@@ -21,6 +21,10 @@ public class Unit : MonoBehaviour
     public int specialSkill2;
     public int specialSkill3;
 
+    //variables to keep track of special attacks and heals
+    public int noOfSpecialAttacks;
+    public int noOfHeals;
+
     //public GameObject battleMenu;
    // public Boolean showBattleMenu;
 
@@ -32,6 +36,8 @@ public class Unit : MonoBehaviour
     // Enemny unit type
     public string enemyUnit;
 
+
+    public void setUnit(int lvl, int dmg, int mHP, int cHP, int def, int spe, int special1, int special2, int special3)
     // EXP
     public int maxExp;
     public float currentExp;
@@ -110,14 +116,21 @@ public class Unit : MonoBehaviour
         return CheckIfDead();
     }
 
-    public void Heal(int amount)
+    public bool Heal(int amount)
     {
-        currentHP += amount; 
-
-        if(currentHP > maxHP )
+        if(noOfHeals >= 1)
         {
-            currentHP = maxHP;
+            currentHP += amount;
+            noOfHeals--;
+
+            if (currentHP > maxHP)
+            {
+                currentHP = maxHP;
+            }
+            return true;
         }
+        return false;
+        
     }
     public void SetEXP(float exp)
     {
