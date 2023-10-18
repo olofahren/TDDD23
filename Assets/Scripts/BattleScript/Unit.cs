@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour
         int special1, int special2, int special3, int maxEXP, float cEXP, 
         int nrSpA, int nrHeal, int maxNrSpA, int maxNrHeal)
     {
-        Debug.Log("-Unit- says: unit " + unitName + " has been set up.");
+        Debug.Log("-Unit>SetUnit()- says: unit " + unitName + " has been set up.");
         unitLevel = lvl;
         damage = dmg;
         maxHP = mHP;
@@ -62,9 +62,10 @@ public class Unit : MonoBehaviour
         noOfHeals = nrHeal;
         maxOfSpecialAttacks = maxNrSpA;
         maxOfHeals = maxNrHeal;
+        Debug.Log("-Unit>SetUnit()- says: unit " + unitName + " has maxHP: " + maxHP);
     }
 
-    private Boolean CheckIfDead()
+    public Boolean CheckIfDead()
     {
         if (currentHP <= 0)
         {
@@ -123,6 +124,15 @@ public class Unit : MonoBehaviour
         }
         return false;
     }
+    public void IncreaseStats(int increase)
+    {
+        int newHP = increase * 5;
+
+        SetUnit(unitLevel, damage + increase, maxHP + newHP, currentHP + newHP, defense + increase, speed + increase, 
+            specialSkill1 + increase, specialSkill2 + increase, specialSkill3 + increase, maxExp, currentExp, 
+            maxOfSpecialAttacks + increase, maxOfHeals + increase, maxOfSpecialAttacks + increase, maxOfHeals + increase);
+        Debug.Log("-Unit>IncreaseStats(int increase)- says: " + unitName + "maxHP has increased to: " + maxHP + ", speed has increased to: " + speed);
+    }
 
     public void SetEXP(float exp)
     {
@@ -133,12 +143,13 @@ public class Unit : MonoBehaviour
             currentExp -= maxExp;
             unitLevel += 1;
             maxExp += 10;
+            IncreaseStats(1); // The nr is the increase of the stats for each stat
             PlayerPrefs.SetInt("Chicken" + unitNr + "Lvl", unitLevel);
             PlayerPrefs.SetInt("Chicken" + unitNr + "maxEXP", maxExp);
         }
 
         PlayerPrefs.SetFloat("Chicken" + unitNr + "cEXP", currentExp);
-        Debug.Log("-Unit- says: " + unitName + "-> lvl: " + unitLevel + ", cEXP: " + currentExp + ", maxEXP: " + maxExp);
+        Debug.Log("-Unit>SetEXP(float exp)- says: " + unitName + "-> lvl: " + unitLevel + ", cEXP: " + currentExp + ", maxEXP: " + maxExp);
     }
 
 

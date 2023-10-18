@@ -24,7 +24,8 @@ public class BattleHud : MonoBehaviour
         {
             expSlider.maxValue = unit.maxExp;
             expSlider.value = unit.currentExp;
-            Debug.Log("-BattleHud- says: " + unit.unitName + "-> slider.value: " + unit.currentExp + ", slider.maxValue: " +  unit.maxExp);
+            Debug.Log("-BattleHud>SetHUD(Unit unit)- says: EXP " + unit.unitName + "-> slider.value: " + unit.currentExp + ", slider.maxValue: " +  unit.maxExp);
+            Debug.Log("-BattleHud>SetHUD(Unit unit)- says: HP " + unit.unitName + "-> slider.value: " + unit.currentHP + ", slider.maxValue: " + unit.maxHP);
         }
     }
 

@@ -41,30 +41,15 @@ public class BattleSystem : MonoBehaviour
 
     // UI Texts
     public TextMeshProUGUI dialogueText;
-    //public Image dialogueImage;
     public GameObject spaceBarIcon;
 
     public BattleHud playerHUD1;
     public BattleHud playerHUD2;
     public BattleHud playerHUD3;
 
-
     public BattleHud enemyHUD;
 
-    // UI Skills menu
-    //public Image battleMenu1;
-    //public Image battleMenu2;
-    //public Image battleMenu3;
-
-    //public Image skillMenu;
-    public GameObject skillMenu;
-
     public BattleState state;
-
-    // Block -> Flytta till Unit klassen???
-    private Boolean blockingPlayer1 = false;
-    private Boolean blockingPlayer2 = false;
-    private Boolean blockingPlayer3 = false;
 
     // Show battlemenu
     private Boolean player1BattleMenu = false;
@@ -74,6 +59,12 @@ public class BattleSystem : MonoBehaviour
     public GameObject battleMenu1;
     public GameObject battleMenu2;
     public GameObject battleMenu3;
+
+    public Button battleMenu1FirstButton;
+    public Button battleMenu2FirstButton;
+    public Button battleMenu3FirstButton;
+
+    EventSystem m_EventSystem;
 
     //Array for turn order
     public Unit[] allUnit;
@@ -100,6 +91,8 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.START; // Start of the battle
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
+
+        m_EventSystem = EventSystem.current;
 
         //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
@@ -194,20 +187,10 @@ public class BattleSystem : MonoBehaviour
 
         //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
-        // Checking if any of the chickens are dead
-        if (playerUnit1.currentHP <= 0)
-        {
-            player1Dead = true;
-        }
-        if (playerUnit2.currentHP <= 0)
-
-        {
-            player2Dead = true;
-        }
-        if (playerUnit3.currentHP <= 0)
-        {
-            player3Dead = true;
-        }
+        // Check if chickens are dead
+        player1Dead = playerUnit1.CheckIfDead();
+        player2Dead = playerUnit2.CheckIfDead();
+        player3Dead = playerUnit3.CheckIfDead();
 
         // Finding the correct enemy from the array of prefab enemies 
         String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
@@ -327,7 +310,7 @@ public class BattleSystem : MonoBehaviour
         //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
 
         // Checks the current HP of all chickens if all are below 0
-        if (playerUnit1.currentHP <= 0)
+        if (playerUnit1.CheckIfDead())
         {
             playerUnit1.currentHP = 0;
             player1Dead = true;
@@ -335,14 +318,14 @@ public class BattleSystem : MonoBehaviour
 
         }
 
-        if (playerUnit2.currentHP <= 0)
+        if (playerUnit2.CheckIfDead())
         {
             playerUnit2.currentHP = 0;
             player2Dead = true;
             Debug.Log("Chicken 2 is dead");
         }
 
-        if (playerUnit3.currentHP <= 0)
+        if (playerUnit3.CheckIfDead())
         {
             playerUnit3.currentHP = 0;
             player3Dead = true;
@@ -356,7 +339,6 @@ public class BattleSystem : MonoBehaviour
         {
             state = BattleState.LOST;
             StartCoroutine(EndBattle());
-            yield return new WaitForSeconds(2f);
         }
         else
         {
@@ -377,6 +359,7 @@ public class BattleSystem : MonoBehaviour
             {
                 player1BattleMenu = true;
                 battleMenu1.SetActive(true);
+                battleMenu1FirstButton.Select();
                 playerBattleStation1.transform.position += temp;
             }
             else
@@ -395,6 +378,7 @@ public class BattleSystem : MonoBehaviour
             {
                 player2BattleMenu = true;
                 battleMenu2.SetActive(true);
+                battleMenu2FirstButton.Select();
                 playerBattleStation2.transform.position += temp;
             }
             else
@@ -412,6 +396,7 @@ public class BattleSystem : MonoBehaviour
             {
                 player3BattleMenu = true;
                 battleMenu3.SetActive(true);
+                battleMenu3FirstButton.Select();
                 playerBattleStation3.transform.position += temp;
             }
             else
@@ -558,7 +543,7 @@ public class BattleSystem : MonoBehaviour
     {
         // Damage the enemy
         //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
-        bool isDead = false;
+        bool isDead;
 
         Unit currentUnit = allUnit[turnIndex];
 
@@ -679,11 +664,6 @@ public class BattleSystem : MonoBehaviour
         //EnableBattleMenu();
         StartCoroutine(PlayerFlee());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
-    }
-
-    public void OnSkillButton()
-    {
-        skillMenu.SetActive(true);
     }
 
 }
