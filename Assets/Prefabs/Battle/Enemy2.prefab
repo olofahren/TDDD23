@@ -141,7 +141,9 @@ MonoBehaviour:
   specialSkill2: 1
   specialSkill3: 0
   noOfSpecialAttacks: 3
+  maxOfSpecialAttacks: 3
   noOfHeals: 1
+  maxOfHeals: 1
   unitType: enemy
   unitNr: 1
   enemyUnit: rock

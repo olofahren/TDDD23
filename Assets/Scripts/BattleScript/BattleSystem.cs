@@ -10,7 +10,6 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using static UnityEngine.UI.CanvasScaler;
 
 
 // Defining enums
@@ -52,27 +51,14 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
 
     // Show battlemenu
-    private Boolean player1BattleMenu = false;
     private Boolean player2BattleMenu = false;
-    private Boolean player3BattleMenu = false;
-
-    public GameObject battleMenu1;
     public GameObject battleMenu2;
-    public GameObject battleMenu3;
-
-    public Button battleMenu1FirstButton;
-    public Button battleMenu2FirstButton;
-    public Button battleMenu3FirstButton;
 
     EventSystem m_EventSystem;
 
     //Array for turn order
     public Unit[] allUnit;
     public int turnIndex = 0;
-
-    //Timer
-    //private float delay = 5.0f;
-    //private float timer = 0.0f;
 
     // Other functions in other scripts 
     public GameObject battleScript;
@@ -84,7 +70,6 @@ public class BattleSystem : MonoBehaviour
     public Boolean player1Dead = false;
     public Boolean player2Dead = false;
     public Boolean player3Dead = false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -126,24 +111,22 @@ public class BattleSystem : MonoBehaviour
             else // If the player is dead
             {
                 // Writing text if it cannot perform its turn
-                StartCoroutine(WriteDialogueText());
+                WriteDialogueText(allUnit[turnIndex].unitName + " has fainted.");
+                // Next turn
+                SetTurnIndex();
+                GetState(allUnit[turnIndex].unitType);
             }
         }
         else
         {
-            state = BattleState.ENEMYTURN;
             PlayerPrefs.SetInt("behaviorTreeDoOnce", 1); // To make the behavior tree do once
             StartCoroutine(EnemyTurn());
         }
     }
 
-    IEnumerator WriteDialogueText()
+    private void WriteDialogueText(String text)
     {
-        dialogueText.text = allUnit[turnIndex].unitName + " has fainted.";
-        yield return new WaitForSeconds(2f);
-        // Next turn
-        SetTurnIndex();
-        GetState(allUnit[turnIndex].unitType);
+        dialogueText.text = text;
     }
 
     public void SetTurnIndex()
@@ -213,8 +196,7 @@ public class BattleSystem : MonoBehaviour
         PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
         PlayerPrefs.SetFloat("EnemycEXP", enemyUnit.currentExp);
 
-        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
-
+        WriteDialogueText("A wild " + enemyUnit.unitName + " approaches...");
 
         playerHUD1.SetHUD(playerUnit1);
         playerHUD2.SetHUD(playerUnit2);
@@ -258,9 +240,8 @@ public class BattleSystem : MonoBehaviour
 
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
         state = BattleState.WAITING; // Prevent button spamming
-
-        dialogueText.text = "The attack is succesfull!";
-
+        
+        WriteDialogueText("The attack is succesfull!");
         yield return new WaitForSeconds(2f);
 
         // Check if enemy is dead 
@@ -269,9 +250,6 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
-            spaceBarIcon.SetActive(true);
-            yield return new WaitForKey(KeyCode.Space);
-            spaceBarIcon.SetActive(false);
             StartCoroutine(EndBattle());
         }
         else
@@ -284,12 +262,13 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        // Add AI here if wanted
-        dialogueText.text = enemyUnit.unitName + " turn";
+        state = BattleState.ENEMYTURN;
+        WriteDialogueText(enemyUnit.unitName + " turn");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // Get the behavior tree for the enemy to do stuff
+        WriteDialogueText(PlayerPrefs.GetString("EnemyAttackType"));
 
         // Update the current HP since the units are copies and not the actual prefab
         // UI also gets updated
@@ -305,7 +284,7 @@ public class BattleSystem : MonoBehaviour
         enemyUnit.currentHP = PlayerPrefs.GetInt("EnemycHP");
         enemyHUD.SetHP(enemyUnit.currentHP);
 
-        dialogueText.text = enemyUnit.unitName + " attacks the chickens!";
+        //dialogueText.text = enemyUnit.unitName + " attacks the chickens!";
 
         //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
 
@@ -315,7 +294,6 @@ public class BattleSystem : MonoBehaviour
             playerUnit1.currentHP = 0;
             player1Dead = true;
             Debug.Log("Chicken 1 is dead");
-
         }
 
         if (playerUnit2.CheckIfDead())
@@ -332,7 +310,7 @@ public class BattleSystem : MonoBehaviour
             Debug.Log("Chicken 3 is dead");
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         // If all chickens are dead the battle ends
         if ((player1Dead && player2Dead && player3Dead))
@@ -351,70 +329,60 @@ public class BattleSystem : MonoBehaviour
     // Enable/Disable battle menu
     void EnableBattleMenu(int playerNr)
     {
-        //Debug.Log("Unit Player Nr: " + playerNr);
         Vector3 temp = new(-1.5f, 0, 0);
-        if (playerNr == 1)
+
+        if (!player2BattleMenu)// Show battle menu
         {
-            if (player1BattleMenu == false)
+            player2BattleMenu = true;
+            battleMenu2.SetActive(true);
+
+            if(playerNr == 1) // Move the chicken
             {
-                player1BattleMenu = true;
-                battleMenu1.SetActive(true);
-                battleMenu1FirstButton.Select();
+                battleMenu2.transform.position = playerBattleStation1.transform.position;
                 playerBattleStation1.transform.position += temp;
             }
-            else
+            else if(playerNr == 2)
             {
-                //Debug.Log("tured off battle menu");
-                player1BattleMenu = false;
-                battleMenu1.SetActive(false);
-                playerBattleStation1.transform.position -= temp;
-                SetTurnIndex();
-            }
-
-        }
-        else if (playerNr == 2)
-        {
-            if (player2BattleMenu == false)
-            {
-                player2BattleMenu = true;
-                battleMenu2.SetActive(true);
-                battleMenu2FirstButton.Select();
+                battleMenu2.transform.position = playerBattleStation2.transform.position;
                 playerBattleStation2.transform.position += temp;
             }
             else
             {
-                //Debug.Log("tured off battle menu");
-                player2BattleMenu = false;
-                battleMenu2.SetActive(false);
-                playerBattleStation2.transform.position -= temp;
-                SetTurnIndex();
-            }
-        }
-        else
-        {
-            if (player3BattleMenu == false)
-            {
-                player3BattleMenu = true;
-                battleMenu3.SetActive(true);
-                battleMenu3FirstButton.Select();
+                battleMenu2.transform.position = playerBattleStation3.transform.position;
                 playerBattleStation3.transform.position += temp;
+            }
+
+        }
+        else // Hide battle menu
+        {
+            player2BattleMenu = false;
+            battleMenu2.SetActive(false);
+
+            if (playerNr == 1) // Move back the chicken
+            {
+                playerBattleStation1.transform.position -= temp;
+            }
+            else if (playerNr == 2)
+            {
+                playerBattleStation2.transform.position -= temp;
             }
             else
             {
-                //Debug.Log("tured off battle menu");
-                player3BattleMenu = false;
-                battleMenu3.SetActive(false);
                 playerBattleStation3.transform.position -= temp;
-                SetTurnIndex();
             }
+
+            SetTurnIndex(); // Next turn
         }
     }
 
     IEnumerator GetEXP()
     {
-        dialogueText.text = "You won the battle!";
+        WriteDialogueText("You won the battle!");
+        yield return new WaitForSeconds(2f);
+        WriteDialogueText("The chickens gained " + enemyUnit.currentExp + " EXP.");
+        //Debug.Log("-BattleSystem- says: getEXP function called");
 
-        Debug.Log("-BattleSystem- says: getEXP function called");
+        string tempText = "";
 
         if (player1Dead == false)
         {
@@ -422,6 +390,7 @@ public class BattleSystem : MonoBehaviour
             playerHUD1.SetEXP(PlayerPrefs.GetFloat("Chicken1cEXP"));
             playerHUD1.SetLVL(PlayerPrefs.GetInt("Chicken1Lvl"));
             Debug.Log("-BattleSystem- says: " + playerUnit1.unitName + " gained EXP");
+            tempText += playerUnit1.unitName + ", ";
         }
         if (player2Dead == false)
         {
@@ -429,6 +398,7 @@ public class BattleSystem : MonoBehaviour
             playerHUD2.SetEXP(PlayerPrefs.GetFloat("Chicken2cEXP"));
             playerHUD2.SetLVL(PlayerPrefs.GetInt("Chicken2Lvl"));
             Debug.Log("-BattleSystem- says: " + playerUnit2.unitName + " gained EXP");
+            tempText += playerUnit2.unitName + ", ";
         }
         if (player3Dead == false)
         {
@@ -436,14 +406,13 @@ public class BattleSystem : MonoBehaviour
             playerHUD3.SetEXP(PlayerPrefs.GetFloat("Chicken3cEXP"));
             playerHUD3.SetLVL(PlayerPrefs.GetInt("Chicken3Lvl"));
             Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
+            tempText += playerUnit3.unitName + ", ";
         }
 
-        // Wait for the space bar to be pressed
-        spaceBarIcon.SetActive(true);
-        yield return new WaitForKey(KeyCode.Space);
-        spaceBarIcon.SetActive(false);
+        tempText += " has leveld up!";
+        yield return new WaitForSeconds(2f);
+        WriteDialogueText(tempText);
 
-        dialogueText.text = "The chickens gained " + enemyUnit.currentExp + " EXP.";
     }
 
 
@@ -464,10 +433,14 @@ public class BattleSystem : MonoBehaviour
             playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals, playerUnit3.maxOfSpecialAttacks, playerUnit3.maxOfHeals);
 
         Debug.Log("-BattleSystem- says: re-assigned stats");
+        yield return new WaitForSeconds(5f);
 
         if (state == BattleState.WON)
         {
- 
+            /*spaceBarIcon.SetActive(true);
+            yield return new WaitForKey(KeyCode.Space);
+            spaceBarIcon.SetActive(false);*/
+
             battleNumber = PlayerPrefs.GetInt("currentBattle");
 
             completedBattles[battleNumber] = 1;
@@ -482,13 +455,15 @@ public class BattleSystem : MonoBehaviour
         }
         else if (state == BattleState.LOST)
         {
-            dialogueText.text = "You lost the battle.";
+            WriteDialogueText("You lost the battle.");
+            yield return new WaitForSeconds(2f);
             // Back to menu for now if player loses the battle
             SceneManager.LoadScene("Menu");
         }
         else if (state == BattleState.FLEE)
-        {
-            dialogueText.text = "You fled the battle";
+        {   
+            WriteDialogueText("You fled the battle.");
+            yield return new WaitForSeconds(2f);
 
             SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
@@ -498,7 +473,7 @@ public class BattleSystem : MonoBehaviour
     // On players turn
     void PlayerTurn()
     {
-        dialogueText.text = "Choose an action for " + allUnit[turnIndex].unitName;
+        WriteDialogueText("Choose an action for " + allUnit[turnIndex].unitName);
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
 
@@ -529,12 +504,10 @@ public class BattleSystem : MonoBehaviour
 
         state = BattleState.WAITING; // Prevent button spamming
 
-        dialogueText.text = allUnit[turnIndex].unitName + " feel renewed!";
+        WriteDialogueText(currentUnit.unitName + " feel renewed!");
 
         yield return new WaitForSeconds(2f);
 
-        //state = BattleState.ENEMYTURN;
-        //StartCoroutine(EnemyTurn());
         GetState(allUnit[turnIndex].unitType);
     }
 
@@ -542,7 +515,6 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerSpecialAttack()
     {
         // Damage the enemy
-        //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
         bool isDead;
 
         Unit currentUnit = allUnit[turnIndex];
@@ -586,7 +558,7 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.WAITING; // Prevent button spamming
 
         // Change the name of the attack later
-        dialogueText.text = "The special attack is succesfull! \n" + currentUnit.unitName + " took " + currentUnit.specialSkill2 + " damage.";
+        WriteDialogueText("The special attack is succesfull! \n" + currentUnit.unitName + " took " + currentUnit.specialSkill2 + " damage.");
 
         yield return new WaitForSeconds(2f);
 
@@ -596,19 +568,12 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
-
-            spaceBarIcon.SetActive(true);
-            yield return new WaitForKey(KeyCode.Space);
-            spaceBarIcon.SetActive(false);
-
             StartCoroutine(EndBattle());
         }
         else
         {
             GetState(allUnit[turnIndex].unitType);
         }
-        // Change state based on what has happened
-
     }
 
     public IEnumerator PlayerFlee()
@@ -623,11 +588,10 @@ public class BattleSystem : MonoBehaviour
     // When the attack button is pressed
     public void OnAttackButton()
     {
-        if (state != BattleState.PLAYERTURN) // Borde göras på ett bättre sätt
+        if (state != BattleState.PLAYERTURN) 
         {
             return;
         }
-        //EnableBattleMenu();
         StartCoroutine(PlayerAttack());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
@@ -637,7 +601,6 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        //EnableBattleMenu();
         StartCoroutine(PlayerHeal());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
@@ -648,8 +611,6 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-        //EnableBattleMenu();
-        //StartCoroutine(PlayerBlock());
         StartCoroutine(PlayerSpecialAttack());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }
@@ -660,8 +621,6 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
-
-        //EnableBattleMenu();
         StartCoroutine(PlayerFlee());
         EnableBattleMenu(allUnit[turnIndex].unitNr);
     }

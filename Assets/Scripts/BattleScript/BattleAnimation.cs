@@ -25,4 +25,5 @@ public class BattleAnimation : MonoBehaviour
             anim.SetBool("isDead", false);
         }
     }
+  
 }

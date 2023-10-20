@@ -31,6 +31,7 @@ public class TaskSpecialAttack : Node
             PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
+            PlayerPrefs.SetString("EnemyAttackType", enemyUnit.unitName + " attacked the chickens \nwith a special attack!");
 
             state = NodeState.SUCCESS; // State succeed??? 
             return state;
@@ -38,6 +39,7 @@ public class TaskSpecialAttack : Node
         else
         {
             Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " tried to special attacked " + playerUnit.unitName + ", but failed since it has no special attacks left.");
+            PlayerPrefs.SetString("EnemyAttackType", enemyUnit.unitName + " tried to do a special attack but failed...");
             state = NodeState.FAILURE; 
             return state;
         }

@@ -24,8 +24,8 @@ public class TaskAttack : Node
 
         // Update the current HP so it can update the UI
         PlayerPrefs.SetInt(tempUnit, playerUnit.currentHP);
+        PlayerPrefs.SetString("EnemyAttackType", enemyUnit.unitName + " attacked the chickens!");
        
-
         state = NodeState.SUCCESS; // State succeed??? 
         return state;
     }

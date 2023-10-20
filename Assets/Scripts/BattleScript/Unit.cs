@@ -109,7 +109,7 @@ public class Unit : MonoBehaviour
 
     public bool Heal(int amount)
     {
-        Debug.Log("-Unit>Heal(int amount)- says: " + unitName + " has noOfHeals" + noOfHeals + " left");
+        Debug.Log("-Unit>Heal(int amount)- says: " + unitName + " has noOfHeals " + noOfHeals + " left");
         if (noOfHeals >= 1)
         {
             currentHP += amount;
