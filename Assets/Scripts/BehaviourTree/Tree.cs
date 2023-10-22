@@ -28,14 +28,14 @@ namespace BehaviourTree
 
         private Boolean oneTime = false;
 
-        protected void Start ()
+        /*protected void Start ()
         {
-            enemy = gameObjectEnemy.GetComponent<Unit>();
+            /*enemy = gameObjectEnemy.GetComponent<Unit>();
             player1 = gameObjectPlayer1.GetComponent<Unit>();
             player2 = gameObjectPlayer2.GetComponent<Unit>();
             player3 = gameObjectPlayer3.GetComponent<Unit>();
             currentState = GameObject.FindObjectOfType<BattleSystem>().state;
-        }
+        }*/
 
         public void FixedUpdate()
         {

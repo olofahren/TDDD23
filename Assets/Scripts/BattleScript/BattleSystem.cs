@@ -267,24 +267,31 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        state = BattleState.ENEMYTURN;
         WriteDialogueText(enemyUnit.unitName + " turn");
+
+        // Get the behavior tree for the enemy to do stuff
+        state = BattleState.ENEMYTURN;
 
         yield return new WaitForSeconds(2f);
 
-        // Get the behavior tree for the enemy to do stuff
         WriteDialogueText(PlayerPrefs.GetString("EnemyAttackType"));
 
         // Update the current HP since the units are copies and not the actual prefab
         // UI also gets updated
-        playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit1.unitName + " has currentHP " + playerUnit1.currentHP);
+        //playerUnit1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
         playerHUD1.SetHP(playerUnit1.currentHP);
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit1.unitName + " has PlayerPrefs HP " + PlayerPrefs.GetInt("Chicken1cHP"));
 
-        playerUnit2.currentHP = PlayerPrefs.GetInt("Chicken2cHP");
+        //playerUnit2.currentHP = PlayerPrefs.GetInt("Chicken2cHP");
         playerHUD2.SetHP(playerUnit2.currentHP);
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit2.unitName + " has currentHP " + playerUnit2.currentHP);
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit2.unitName + " has PlayerPrefs HP " + PlayerPrefs.GetInt("Chicken2cHP"));
 
-        playerUnit3.currentHP = PlayerPrefs.GetInt("Chicken3cHP");
+        //playerUnit3.currentHP = PlayerPrefs.GetInt("Chicken3cHP");
         playerHUD3.SetHP(playerUnit3.currentHP);
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit3.unitName + " has currentHP " + playerUnit3.currentHP);
+        Debug.Log("-BattleSystem>EnemyTurn()- says: unit " + playerUnit3.unitName + " has PlayerPrefs HP " + PlayerPrefs.GetInt("Chicken3cHP"));
 
         enemyUnit.currentHP = PlayerPrefs.GetInt("EnemycHP");
         enemyHUD.SetHP(enemyUnit.currentHP);
@@ -523,11 +530,10 @@ public class BattleSystem : MonoBehaviour
         if (currentUnit.unitNr == 1)
         {
             anim1.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit1.damage, playerUnit1.specialSkill2);
-            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            isDead = enemyUnit.TakeDamage(playerUnit1.damage + playerUnit1.specialSkill2);
 
-            //playerUnit1.currentHP -= playerUnit1.specialSkill2;
             player1Dead = playerUnit1.TakeDamage(playerUnit1.specialSkill2);
+            Debug.Log("-BattleSystem>PlayerSpecialAttack()- says: " + currentUnit.unitName + " has " + playerUnit1.currentHP + " HP");
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
             playerHUD1.SetHP(playerUnit1.currentHP);
             //Debug.Log(playerUnit1 + " current HP: " +playerUnit1.currentHP);
@@ -536,10 +542,8 @@ public class BattleSystem : MonoBehaviour
         else if (currentUnit.unitNr == 2)
         {
             anim2.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit2.damage, playerUnit2.specialSkill2);
-            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            isDead = enemyUnit.TakeDamage(playerUnit2.damage + playerUnit2.specialSkill2);
 
-            //playerUnit2.currentHP -= playerUnit2.specialSkill2;
             player2Dead = playerUnit2.TakeDamage(playerUnit2.specialSkill2);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
             playerHUD2.SetHP(playerUnit2.currentHP);
@@ -547,15 +551,14 @@ public class BattleSystem : MonoBehaviour
         else // Unit 3
         {
             anim3.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit3.damage, playerUnit3.specialSkill2);
-            PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            isDead = enemyUnit.TakeDamage(playerUnit3.damage + playerUnit3.specialSkill2);
 
-            //playerUnit3.currentHP -= playerUnit3.specialSkill2;
             player3Dead = playerUnit3.TakeDamage(playerUnit3.specialSkill2);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
             playerHUD3.SetHP(playerUnit3.currentHP);
         }
 
+        PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
         state = BattleState.WAITING; // Prevent button spamming
 
