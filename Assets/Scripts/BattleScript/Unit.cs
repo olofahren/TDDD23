@@ -69,10 +69,12 @@ public class Unit : MonoBehaviour
     {
         if (currentHP <= 0)
         {
+            Debug.Log("-Unit>CheckIfDead()- says: unit " + unitName + " is dead.");
             return true;
         }
         else
         {
+            Debug.Log("-Unit>CheckIfDead()- says: unit " + unitName + " is NOT dead.");
             return false;
         }
     }

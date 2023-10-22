@@ -25,6 +25,8 @@ public class CheckHPIsLessThan : Node
             state = NodeState.SUCCESS;
             return state;
         }
+
+        Debug.Log("-CheckHPIsLessThan- says: " + unitA.unitName + " has HP " + unitA.currentHP + ", that is greater to the HP of " + unitB.unitName + " which has " + unitB.currentHP + "HP.");
         state = NodeState.FAILURE;
         return state;
     }

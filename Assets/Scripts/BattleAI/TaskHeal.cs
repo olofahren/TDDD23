@@ -17,7 +17,6 @@ public class TaskHeal : Node
     }
     public override NodeState Evaluate()
     {
-
         healState = unit.Heal(healHp);
 
         if(healState == true )
@@ -25,7 +24,7 @@ public class TaskHeal : Node
             Debug.Log("-TaskHeal- says: " + unit.unitName + " has healed " + healHp + " HP.");
             PlayerPrefs.SetInt("EnemycHP", unit.currentHP);
             PlayerPrefs.SetString("EnemyAttackType", unit.unitName + " feels renewed!");
-            state = NodeState.SUCCESS; // State succeed??? 
+            state = NodeState.SUCCESS;
             return state;
         }
         else
@@ -35,8 +34,5 @@ public class TaskHeal : Node
             state = NodeState.FAILURE;
             return state;
         }
-
-
-
     }
 }

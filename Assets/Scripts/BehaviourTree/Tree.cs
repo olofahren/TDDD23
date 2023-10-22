@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -33,11 +34,7 @@ namespace BehaviourTree
             player1 = gameObjectPlayer1.GetComponent<Unit>();
             player2 = gameObjectPlayer2.GetComponent<Unit>();
             player3 = gameObjectPlayer3.GetComponent<Unit>();
-            //battleSystem = gameObjectBattleSystem.GetComponent<BattleSystem>();
             currentState = GameObject.FindObjectOfType<BattleSystem>().state;
-            Debug.Log("BattleState: " + currentState);
-
-
         }
 
         public void FixedUpdate()
@@ -46,13 +43,10 @@ namespace BehaviourTree
             currentState = GameObject.FindObjectOfType<BattleSystem>().state;
             if (currentState == BattleState.ENEMYTURN && doOnce == 1)
             {
+
                 // To make the behavior tree run once
                 doOnce = 2;
                 PlayerPrefs.SetInt("behaviorTreeDoOnce", doOnce);
-                /*enemy = gameObjectEnemy.GetComponent<Unit>();
-                player1 = gameObjectPlayer1.GetComponent<Unit>();
-                player2 = gameObjectPlayer2.GetComponent<Unit>();
-                player3 = gameObjectPlayer3.GetComponent<Unit>();*/
                 enemy = GameObject.Find("BattleStation-Enemy").GetComponentInChildren<Unit>();
                 player1 = GameObject.Find("BattleStation-Player1").GetComponentInChildren<Unit>();
                 player2 = GameObject.Find("BattleStation-Player2").GetComponentInChildren<Unit>();
@@ -61,11 +55,9 @@ namespace BehaviourTree
                 Debug.Log("Tree node created");
 
                 _root = SetupTree(); // Set up tree
+
                 if (_root != null)
                 {
-                    player1.currentHP = PlayerPrefs.GetInt("Chicken1cHP");
-                    player2.currentHP = PlayerPrefs.GetInt("Chicken2cHP");
-                    player3.currentHP = PlayerPrefs.GetInt("Chicken3cHP");
                     Debug.Log("Root is not null");
                     _root.Evaluate();
 

@@ -85,6 +85,7 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetUpBattle()); // Calling set up battle function
     }
 
+    // Assign who's turn it is
     public void GetState(string unitType)
     {
         int currentUnitNr = allUnit[turnIndex].unitNr;
@@ -126,15 +127,15 @@ public class BattleSystem : MonoBehaviour
 
     private void WriteDialogueText(String text)
     {
-        dialogueText.text = text;
+        dialogueText.text = text; // Changes the battle dialogue text
     }
 
     public void SetTurnIndex()
     {
-        turnIndex += 1;
+        turnIndex += 1; // Sets the next turn index
         if (turnIndex >= allUnit.Length)
         {
-            turnIndex = 0;
+            turnIndex = 0; // Start from the first unit in the turn order
         }
     }
 
@@ -149,7 +150,7 @@ public class BattleSystem : MonoBehaviour
         GameObject playerGO3 = Instantiate(playerPrefab3, playerBattleStation3); // Spawn player on player battle station
         playerUnit3 = playerGO3.GetComponent<Unit>(); // Access the UI units
 
-
+        // Assign all the stats to the units from previous fights
         playerUnit1.SetUnit(PlayerPrefs.GetInt("Chicken1Lvl"), PlayerPrefs.GetInt("Chicken1dmg"), PlayerPrefs.GetInt("Chicken1maxHP"),
             PlayerPrefs.GetInt("Chicken1cHP"), PlayerPrefs.GetInt("Chicken1def"), PlayerPrefs.GetInt("Chicken1speed"),
             PlayerPrefs.GetInt("Chicken1special1"), PlayerPrefs.GetInt("Chicken1special2"), PlayerPrefs.GetInt("Chicken1special3"), 
@@ -168,7 +169,6 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"), PlayerPrefs.GetInt("Chicken3nrSpA"), PlayerPrefs.GetInt("Chicken3nrHeal"),
             PlayerPrefs.GetInt("Chicken3maxNrSpA"), PlayerPrefs.GetInt("Chicken3maxNrHeal"));
 
-        //Debug.Log("Chicken1 HP: " + playerUnit1.currentHP.ToString());
 
         // Check if chickens are dead
         player1Dead = playerUnit1.CheckIfDead();
@@ -195,7 +195,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         GameObject enemyGo = Instantiate(tempEnemy, enemyBattleStation); // Spawn enemy on enemy battle station
-        enemyUnit = enemyGo.GetComponent<Unit>();
+        enemyUnit = enemyGo.GetComponent<Unit>(); // Access UI
 
         // Resets enemy HP to max at start of battle
         PlayerPrefs.SetInt("EnemycHP", enemyUnit.maxHP);
@@ -203,6 +203,7 @@ public class BattleSystem : MonoBehaviour
 
         WriteDialogueText("A wild " + enemyUnit.unitName + " approaches...");
 
+        // Assign values to the UI
         playerHUD1.SetHUD(playerUnit1);
         playerHUD2.SetHUD(playerUnit2);
         playerHUD3.SetHUD(playerUnit3);
@@ -214,15 +215,14 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
 
+        // Function call
         GetState(allUnit[turnIndex].unitType);
-
     }
 
     IEnumerator PlayerAttack()
     {
         // Damage the enemy
-        //bool isDead = enemyUnit.TakeDamage(playerUnit1.damage);
-        bool isDead = false;
+        bool isDead;
 
         // Check which chicken is attacking
         // Return bool if enemy is dead
@@ -263,16 +263,14 @@ public class BattleSystem : MonoBehaviour
         {
             GetState(allUnit[turnIndex].unitType);
         }
-        // Change state based on what has happened
-
     }
 
     IEnumerator EnemyTurn()
     {
+        state = BattleState.ENEMYTURN;
         WriteDialogueText(enemyUnit.unitName + " turn");
 
         yield return new WaitForSeconds(2f);
-        state = BattleState.ENEMYTURN;
 
         // Get the behavior tree for the enemy to do stuff
         WriteDialogueText(PlayerPrefs.GetString("EnemyAttackType"));
@@ -291,31 +289,10 @@ public class BattleSystem : MonoBehaviour
         enemyUnit.currentHP = PlayerPrefs.GetInt("EnemycHP");
         enemyHUD.SetHP(enemyUnit.currentHP);
 
-        //dialogueText.text = enemyUnit.unitName + " attacks the chickens!";
-
-        //Debug.Log("Chicken1 currentHP: " + playerUnit1.currentHP);
-
-        // Checks the current HP of all chickens if all are below 0
-        if (playerUnit1.CheckIfDead())
-        {
-            playerUnit1.currentHP = 0;
-            player1Dead = true;
-            Debug.Log("Chicken 1 is dead");
-        }
-
-        if (playerUnit2.CheckIfDead())
-        {
-            playerUnit2.currentHP = 0;
-            player2Dead = true;
-            Debug.Log("Chicken 2 is dead");
-        }
-
-        if (playerUnit3.CheckIfDead())
-        {
-            playerUnit3.currentHP = 0;
-            player3Dead = true;
-            Debug.Log("Chicken 3 is dead");
-        }
+        // Check if chickens are dead
+        player1Dead = playerUnit1.CheckIfDead();
+        player2Dead = playerUnit2.CheckIfDead();
+        player3Dead = playerUnit3.CheckIfDead();
 
         yield return new WaitForSeconds(3f);
 
@@ -330,7 +307,6 @@ public class BattleSystem : MonoBehaviour
             SetTurnIndex();
             GetState(allUnit[turnIndex].unitType);
         }
-
     }
 
     // Enable/Disable battle menu
@@ -345,7 +321,7 @@ public class BattleSystem : MonoBehaviour
 
             if(playerNr == 1) // Move the chicken
             {
-                battleMenu2.transform.position = playerBattleStation1.transform.position;
+                battleMenu2.transform.position = playerBattleStation1.transform.position; // Move the menu when its the players turn
                 playerBattleStation1.transform.position += temp;
             }
             else if(playerNr == 2)
@@ -375,7 +351,7 @@ public class BattleSystem : MonoBehaviour
             {
                 playerBattleStation2.transform.position -= temp;
             }
-            else
+            else // playerNr == 3
             {
                 playerBattleStation3.transform.position -= temp;
             }
@@ -498,25 +474,28 @@ public class BattleSystem : MonoBehaviour
             anim1.PlayHealAnimation();
             playerHUD1.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
+            WriteDialogueText(currentUnit.unitName + " feel renewed!");
         }
         else if (allUnit[turnIndex].unitNr == 2 && hasHealed)
         {
             anim2.PlayHealAnimation();
             playerHUD2.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
+            WriteDialogueText(currentUnit.unitName + " feel renewed!");
         }
         else if(allUnit[turnIndex].unitNr == 3 && hasHealed)// Unit 3
         {
             anim3.PlayHealAnimation();
             playerHUD3.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
+            WriteDialogueText(currentUnit.unitName + " feel renewed!");
+        }
+        else
+        {
+            WriteDialogueText(currentUnit.unitName + " has no heals left!");
         }
 
-        //currentUnit.battleHud.SetHP(currentUnit.currentHP);
-
         state = BattleState.WAITING; // Prevent button spamming
-
-        WriteDialogueText(currentUnit.unitName + " feel renewed!");
 
         yield return new WaitForSeconds(2f);
 
