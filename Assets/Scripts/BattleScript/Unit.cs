@@ -74,7 +74,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            Debug.Log("-Unit>CheckIfDead()- says: unit " + unitName + " is NOT dead.");
+            Debug.Log("-Unit>CheckIfDead()- says: unit " + unitName + " is NOT dead, and has " + currentHP + " HP.");
             return false;
         }
     }
