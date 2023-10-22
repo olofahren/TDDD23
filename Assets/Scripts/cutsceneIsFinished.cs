@@ -45,10 +45,10 @@ public class cutsceneIsFinished : MonoBehaviour
 
     public void RemoveEggs()
     {
-        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
         collectedEggs.Clear();
-        collectedEggs = Enumerable.Repeat(0, 11).ToList();
-        PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
+        collectedEggs = Enumerable.Repeat(0, 21).ToList();
+        PlayerPrefsExtra.SetList("collectedEggs2", collectedEggs);
         eggCounterValue = collectedEggs.Sum();
         eggCounterText.text = eggCounterValue.ToString() + "/20";
 

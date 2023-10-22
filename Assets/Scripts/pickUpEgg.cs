@@ -17,8 +17,11 @@ public class pickUpEgg : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
         eggName = Int32.Parse(gameObject.name);
+
+        Debug.Log("-pickUpEgg- says: Collected eggs count: " + collectedEggs.Count);
+
 
         if (collectedEggs[eggName] == 1)
         {
@@ -32,9 +35,10 @@ public class pickUpEgg : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         if (IsPlayerNear() && collectedEggs[eggName] == 0)
         {
-            collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+            collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
             spriteRenderer.enabled = true;
             playerHasPickedUpEgg = false;
         }
@@ -43,10 +47,10 @@ public class pickUpEgg : MonoBehaviour
 
         if (IsPlayerNear() && !playerHasPickedUpEgg)
         {
-            collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+            collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
             collectedEggs[eggName] = 1;
 
-            PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
+            PlayerPrefsExtra.SetList("collectedEggs2", collectedEggs);
             spriteRenderer.enabled = false;
             playerHasPickedUpEgg = true;
             //Debug.Log("Player has picked upp egg " + eggName);

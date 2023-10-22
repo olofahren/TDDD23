@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class startGame : MonoBehaviour
 {
-    private List<int> collectedEggs = Enumerable.Repeat(1, 21).ToList();
+    public List<int> collectedEggs = Enumerable.Repeat(1, 21).ToList();
     private List<int> completedBattles= Enumerable.Repeat(0, 20).ToList();
 
     // To be set the player prefs
@@ -19,11 +19,12 @@ public class startGame : MonoBehaviour
     public void StartGame()
     {
         //collectedEggs.ForEach(egg => Debug.Log(egg));
+        Debug.Log("-startGame- says: Collected eggs count: " + collectedEggs.Count);
         collectedEggs[0] = 0;
         PlayerPrefs.SetFloat("PlayerX", 15);
         PlayerPrefs.SetFloat("PlayerY", -59.4f);
         PlayerPrefs.SetFloat("PlayerZ", -5);
-        PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
+        PlayerPrefsExtra.SetList("collectedEggs2", collectedEggs);
         PlayerPrefsExtra.SetList("completedBattles", completedBattles);
 
 

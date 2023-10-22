@@ -17,7 +17,7 @@ public class EggCounter : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
         eggCounterValue = collectedEggs.Sum();
         eggCounterText.text = eggCounterValue.ToString() + "/20";
 
@@ -25,7 +25,7 @@ public class EggCounter : MonoBehaviour
 
     private void FixedUpdate()
     {
-        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs");
+        collectedEggs = PlayerPrefsExtra.GetList<int>("collectedEggs2");
         eggCounterValue = collectedEggs.Sum();
 
 
