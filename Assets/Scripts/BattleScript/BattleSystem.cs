@@ -54,8 +54,6 @@ public class BattleSystem : MonoBehaviour
     private Boolean player2BattleMenu = false;
     public GameObject battleMenu2;
 
-    EventSystem m_EventSystem;
-
     //Array for turn order
     public Unit[] allUnit;
     public int turnIndex = 0;
@@ -71,17 +69,19 @@ public class BattleSystem : MonoBehaviour
     public Boolean player2Dead = false;
     public Boolean player3Dead = false;
 
+    // Animation
+    private BattleAnimation anim1;
+    private BattleAnimation anim2;
+    private BattleAnimation anim3;
+
     // Start is called before the first frame update
     void Start()
     {
         state = BattleState.START; // Start of the battle
         completedBattles = PlayerPrefsExtra.GetList<int>("completedBattles");
 
-        m_EventSystem = EventSystem.current;
-
-        //battleScript = GameObject.Find("BattleFunctions");
         battleFunctions = battleScript.GetComponent<BattleFunctions>();
-
+     
         StartCoroutine(SetUpBattle()); // Calling set up battle function
     }
 
@@ -175,6 +175,11 @@ public class BattleSystem : MonoBehaviour
         player2Dead = playerUnit2.CheckIfDead();
         player3Dead = playerUnit3.CheckIfDead();
 
+        // Get animatior from the units
+        anim1 = playerUnit1.GetComponent<BattleAnimation>();
+        anim2 = playerUnit2.GetComponent<BattleAnimation>();
+        anim3 = playerUnit3.GetComponent<BattleAnimation>();
+
         // Finding the correct enemy from the array of prefab enemies 
         String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
         GameObject tempEnemy = allEnemies[0];
@@ -223,17 +228,19 @@ public class BattleSystem : MonoBehaviour
         // Return bool if enemy is dead
         if (allUnit[turnIndex].unitNr == 1)
         {
+            anim1.PlayAttackAnimation(); // Play animation
             isDead = enemyUnit.TakeDamage(playerUnit1.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
-
         }
         else if (allUnit[turnIndex].unitNr == 2)
         {
+            anim2.PlayAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit2.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         }
         else // Unit 3
         {
+            anim3.PlayAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit3.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         }
@@ -262,10 +269,10 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        state = BattleState.ENEMYTURN;
         WriteDialogueText(enemyUnit.unitName + " turn");
 
         yield return new WaitForSeconds(2f);
+        state = BattleState.ENEMYTURN;
 
         // Get the behavior tree for the enemy to do stuff
         WriteDialogueText(PlayerPrefs.GetString("EnemyAttackType"));
@@ -327,7 +334,7 @@ public class BattleSystem : MonoBehaviour
     }
 
     // Enable/Disable battle menu
-    void EnableBattleMenu(int playerNr)
+    IEnumerator EnableBattleMenu(int playerNr)
     {
         Vector3 temp = new(-1.5f, 0, 0);
 
@@ -357,6 +364,8 @@ public class BattleSystem : MonoBehaviour
         {
             player2BattleMenu = false;
             battleMenu2.SetActive(false);
+
+            yield return new WaitForSeconds(1f);
 
             if (playerNr == 1) // Move back the chicken
             {
@@ -474,7 +483,7 @@ public class BattleSystem : MonoBehaviour
     void PlayerTurn()
     {
         WriteDialogueText("Choose an action for " + allUnit[turnIndex].unitName);
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
+        StartCoroutine(EnableBattleMenu(allUnit[turnIndex].unitNr));
     }
 
 
@@ -486,16 +495,19 @@ public class BattleSystem : MonoBehaviour
 
         if (currentUnit.unitNr == 1 && hasHealed)
         {
+            anim1.PlayHealAnimation();
             playerHUD1.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
         }
         else if (allUnit[turnIndex].unitNr == 2 && hasHealed)
         {
+            anim2.PlayHealAnimation();
             playerHUD2.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
         }
         else if(allUnit[turnIndex].unitNr == 3 && hasHealed)// Unit 3
         {
+            anim3.PlayHealAnimation();
             playerHUD3.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
         }
@@ -523,6 +535,7 @@ public class BattleSystem : MonoBehaviour
         // Return bool if enemy is dead
         if (currentUnit.unitNr == 1)
         {
+            anim1.PlaySpecialAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit1.damage, playerUnit1.specialSkill2);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
@@ -530,11 +543,12 @@ public class BattleSystem : MonoBehaviour
             player1Dead = playerUnit1.TakeDamage(playerUnit1.specialSkill2);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
             playerHUD1.SetHP(playerUnit1.currentHP);
-            Debug.Log(playerUnit1 + " current HP: " +playerUnit1.currentHP);
+            //Debug.Log(playerUnit1 + " current HP: " +playerUnit1.currentHP);
 
         }
         else if (currentUnit.unitNr == 2)
         {
+            anim2.PlaySpecialAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit2.damage, playerUnit2.specialSkill2);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
@@ -545,6 +559,7 @@ public class BattleSystem : MonoBehaviour
         }
         else // Unit 3
         {
+            anim3.PlaySpecialAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit3.damage, playerUnit3.specialSkill2);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
 
@@ -593,8 +608,8 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         StartCoroutine(PlayerAttack());
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
-    }
+        StartCoroutine(EnableBattleMenu(allUnit[turnIndex].unitNr));
+        }
     public void OnHealButton()
     {
         if (state != BattleState.PLAYERTURN)
@@ -602,7 +617,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         StartCoroutine(PlayerHeal());
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
+        StartCoroutine(EnableBattleMenu(allUnit[turnIndex].unitNr));
     }
 
     public void OnSpecialAttackButton()
@@ -612,7 +627,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         StartCoroutine(PlayerSpecialAttack());
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
+        StartCoroutine(EnableBattleMenu(allUnit[turnIndex].unitNr));
     }
 
     public void OnFleeButton()
@@ -622,8 +637,7 @@ public class BattleSystem : MonoBehaviour
             return;
         }
         StartCoroutine(PlayerFlee());
-        EnableBattleMenu(allUnit[turnIndex].unitNr);
+        StartCoroutine(EnableBattleMenu(allUnit[turnIndex].unitNr));
     }
-
 }
 

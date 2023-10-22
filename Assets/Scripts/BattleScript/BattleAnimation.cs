@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,5 +26,25 @@ public class BattleAnimation : MonoBehaviour
             anim.SetBool("isDead", false);
         }
     }
-  
+
+    public void PlayAttackAnimation()
+    {
+        anim.Play("ChickenAttack_Clip");
+    }
+
+    public void PlayHealAnimation()
+    {
+        anim.Play("ChickenSleeping_Clip");
+    }
+
+    public void PlayDamageAnimation()
+    {
+        anim.Play("ChickenDie_Clip_2");
+    }
+
+    public void PlaySpecialAttackAnimation()
+    {
+        anim.Play("ChickenPeck_Clip");
+    }
+
 }

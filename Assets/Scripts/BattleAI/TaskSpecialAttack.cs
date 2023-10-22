@@ -18,6 +18,7 @@ public class TaskSpecialAttack : Node
     {
         if(enemyUnit.noOfSpecialAttacks >= 1)
         {
+            playerUnit.GetComponent<BattleAnimation>().PlayDamageAnimation(); // Play damage animation for the chicken that is attacked
             // Player take damage
             bool isDead = playerUnit.TakeDamage(enemyUnit.damage + enemyUnit.specialSkill2);
             Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " has special attacked " + playerUnit.unitName + " and dealt " + enemyUnit.damage + enemyUnit.specialSkill2);
