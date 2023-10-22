@@ -20,9 +20,9 @@ public class startGame : MonoBehaviour
     {
         //collectedEggs.ForEach(egg => Debug.Log(egg));
         collectedEggs[0] = 0;
-        PlayerPrefs.SetFloat("PlayerX", 0);
-        PlayerPrefs.SetFloat("PlayerY", 0);
-        PlayerPrefs.SetFloat("PlayerZ", 0);
+        PlayerPrefs.SetFloat("PlayerX", 15);
+        PlayerPrefs.SetFloat("PlayerY", -59.4f);
+        PlayerPrefs.SetFloat("PlayerZ", -5);
         PlayerPrefsExtra.SetList("collectedEggs", collectedEggs);
         PlayerPrefsExtra.SetList("completedBattles", completedBattles);
 
