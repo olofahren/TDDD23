@@ -53,6 +53,9 @@ public class BattleSystem : MonoBehaviour
     // Show battlemenu
     private Boolean player2BattleMenu = false;
     public GameObject battleMenu2;
+    public Button healButton;
+    public Button spAButon;
+    public Button attackButton;
 
     //Array for turn order
     public Unit[] allUnit;
@@ -321,6 +324,8 @@ public class BattleSystem : MonoBehaviour
     {
         Vector3 temp = new(-1.5f, 0, 0);
 
+        attackButton.Select();
+
         if (!player2BattleMenu)// Show battle menu
         {
             player2BattleMenu = true;
@@ -330,16 +335,39 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation1.transform.position; // Move the menu when its the players turn
                 playerBattleStation1.transform.position += temp;
+                if (playerUnit1.maxOfHeals == 0) { // Disable heal button if no heals left
+                    healButton.interactable = false;
+                }
+                if(playerUnit1.maxOfSpecialAttacks == 0) // Diable if no Special Attacks left
+                {
+                    spAButon.interactable = false;
+                }
             }
             else if(playerNr == 2)
             {
                 battleMenu2.transform.position = playerBattleStation2.transform.position;
                 playerBattleStation2.transform.position += temp;
+                if (playerUnit2.maxOfHeals == 0)
+                { // Disable heal button if no heals left
+                    healButton.interactable = false;
+                }
+                if (playerUnit2.maxOfSpecialAttacks == 0)
+                {
+                    spAButon.interactable = false;
+                }
             }
             else
             {
                 battleMenu2.transform.position = playerBattleStation3.transform.position;
                 playerBattleStation3.transform.position += temp;
+                if (playerUnit3.maxOfHeals == 0)
+                { // Disable heal button if no heals left
+                    healButton.interactable = false;
+                }
+                if (playerUnit3.maxOfSpecialAttacks == 0)
+                {
+                    spAButon.interactable = false;
+                }
             }
 
         }
@@ -362,6 +390,10 @@ public class BattleSystem : MonoBehaviour
             {
                 playerBattleStation3.transform.position -= temp;
             }
+
+            // Enable buttons again
+            healButton.interactable = true;
+            spAButon.interactable = true;
 
             SetTurnIndex(); // Next turn
         }
@@ -425,7 +457,7 @@ public class BattleSystem : MonoBehaviour
             playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals, playerUnit3.maxOfSpecialAttacks, playerUnit3.maxOfHeals);
 
         Debug.Log("-BattleSystem- says: re-assigned stats");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
 
         if (state == BattleState.WON)
         {
