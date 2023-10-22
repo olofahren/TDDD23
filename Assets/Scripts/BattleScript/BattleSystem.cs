@@ -486,6 +486,10 @@ public class BattleSystem : MonoBehaviour
             WriteDialogueText("You lost the battle.");
             yield return new WaitForSeconds(2f);
             // Back to menu for now if player loses the battle
+            PlayerPrefs.SetFloat("PlayerX", PlayerPrefs.GetFloat("PlayerXCheckpoint"));
+            PlayerPrefs.SetFloat("PlayerY", PlayerPrefs.GetFloat("PlayerYCheckpoint"));
+            PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZCheckpoint"));
+
             SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
         else if (state == BattleState.FLEE)

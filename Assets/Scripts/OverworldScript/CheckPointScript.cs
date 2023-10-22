@@ -37,13 +37,15 @@ public class CheckPointScript : MonoBehaviour
                 PlayerPrefs.SetFloat("Chicken" + unitNr + "nrHeal", PlayerPrefs.GetInt("Chicken" + unitNr + "maxNrHeal"));
             }
 
-            PlayerPrefs.SetFloat("PlayerX", Player.transform.position.x);
-            PlayerPrefs.SetFloat("PlayerY", Player.transform.position.y);
-            PlayerPrefs.SetFloat("PlayerZ", Player.transform.position.z);
+            PlayerPrefs.SetFloat("PlayerXCheckpoint", Player.transform.position.x);
+            PlayerPrefs.SetFloat("PlayerYCheckpoint", Player.transform.position.y);
+            PlayerPrefs.SetFloat("PlayerZCheckpoint", Player.transform.position.z);
 
             hasBeenVisited = true;
 
         }
+
+
     }
 
     private bool IsPlayerNear()
