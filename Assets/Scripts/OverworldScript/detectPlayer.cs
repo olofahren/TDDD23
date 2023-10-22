@@ -83,9 +83,9 @@ public class detectPlayer : MonoBehaviour
 
 
                 
-                PlayerPrefs.SetFloat("PlayerX", playerTestTransfrom.x);
-                PlayerPrefs.SetFloat("PlayerY", playerTestTransfrom.y);
-                PlayerPrefs.SetFloat("PlayerZ", player.transform.position.z);
+                PlayerPrefs.SetFloat("PlayerXBattle", playerTestTransfrom.x);
+                PlayerPrefs.SetFloat("PlayerYBattle", playerTestTransfrom.y);
+                PlayerPrefs.SetFloat("PlayerZBattle", player.transform.position.z);
                 PlayerPrefs.SetString("currentWorld", "Main World");
                 PlayerPrefs.SetInt("currentBattle", battleNumber);
                 SceneManager.LoadScene("Battle2");

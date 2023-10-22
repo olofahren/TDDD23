@@ -455,6 +455,10 @@ public class BattleSystem : MonoBehaviour
             completedBattles[battleNumber] = 1;
             PlayerPrefsExtra.SetList("completedBattles", completedBattles);
 
+            PlayerPrefs.SetFloat("PlayerX", PlayerPrefs.GetFloat("PlayerXBattle"));
+            PlayerPrefs.SetFloat("PlayerY", PlayerPrefs.GetFloat("PlayerYBattle"));
+            PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZBattle"));
+
             //SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld")); // Load overworld
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("currentWorld"));
             while (!asyncLoad.isDone)
@@ -467,12 +471,16 @@ public class BattleSystem : MonoBehaviour
             WriteDialogueText("You lost the battle.");
             yield return new WaitForSeconds(2f);
             // Back to menu for now if player loses the battle
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
         else if (state == BattleState.FLEE)
         {   
             WriteDialogueText("You fled the battle.");
             yield return new WaitForSeconds(2f);
+            PlayerPrefs.SetFloat("PlayerX", PlayerPrefs.GetFloat("PlayerXBattle"));
+            PlayerPrefs.SetFloat("PlayerY", PlayerPrefs.GetFloat("PlayerYBattle"));
+            PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZBattle"));
+
 
             SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
         }
