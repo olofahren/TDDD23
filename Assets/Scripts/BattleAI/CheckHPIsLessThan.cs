@@ -15,7 +15,6 @@ public class CheckHPIsLessThan : Node
         unitB = b;
     }
 
-
     public override NodeState Evaluate()
     { 
 

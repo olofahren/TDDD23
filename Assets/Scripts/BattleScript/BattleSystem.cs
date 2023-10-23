@@ -457,7 +457,7 @@ public class BattleSystem : MonoBehaviour
             playerUnit3.maxExp, playerUnit3.currentExp, playerUnit3.noOfSpecialAttacks, playerUnit3.noOfHeals, playerUnit3.maxOfSpecialAttacks, playerUnit3.maxOfHeals);
 
         Debug.Log("-BattleSystem- says: re-assigned stats");
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
 
         if (state == BattleState.WON)
         {
@@ -475,11 +475,11 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZBattle"));
 
             //SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld")); // Load overworld
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("currentWorld"));
+            /*AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("currentWorld"));
             while (!asyncLoad.isDone)
             {
                 yield return null;
-            }
+            }*/
         }
         else if (state == BattleState.LOST)
         {
@@ -490,7 +490,8 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerY", PlayerPrefs.GetFloat("PlayerYCheckpoint"));
             PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZCheckpoint"));
 
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+            //SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+   
         }
         else if (state == BattleState.FLEE)
         {   
@@ -500,8 +501,14 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerY", PlayerPrefs.GetFloat("PlayerYBattle"));
             PlayerPrefs.SetFloat("PlayerZ", PlayerPrefs.GetFloat("PlayerZBattle"));
 
+           // SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+        }
 
-            SceneManager.LoadScene(PlayerPrefs.GetString("currentWorld"));
+        // Load scene while the others are doing their
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(PlayerPrefs.GetString("currentWorld"));
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
         }
 
     }
