@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class animateChickenInIntro : MonoBehaviour
 {
@@ -8,7 +9,21 @@ public class animateChickenInIntro : MonoBehaviour
     void Start()
     {
         Animator animator = GetComponent<Animator>();
-        animator.SetBool("isRunning", true);
+
+        if (SceneManager.GetActiveScene().name == "Intro World")
+        {
+            animator.SetBool("isRunning", true);
+            animator.SetBool("isWalking", false);
+
+        }
+        else if(SceneManager.GetActiveScene().name == "Win World")
+        {
+            animator.SetBool("isWalking", true);
+            animator.SetBool("isRunning", false);
+
+
+        }
+
     }
 
     // Update is called once per frame

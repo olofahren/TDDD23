@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class startGame : MonoBehaviour
 {
     public List<int> collectedEggs = Enumerable.Repeat(1, 21).ToList();
-    private List<int> completedBattles= Enumerable.Repeat(0, 26).ToList();
+    private List<int> completedBattles= Enumerable.Repeat(0, 27).ToList();
 
     // To be set the player prefs
     public Unit player1;

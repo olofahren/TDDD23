@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8764639960925445920}
   - component: {fileID: 6450397284067903305}
   - component: {fileID: 1316809673367317660}
+  - component: {fileID: -5802403649970422901}
   m_Layer: 0
   m_Name: Eagle Unit 1
   m_TagString: Untagged
@@ -192,12 +193,18 @@ MonoBehaviour:
   currentHP: 20
   defense: 1
   speed: 3
-  specialSill1: 2
-  specialSill2: 0
-  specialSill3: 0
+  specialSkill1: 0
+  specialSkill2: 0
+  specialSkill3: 0
+  noOfSpecialAttacks: 0
+  maxOfSpecialAttacks: 0
+  noOfHeals: 0
+  maxOfHeals: 0
   unitType: enemy
   unitNr: 0
   enemyUnit: eagle
+  maxExp: 0
+  currentExp: 0
 --- !u!95 &8764639960925445920
 Animator:
   serializedVersion: 5
@@ -259,3 +266,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-5802403649970422901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652028830333233030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd677e83ea84d543b91e9a03147a43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectEnemy: {fileID: 3652028830333233030}
+  gameObjectPlayer1: {fileID: 1298863995700801437, guid: 380fe635395e41646953ececd8e2012b, type: 3}
+  gameObjectPlayer2: {fileID: 3170709494023158260, guid: d398ce0b613251b47a63c84898760d42, type: 3}
+  gameObjectPlayer3: {fileID: 8444344174550181992, guid: 4d4af37b4624fe149b46c259969ab8fa, type: 3}
+  unitIsDead: 0
