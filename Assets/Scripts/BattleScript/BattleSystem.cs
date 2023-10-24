@@ -227,7 +227,7 @@ public class BattleSystem : MonoBehaviour
     {
         // Damage the enemy
         bool isDead;
-
+        String tempString = "The attack is succesfull!\n" + enemyUnit.unitName + " loses ";
         // Check which chicken is attacking
         // Return bool if enemy is dead
         if (allUnit[turnIndex].unitNr == 1)
@@ -235,24 +235,27 @@ public class BattleSystem : MonoBehaviour
             anim1.PlayAttackAnimation(); // Play animation
             isDead = enemyUnit.TakeDamage(playerUnit1.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            tempString += playerUnit1.damage + " HP!";
         }
         else if (allUnit[turnIndex].unitNr == 2)
         {
             anim2.PlayAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit2.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            tempString += playerUnit2.damage + " HP!";
         }
         else // Unit 3
         {
             anim3.PlayAttackAnimation();
             isDead = enemyUnit.TakeDamage(playerUnit3.damage);
             PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
+            tempString += playerUnit3.damage + " HP!";
         }
 
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit
         state = BattleState.WAITING; // Prevent button spamming
         
-        WriteDialogueText("The attack is succesfull!");
+        WriteDialogueText(tempString);
         yield return new WaitForSeconds(2f);
 
         // Check if enemy is dead 
@@ -445,6 +448,7 @@ public class BattleSystem : MonoBehaviour
         {
             bool lvlUp3 = playerUnit3.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
             playerHUD3.SetEXP(playerUnit3.currentExp);
+            playerHUD3.SetEXP(playerUnit3.currentExp);
             playerHUD3.SetLVL(PlayerPrefs.GetInt("Chicken3Lvl"));
             //Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
             if (lvlUp3)
@@ -552,28 +556,28 @@ public class BattleSystem : MonoBehaviour
     {
         Unit currentUnit = allUnit[turnIndex];
 
-        bool hasHealed = currentUnit.Heal(5);
+        bool hasHealed = currentUnit.Heal(currentUnit.specialSkill1);
 
         if (currentUnit.unitNr == 1 && hasHealed)
         {
             anim1.PlayHealAnimation();
             playerHUD1.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
-            WriteDialogueText(currentUnit.unitName + " feel renewed!");
+            WriteDialogueText(currentUnit.unitName + " feel renewed!\nIt healed " + currentUnit.specialSkill1 + " HP!");
         }
-        else if (allUnit[turnIndex].unitNr == 2 && hasHealed)
+        else if (currentUnit.unitNr == 2 && hasHealed)
         {
             anim2.PlayHealAnimation();
             playerHUD2.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
-            WriteDialogueText(currentUnit.unitName + " feel renewed!");
+            WriteDialogueText(currentUnit.unitName + " feel renewed!\nIt healed " + currentUnit.damage + " HP!");
         }
-        else if(allUnit[turnIndex].unitNr == 3 && hasHealed)// Unit 3
+        else if (currentUnit.unitNr == 3 && hasHealed)// Unit 3
         {
             anim3.PlayHealAnimation();
             playerHUD3.SetHP(currentUnit.currentHP);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
-            WriteDialogueText(currentUnit.unitName + " feel renewed!");
+            WriteDialogueText(currentUnit.unitName + " feel renewed!\nIt healed " + currentUnit.damage + " HP!");
         }
         else
         {
