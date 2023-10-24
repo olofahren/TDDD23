@@ -33,8 +33,8 @@ public class CheckPointScript : MonoBehaviour
             for (int unitNr = 1; unitNr <= 3; unitNr++)
             {
                 PlayerPrefs.SetInt("Chicken" + unitNr + "cHP", PlayerPrefs.GetInt("Chicken" + unitNr + "maxHP"));
-                PlayerPrefs.SetFloat("Chicken" + unitNr + "nrSpA", PlayerPrefs.GetInt("Chicken" + unitNr + "maxNrSpA"));
-                PlayerPrefs.SetFloat("Chicken" + unitNr + "nrHeal", PlayerPrefs.GetInt("Chicken" + unitNr + "maxNrHeal"));
+                PlayerPrefs.SetInt("Chicken" + unitNr + "nrSpA", PlayerPrefs.GetInt("Chicken" + unitNr + "maxNrSpA"));
+                PlayerPrefs.SetInt("Chicken" + unitNr + "nrHeal", PlayerPrefs.GetInt("Chicken" + unitNr + "maxNrHeal"));
             }
 
             PlayerPrefs.SetFloat("PlayerXCheckpoint", Player.transform.position.x);
