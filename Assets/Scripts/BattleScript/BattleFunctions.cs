@@ -25,6 +25,7 @@ public class BattleFunctions : MonoBehaviour
         PlayerPrefs.SetInt("Chicken" + unitNr + "maxNrHeal", maxNrHeal);
 
         Debug.Log("-BattleFunction>AssignStats - says: Chicken" + unitNr + " has nrHeal " + nrHeal);
+        Debug.Log("-BattleFunction>AssignStats - says: Chicken" + unitNr + " has nrHeal PlayerPrefs " + PlayerPrefs.GetInt("Chicken" + unitNr + "nrHeal"));
         Debug.Log("-BattleFunction>AssignStats - says: Chicken" + unitNr + " has maxNrHeal " + maxNrHeal);
 
     }

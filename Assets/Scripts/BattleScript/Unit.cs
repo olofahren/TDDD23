@@ -62,7 +62,7 @@ public class Unit : MonoBehaviour
         noOfHeals = nrHeal;
         maxOfSpecialAttacks = maxNrSpA;
         maxOfHeals = maxNrHeal;
-        Debug.Log("-Unit>SetUnit()- says: unit " + unitName + " has maxHP: " + maxHP);
+        Debug.Log("-Unit>SetUnit()- says: unit " + unitName + " has noOfHeals: " + noOfHeals);
     }
 
     public Boolean CheckIfDead()

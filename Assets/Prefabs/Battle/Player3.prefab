@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Chicken3
-  unitLevel: 1
+  unitLevel: 11
   damage: 1
   maxHP: 5
   currentHP: 5

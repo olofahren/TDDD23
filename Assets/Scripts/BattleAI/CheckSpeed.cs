@@ -15,7 +15,7 @@ public class CheckSpeed :Node
     }
 
     public override NodeState Evaluate()
-    {
+    {   
         if(unitA.speed <= unitB.speed)
         {
             Debug.Log("-CheckSpeed- says: " + unitA.unitName + " has speed " + unitA.speed + ", that is less or equal to the spped of " + unitB.unitName + " which has speed " + unitB.speed);

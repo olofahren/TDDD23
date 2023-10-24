@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Chicken1
-  unitLevel: 1
+  unitLevel: 11
   damage: 1
   maxHP: 5
   currentHP: 5
@@ -58,7 +58,7 @@ MonoBehaviour:
   specialSkill2: 2
   specialSkill3: 2
   noOfSpecialAttacks: 2
-  maxOfSpecialAttacks: 0
+  maxOfSpecialAttacks: 2
   noOfHeals: 2
   maxOfHeals: 2
   unitType: player

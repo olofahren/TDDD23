@@ -13,9 +13,12 @@ public class FoxBT : Tree
             {
                 // If the fox speed is higher then any of the chickens
                 // -> Instant kill the chickens
-                new CheckSpeed(player1, enemy),
+                /*new CheckSpeed(player1, enemy),
                 new CheckSpeed(player2, enemy),
-                new CheckSpeed(player3, enemy),
+                new CheckSpeed(player3, enemy),*/
+                new CheckLevel(player1, enemy.speed),
+                new CheckLevel(player2, enemy.speed),
+                new CheckLevel(player3, enemy.speed),
                 new InstantKill(player1),
                 new InstantKill(player2),
                 new InstantKill(player3)

@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using static UnityEngine.UI.CanvasScaler;
 
 
 // Defining enums
@@ -172,6 +173,9 @@ public class BattleSystem : MonoBehaviour
             PlayerPrefs.GetInt("Chicken3maxEXP"), PlayerPrefs.GetFloat("Chicken3cEXP"), PlayerPrefs.GetInt("Chicken3nrSpA"), PlayerPrefs.GetInt("Chicken3nrHeal"),
             PlayerPrefs.GetInt("Chicken3maxNrSpA"), PlayerPrefs.GetInt("Chicken3maxNrHeal"));
 
+        Debug.Log("-BattleSystem>SetUpBattle - says:" + playerUnit2.unitName + " has nrHeal " + playerUnit2.noOfHeals);
+        Debug.Log("-BattleSystem>SetUpBattle - says:" + playerUnit2.unitName + " has nrHeal PlayerPrefs " + PlayerPrefs.GetInt("Chicken2nrHeal"));
+
 
         // Check if chickens are dead
         player1Dead = playerUnit1.CheckIfDead();
@@ -184,8 +188,8 @@ public class BattleSystem : MonoBehaviour
         anim3 = playerUnit3.GetComponent<BattleAnimation>();
 
         // Finding the correct enemy from the array of prefab enemies 
-        String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
-        //String tempEnemyType = "fox"; // Debugging purposes
+        //String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
+        String tempEnemyType = "fox"; // Debugging purposes
         GameObject tempEnemy = allEnemies[0];
         for (int i = 0; i < allEnemies.Length; i++)
         {
@@ -348,10 +352,10 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation1.transform.position; // Move the menu when its the players turn
                 playerBattleStation1.transform.position += temp;
-                if (playerUnit1.maxOfHeals == 0) { // Disable heal button if no heals left
+                if (playerUnit1.noOfHeals == 0) { // Disable heal button if no heals left
                     healButton.interactable = false;
                 }
-                if(playerUnit1.maxOfSpecialAttacks == 0) // Diable if no Special Attacks left
+                if(playerUnit1.noOfSpecialAttacks == 0) // Diable if no Special Attacks left
                 {
                     spAButon.interactable = false;
                 }
@@ -360,11 +364,11 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation2.transform.position;
                 playerBattleStation2.transform.position += temp;
-                if (playerUnit2.maxOfHeals == 0)
+                if (playerUnit2.noOfHeals == 0)
                 { // Disable heal button if no heals left
                     healButton.interactable = false;
                 }
-                if (playerUnit2.maxOfSpecialAttacks == 0)
+                if (playerUnit2.noOfSpecialAttacks == 0)
                 {
                     spAButon.interactable = false;
                 }
@@ -373,11 +377,11 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation3.transform.position;
                 playerBattleStation3.transform.position += temp;
-                if (playerUnit3.maxOfHeals == 0)
+                if (playerUnit3.noOfHeals == 0)
                 { // Disable heal button if no heals left
                     healButton.interactable = false;
                 }
-                if (playerUnit3.maxOfSpecialAttacks == 0)
+                if (playerUnit3.noOfSpecialAttacks == 0)
                 {
                     spAButon.interactable = false;
                 }
