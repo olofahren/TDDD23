@@ -185,6 +185,7 @@ public class BattleSystem : MonoBehaviour
 
         // Finding the correct enemy from the array of prefab enemies 
         String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
+        //String tempEnemyType = "fox"; // Debugging purposes
         GameObject tempEnemy = allEnemies[0];
         for (int i = 0; i < allEnemies.Length; i++)
         {
@@ -260,7 +261,7 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
-            StartCoroutine(EndBattle());
+            //StartCoroutine(EndBattle());
         }
         else
         {
@@ -304,6 +305,8 @@ public class BattleSystem : MonoBehaviour
         player2Dead = playerUnit2.CheckIfDead();
         player3Dead = playerUnit3.CheckIfDead();
 
+        bool enemyDead = enemyUnit.CheckIfDead();
+
         yield return new WaitForSeconds(3f);
 
         // If all chickens are dead the battle ends
@@ -312,6 +315,13 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.LOST;
             StartCoroutine(EndBattle());
         }
+        // If the enemy somehow kills itself player win the battle
+        if (enemyDead)
+        {
+            state = BattleState.WON;
+            StartCoroutine(EndBattle());
+        }
+        // Else next turn is played
         else
         {
             SetTurnIndex();
@@ -410,32 +420,49 @@ public class BattleSystem : MonoBehaviour
 
         if (player1Dead == false)
         {
-            playerUnit1.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
-            playerHUD1.SetEXP(PlayerPrefs.GetFloat("Chicken1cEXP"));
+            bool lvlUp1 = playerUnit1.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD1.SetEXP(playerUnit1.currentExp);
             playerHUD1.SetLVL(PlayerPrefs.GetInt("Chicken1Lvl"));
-            Debug.Log("-BattleSystem- says: " + playerUnit1.unitName + " gained EXP");
-            tempText += playerUnit1.unitName + ", ";
+            //.Log("-BattleSystem- says: " + playerUnit1.unitName + " gained EXP");
+            if (lvlUp1)
+            {
+                //Debug.Log("-BattleSystem>- says: " + playerUnit1.unitName + " gained EXP");
+                tempText += playerUnit1.unitName + ", ";
+            }
         }
         if (player2Dead == false)
         {
-            playerUnit2.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
-            playerHUD2.SetEXP(PlayerPrefs.GetFloat("Chicken2cEXP"));
+            bool lvlUp2 = playerUnit2.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD2.SetEXP(playerUnit2.currentExp);
             playerHUD2.SetLVL(PlayerPrefs.GetInt("Chicken2Lvl"));
-            Debug.Log("-BattleSystem- says: " + playerUnit2.unitName + " gained EXP");
-            tempText += playerUnit2.unitName + ", ";
+            //Debug.Log("-BattleSystem- says: " + playerUnit2.unitName + " gained EXP");
+            if (lvlUp2)
+            {
+                tempText += playerUnit2.unitName + ", ";
+            }
         }
         if (player3Dead == false)
         {
-            playerUnit3.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
-            playerHUD3.SetEXP(PlayerPrefs.GetFloat("Chicken3cEXP"));
+            bool lvlUp3 = playerUnit3.SetEXP(PlayerPrefs.GetFloat("EnemycEXP"));
+            playerHUD3.SetEXP(playerUnit3.currentExp);
             playerHUD3.SetLVL(PlayerPrefs.GetInt("Chicken3Lvl"));
-            Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
-            tempText += playerUnit3.unitName + ", ";
+            //Debug.Log("-BattleSystem- says: " + playerUnit3.unitName + " gained EXP");
+            if (lvlUp3)
+            {
+                tempText += playerUnit3.unitName + ", ";
+            }
         }
 
-        tempText += " has leveld up!";
+        // Write battle dialogue if any of the chickens levled up
+        if(tempText != "")
+        {
+            yield return new WaitForSeconds(2f);
+            tempText += " has leveld up!";
+            WriteDialogueText(tempText);
+        }
+
         yield return new WaitForSeconds(2f);
-        WriteDialogueText(tempText);
+        StartCoroutine(EndBattle());
 
     }
 
@@ -616,7 +643,7 @@ public class BattleSystem : MonoBehaviour
             // End the battle
             state = BattleState.WON;
             StartCoroutine(GetEXP()); // Set exp when the battle is done
-            StartCoroutine(EndBattle());
+            //StartCoroutine(EndBattle());
         }
         else
         {

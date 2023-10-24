@@ -56,12 +56,16 @@ MonoBehaviour:
   speed: 4
   specialSkill1: 1
   specialSkill2: 2
-  specialSkill3: 0
-  noOfSpecialAttacks: 0
-  noOfHeals: 10
+  specialSkill3: 2
+  noOfSpecialAttacks: 2
+  maxOfSpecialAttacks: 0
+  noOfHeals: 2
+  maxOfHeals: 2
   unitType: player
   unitNr: 2
   enemyUnit: 
+  maxExp: 10
+  currentExp: 9
 --- !u!212 &7553661926241234137
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -193,18 +193,18 @@ MonoBehaviour:
   currentHP: 40
   defense: 5
   speed: 1
-  specialSkill1: 0
+  specialSkill1: 10
   specialSkill2: 0
   specialSkill3: 0
-  noOfSpecialAttacks: 0
-  maxOfSpecialAttacks: 0
+  noOfSpecialAttacks: 100
+  maxOfSpecialAttacks: 100
   noOfHeals: 0
   maxOfHeals: 0
   unitType: enemy
   unitNr: 0
   enemyUnit: wolf
-  maxExp: 0
-  currentExp: 0
+  maxExp: 15
+  currentExp: 15
 --- !u!114 &4094219683281736938
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -104,19 +104,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: capybara
   unitLevel: 2
-  damage: 4
-  maxHP: 30
-  currentHP: 30
+  damage: 1
+  maxHP: 15
+  currentHP: 15
   defense: 2
   speed: 1
-  specialSkill1: 5
-  specialSkill2: 0
+  specialSkill1: 3
+  specialSkill2: 3
   specialSkill3: 0
   noOfSpecialAttacks: 0
+  maxOfSpecialAttacks: 0
   noOfHeals: 2
+  maxOfHeals: 2
   unitType: enemy
   unitNr: 0
   enemyUnit: capybara
+  maxExp: 5
+  currentExp: 5
 --- !u!114 &3330998484999001650
 MonoBehaviour:
   m_ObjectHideFlags: 0

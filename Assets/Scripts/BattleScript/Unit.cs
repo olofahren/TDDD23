@@ -136,10 +136,11 @@ public class Unit : MonoBehaviour
         Debug.Log("-Unit>IncreaseStats(int increase)- says: " + unitName + "maxHP has increased to: " + maxHP + ", speed has increased to: " + speed);
     }
 
-    public void SetEXP(float exp)
+    public Boolean SetEXP(float exp)
     {
         currentExp += exp;
 
+        // Level up
         if (currentExp >= maxExp)
         {
             currentExp -= maxExp;
@@ -148,10 +149,12 @@ public class Unit : MonoBehaviour
             IncreaseStats(1); // The nr is the increase of the stats for each stat
             PlayerPrefs.SetInt("Chicken" + unitNr + "Lvl", unitLevel);
             PlayerPrefs.SetInt("Chicken" + unitNr + "maxEXP", maxExp);
+            return true;
         }
 
         PlayerPrefs.SetFloat("Chicken" + unitNr + "cEXP", currentExp);
         Debug.Log("-Unit>SetEXP(float exp)- says: " + unitName + "-> lvl: " + unitLevel + ", cEXP: " + currentExp + ", maxEXP: " + maxExp);
+        return false;
     }
 
 
