@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e624e108c89b41892ca467bacb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Chicken1
+  unitName: Henrietta
   unitLevel: 4
   damage: 4
   maxHP: 23
