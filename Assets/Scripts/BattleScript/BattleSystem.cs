@@ -188,8 +188,8 @@ public class BattleSystem : MonoBehaviour
         anim3 = playerUnit3.GetComponent<BattleAnimation>();
 
         // Finding the correct enemy from the array of prefab enemies 
-        //String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
-        String tempEnemyType = "fox"; // Debugging purposes
+        String tempEnemyType = PlayerPrefs.GetString("EnemyUnitType");
+        //String tempEnemyType = "fox"; // Debugging purposes
         GameObject tempEnemy = allEnemies[0];
         for (int i = 0; i < allEnemies.Length; i++)
         {
@@ -599,42 +599,45 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerSpecialAttack()
     {
         // Damage the enemy
-        bool isDead;
+        bool isDead = false;
 
         Unit currentUnit = allUnit[turnIndex];
 
-        // Check which chicken is attacking
+        // Check which chicken is attacking & if there are any special attacks left
         // Return bool if enemy is dead
-        if (currentUnit.unitNr == 1)
+        if (currentUnit.unitNr == 1 && currentUnit.noOfSpecialAttacks != 0)
         {
             anim1.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit1.damage + playerUnit1.specialSkill2);
+            isDead = enemyUnit.TakeDamage(playerUnit1.damage, playerUnit1.specialSkill2);
 
             player1Dead = playerUnit1.TakeDamage(playerUnit1.specialSkill2);
             Debug.Log("-BattleSystem>PlayerSpecialAttack()- says: " + currentUnit.unitName + " has " + playerUnit1.currentHP + " HP");
             PlayerPrefs.SetInt("Chicken1cHP", playerUnit1.currentHP);
             playerHUD1.SetHP(playerUnit1.currentHP);
             //Debug.Log(playerUnit1 + " current HP: " +playerUnit1.currentHP);
-
         }
-        else if (currentUnit.unitNr == 2)
+        else if (currentUnit.unitNr == 2 && currentUnit.noOfSpecialAttacks != 0)
         {
             anim2.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit2.damage + playerUnit2.specialSkill2);
+            isDead = enemyUnit.TakeDamage(playerUnit2.damage, playerUnit2.specialSkill2);
 
             player2Dead = playerUnit2.TakeDamage(playerUnit2.specialSkill2);
             PlayerPrefs.SetInt("Chicken2cHP", playerUnit2.currentHP);
             playerHUD2.SetHP(playerUnit2.currentHP);
         }
-        else // Unit 3
+        else if(currentUnit.unitNr == 3 && currentUnit.noOfSpecialAttacks != 0) // Unit 3
         {
             anim3.PlaySpecialAttackAnimation();
-            isDead = enemyUnit.TakeDamage(playerUnit3.damage + playerUnit3.specialSkill2);
+            isDead = enemyUnit.TakeDamage(playerUnit3.damage, playerUnit3.specialSkill2);
 
             player3Dead = playerUnit3.TakeDamage(playerUnit3.specialSkill2);
             PlayerPrefs.SetInt("Chicken3cHP", playerUnit3.currentHP);
             playerHUD3.SetHP(playerUnit3.currentHP);
         }
+
+        // Decreases the amount of special attacks a player has
+        currentUnit.noOfSpecialAttacks--;
+        Debug.Log("-BattleSystem>PlayerSpecialAttack()- says: " + currentUnit.unitName + " has nofOspecialAttacks " + currentUnit.noOfSpecialAttacks + " left.");
 
         PlayerPrefs.SetInt("EnemycHP", enemyUnit.currentHP);
         enemyHUD.SetHP(enemyUnit.currentHP); // Change later depending on if more then one enemy unit

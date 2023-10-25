@@ -145,7 +145,7 @@ public class Unit : MonoBehaviour
         {
             currentExp -= maxExp;
             unitLevel += 1;
-            maxExp += 10;
+            maxExp += 5;
             IncreaseStats(1); // The nr is the increase of the stats for each stat
             PlayerPrefs.SetInt("Chicken" + unitNr + "Lvl", unitLevel);
             PlayerPrefs.SetInt("Chicken" + unitNr + "maxEXP", maxExp);

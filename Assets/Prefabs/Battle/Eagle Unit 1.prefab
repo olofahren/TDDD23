@@ -186,25 +186,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e624e108c89b41892ca467bacb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: eagle
-  unitLevel: 1
-  damage: 3
-  maxHP: 20
-  currentHP: 20
-  defense: 1
-  speed: 3
-  specialSkill1: 5
-  specialSkill2: 5
+  unitName: Eagle
+  unitLevel: 6
+  damage: 4
+  maxHP: 60
+  currentHP: 60
+  defense: 0
+  speed: 8
+  specialSkill1: 3
+  specialSkill2: 3
   specialSkill3: 0
-  noOfSpecialAttacks: 3
-  maxOfSpecialAttacks: 3
-  noOfHeals: 3
-  maxOfHeals: 3
+  noOfSpecialAttacks: 5
+  maxOfSpecialAttacks: 5
+  noOfHeals: 0
+  maxOfHeals: 0
   unitType: enemy
   unitNr: 0
   enemyUnit: eagle
-  maxExp: 10
-  currentExp: 10
+  maxExp: 20
+  currentExp: 20
 --- !u!95 &8764639960925445920
 Animator:
   serializedVersion: 5

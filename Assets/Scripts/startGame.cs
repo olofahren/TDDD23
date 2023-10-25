@@ -31,9 +31,9 @@ public class startGame : MonoBehaviour
         // Player Unit Set Stats
         // AssignStats(unitNr, lvl, damage, maxHP, currentHP, defense, speed, specialSkill1, spcialSkill2, speicalSkill3,
         // maxEXP, currentEXP, noOfHeals, noOfSpA, maxNrHeals, maxNrSpA )
-        battleFunctions.AssignStats(1, 1, 1, 10, 10, 2, 1, 1, 1, 1, 10, 0.0f, 2, 2, 2, 2);
-        battleFunctions.AssignStats(2, 1, 1, 10, 10, 1, 3, 1, 1, 1, 10, 0.0f, 2 ,2, 2, 2);
-        battleFunctions.AssignStats(3, 1, 1, 10, 10, 1, 1, 1, 1, 1, 10, 0.0f, 2, 2, 2, 2);
+        battleFunctions.AssignStats(1, 1, 1, 7, 7, 0, 1, 2, 1, 1, 5, 0.0f, 2, 2, 2, 2);
+        battleFunctions.AssignStats(2, 1, 1, 7, 7, 0, 3, 2, 1, 1, 5, 0.0f, 2 ,2, 2, 2);
+        battleFunctions.AssignStats(3, 1, 1, 7, 7, 0, 2, 2, 1, 1, 5, 0.0f, 2, 2, 2, 2);
 
         // Load scene
         SceneManager.LoadScene("Intro World");

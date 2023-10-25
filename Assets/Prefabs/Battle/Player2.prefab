@@ -48,24 +48,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Chicken2
-  unitLevel: 11
-  damage: 2
-  maxHP: 5
-  currentHP: 5
-  defense: 1
-  speed: 4
-  specialSkill1: 1
-  specialSkill2: 2
-  specialSkill3: 2
-  noOfSpecialAttacks: 2
-  maxOfSpecialAttacks: 2
-  noOfHeals: 2
-  maxOfHeals: 2
+  unitLevel: 4
+  damage: 4
+  maxHP: 25
+  currentHP: 25
+  defense: 0
+  speed: 6
+  specialSkill1: 8
+  specialSkill2: 4
+  specialSkill3: 0
+  noOfSpecialAttacks: 5
+  maxOfSpecialAttacks: 5
+  noOfHeals: 5
+  maxOfHeals: 5
   unitType: player
   unitNr: 2
   enemyUnit: 
-  maxExp: 10
-  currentExp: 9
+  maxExp: 20
+  currentExp: 0
 --- !u!212 &7553661926241234137
 SpriteRenderer:
   m_ObjectHideFlags: 0

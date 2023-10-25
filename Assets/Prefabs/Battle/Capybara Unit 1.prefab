@@ -102,13 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e624e108c89b41892ca467bacb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: capybara
+  unitName: Capybara
   unitLevel: 2
   damage: 1
   maxHP: 15
   currentHP: 15
-  defense: 2
-  speed: 1
+  defense: 0
+  speed: 2
   specialSkill1: 3
   specialSkill2: 3
   specialSkill3: 0
@@ -119,8 +119,8 @@ MonoBehaviour:
   unitType: enemy
   unitNr: 0
   enemyUnit: capybara
-  maxExp: 5
-  currentExp: 5
+  maxExp: 7
+  currentExp: 7
 --- !u!114 &3330998484999001650
 MonoBehaviour:
   m_ObjectHideFlags: 0

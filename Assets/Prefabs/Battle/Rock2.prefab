@@ -112,7 +112,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3636022829919420496}
@@ -130,25 +130,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3e624e108c89b41892ca467bacb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: A Bigger Rock
-  unitLevel: 5
-  damage: 1
-  maxHP: 50
-  currentHP: 50
+  unitName: A Medium Rock
+  unitLevel: 10
+  damage: 5
+  maxHP: 100
+  currentHP: 100
   defense: 0
-  speed: 1
-  specialSkill1: 50
-  specialSkill2: 5
+  speed: 5
+  specialSkill1: 20
+  specialSkill2: 2
   specialSkill3: 0
   noOfSpecialAttacks: 3
   maxOfSpecialAttacks: 3
-  noOfHeals: 100
-  maxOfHeals: 100
+  noOfHeals: 5
+  maxOfHeals: 5
   unitType: enemy
   unitNr: 1
   enemyUnit: rock2
-  maxExp: 10
-  currentExp: 10
+  maxExp: 30
+  currentExp: 30
 --- !u!114 &-2080984032829808776
 MonoBehaviour:
   m_ObjectHideFlags: 0

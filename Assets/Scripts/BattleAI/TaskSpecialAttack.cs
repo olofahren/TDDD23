@@ -26,6 +26,9 @@ public class TaskSpecialAttack : Node
 
             //Enemy take damage (Special attack damages the unit using it also)
             enemyUnit.TakeDamage(enemyUnit.specialSkill2);
+            // Decreases the amount of special attacks a unit has
+            enemyUnit.noOfSpecialAttacks--;
+            Debug.Log("-TaskSpecialAttack- says: " + enemyUnit.unitName + " has noOfSpecialAttacks " + enemyUnit.noOfSpecialAttacks + " left.");
 
 
             // Update the current HP so it can update the UI
