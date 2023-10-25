@@ -513,8 +513,8 @@ GameObject:
   m_Component:
   - component: {fileID: 306385902}
   - component: {fileID: 306385901}
-  - component: {fileID: 306385903}
   - component: {fileID: 306385904}
+  - component: {fileID: 306385905}
   m_Layer: 0
   m_Name: Timeline
   m_TagString: Untagged
@@ -560,20 +560,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &306385903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306385900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1561f4618bc3c4b4dbbf9afc14137d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  director: {fileID: 306385901}
-  eggCounterText: {fileID: 1165373499}
 --- !u!114 &306385904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,7 +581,7 @@ MonoBehaviour:
         m_Calls: []
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 306385903}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: cutsceneIsFinished, Assembly-CSharp
           m_MethodName: RemoveEggs
           m_Mode: 1
@@ -607,6 +593,32 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 306385905}
+          m_TargetAssemblyTypeName: EndingCutsceneIsFinished, Assembly-CSharp
+          m_MethodName: loadNextScene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &306385905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306385900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa26fe790446c743b02663ce63b530a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  director: {fileID: 0}
+  eggCounterText: {fileID: 0}
 --- !u!1001 &394417230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91935,17 +91947,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd4b981bc255a614eb889cf89178f7dd, type: 3}
---- !u!114 &1165373499 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1676288771912495611, guid: bd4b981bc255a614eb889cf89178f7dd, type: 3}
-  m_PrefabInstance: {fileID: 1165373498}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1510884244
 GameObject:
   m_ObjectHideFlags: 0

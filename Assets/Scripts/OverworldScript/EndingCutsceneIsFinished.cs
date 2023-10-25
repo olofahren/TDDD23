@@ -28,8 +28,11 @@ public class EndingCutsceneIsFinished : MonoBehaviour
     void OnPlayableDirectorStopped(PlayableDirector aDirector)
     {
         if (director == aDirector)
+        {
             PlayerPrefs.SetString("currentWorld", "Ending Screen");
-        SceneManager.LoadScene("Ending Screen");
+            SceneManager.LoadScene("Ending Screen");
+        }
+            
 
     }
 
@@ -38,5 +41,11 @@ public class EndingCutsceneIsFinished : MonoBehaviour
         director.stopped -= OnPlayableDirectorStopped;
     }
 
+
+    public void loadNextScene()
+    {
+        PlayerPrefs.SetString("currentWorld", "Ending Screen");
+        SceneManager.LoadScene("Ending Screen");
+    }
    
 }
