@@ -133,17 +133,17 @@ MonoBehaviour:
   unitName: The Big Rock
   unitLevel: 15
   damage: 10
-  maxHP: 130
-  currentHP: 120
+  maxHP: 150
+  currentHP: 150
   defense: 0
-  speed: 5
-  specialSkill1: 30
+  speed: 7
+  specialSkill1: 60
   specialSkill2: 3
   specialSkill3: 0
   noOfSpecialAttacks: 3
   maxOfSpecialAttacks: 3
-  noOfHeals: 5
-  maxOfHeals: 105
+  noOfHeals: 4
+  maxOfHeals: 4
   unitType: enemy
   unitNr: 1
   enemyUnit: rock3

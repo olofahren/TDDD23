@@ -188,9 +188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Wolf
   unitLevel: 12
-  damage: 8
-  maxHP: 80
-  currentHP: 80
+  damage: 10
+  maxHP: 120
+  currentHP: 120
   defense: 0
   speed: 7
   specialSkill1: 3

@@ -136,8 +136,8 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   defense: 0
-  speed: 5
-  specialSkill1: 20
+  speed: 7
+  specialSkill1: 50
   specialSkill2: 2
   specialSkill3: 0
   noOfSpecialAttacks: 3
