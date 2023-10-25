@@ -79,6 +79,8 @@ public class BattleSystem : MonoBehaviour
     private BattleAnimation anim3;
 
     // Start is called before the first frame update
+
+
     void Start()
     {
         state = BattleState.START; // Start of the battle
@@ -341,6 +343,10 @@ public class BattleSystem : MonoBehaviour
     {
         Vector3 temp = new(-1.5f, 0, 0);
 
+        
+
+
+
         attackButton.Select();
 
         if (!player2BattleMenu)// Show battle menu
@@ -348,10 +354,18 @@ public class BattleSystem : MonoBehaviour
             player2BattleMenu = true;
             battleMenu2.SetActive(true);
 
-            if(playerNr == 1) // Move the chicken
+            TextMeshProUGUI healButtonText = GameObject.Find("Button-Heal").GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI specialAttackButtonText = GameObject.Find("Button-SpecialAttack").GetComponentInChildren<TextMeshProUGUI>();
+            
+            if (playerNr == 1) // Move the chicken
             {
                 battleMenu2.transform.position = playerBattleStation1.transform.position; // Move the menu when its the players turn
                 playerBattleStation1.transform.position += temp;
+
+                healButtonText.text = "Heal("+ playerUnit1.noOfHeals + ")";
+                specialAttackButtonText.text = "Peck(" + playerUnit1.noOfSpecialAttacks + ")";
+
+
                 if (playerUnit1.noOfHeals == 0) { // Disable heal button if no heals left
                     healButton.interactable = false;
                 }
@@ -364,6 +378,10 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation2.transform.position;
                 playerBattleStation2.transform.position += temp;
+
+                healButtonText.text = "Heal(" + playerUnit2.noOfHeals + ")";
+                specialAttackButtonText.text = "Peck(" + playerUnit2.noOfSpecialAttacks + ")";
+
                 if (playerUnit2.noOfHeals == 0)
                 { // Disable heal button if no heals left
                     healButton.interactable = false;
@@ -377,6 +395,10 @@ public class BattleSystem : MonoBehaviour
             {
                 battleMenu2.transform.position = playerBattleStation3.transform.position;
                 playerBattleStation3.transform.position += temp;
+
+                healButtonText.text = "Heal(" + playerUnit3.noOfHeals + ")";
+                specialAttackButtonText.text = "Peck(" + playerUnit3.noOfSpecialAttacks + ")";
+
                 if (playerUnit3.noOfHeals == 0)
                 { // Disable heal button if no heals left
                     healButton.interactable = false;
