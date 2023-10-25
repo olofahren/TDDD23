@@ -130,10 +130,21 @@ public class Unit : MonoBehaviour
     {
         int newHP = increase * 5;
 
-        SetUnit(unitLevel, damage + increase, maxHP + newHP, currentHP + newHP, defense + increase, speed + increase, 
-            specialSkill1 + increase, specialSkill2 + increase, specialSkill3 + increase, maxExp, currentExp, 
-            maxOfSpecialAttacks + increase, maxOfHeals + increase, maxOfSpecialAttacks + increase, maxOfHeals + increase);
-        Debug.Log("-Unit>IncreaseStats(int increase)- says: " + unitName + "maxHP has increased to: " + maxHP + ", speed has increased to: " + speed);
+        if(unitLevel % 2 == 0) // At even levels the amount/power of heals and SPA increases
+        {
+            SetUnit(unitLevel, damage + increase, maxHP + newHP, currentHP + newHP, defense + increase, speed + increase,
+                    specialSkill1 + increase, specialSkill2 + increase, specialSkill3 + increase, maxExp, currentExp,
+                    maxOfSpecialAttacks + increase, maxOfHeals + increase, maxOfSpecialAttacks + increase, maxOfHeals + increase);
+        }
+        else
+        {
+            SetUnit(unitLevel, damage + increase, maxHP + newHP, currentHP + newHP, defense + increase, speed + increase,
+                 specialSkill1, specialSkill2, specialSkill3, maxExp, currentExp,
+                 maxOfSpecialAttacks, maxOfHeals, maxOfSpecialAttacks, maxOfHeals);
+        }
+
+
+        //Debug.Log("-Unit>IncreaseStats(int increase)- says: " + unitName + "maxHP has increased to: " + maxHP + ", speed has increased to: " + speed);
     }
 
     public Boolean SetEXP(float exp)
