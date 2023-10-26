@@ -188,9 +188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Eagle
   unitLevel: 6
-  damage: 6
-  maxHP: 70
-  currentHP: 70
+  damage: 5
+  maxHP: 60
+  currentHP: 60
   defense: 0
   speed: 8
   specialSkill1: 2

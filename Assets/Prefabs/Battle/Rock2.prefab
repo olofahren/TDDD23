@@ -131,13 +131,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: A Medium Rock
-  unitLevel: 10
+  unitLevel: 9
   damage: 5
-  maxHP: 100
-  currentHP: 100
+  maxHP: 80
+  currentHP: 80
   defense: 0
   speed: 7
-  specialSkill1: 50
+  specialSkill1: 40
   specialSkill2: 2
   specialSkill3: 0
   noOfSpecialAttacks: 3

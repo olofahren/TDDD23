@@ -318,12 +318,6 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // If all chickens are dead the battle ends
-        if ((player1Dead && player2Dead && player3Dead))
-        {
-            state = BattleState.LOST;
-            StartCoroutine(EndBattle());
-        }
         // If the enemy somehow kills itself player win the battle
         if (enemyDead)
         {
@@ -331,10 +325,16 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(EndBattle());
         }
         // Else next turn is played
-        else
+        else if(!player1Dead || !player2Dead || !player3Dead)
         {
             SetTurnIndex();
             GetState(allUnit[turnIndex].unitType);
+        }
+        // If all chickens are dead the battle ends
+        else
+        {
+            state = BattleState.LOST;
+            StartCoroutine(EndBattle());
         }
     }
 

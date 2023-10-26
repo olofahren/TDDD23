@@ -131,13 +131,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: The Big Rock
-  unitLevel: 15
-  damage: 10
-  maxHP: 150
-  currentHP: 150
+  unitLevel: 12
+  damage: 7
+  maxHP: 100
+  currentHP: 100
   defense: 0
   speed: 7
-  specialSkill1: 60
+  specialSkill1: 50
   specialSkill2: 3
   specialSkill3: 0
   noOfSpecialAttacks: 3

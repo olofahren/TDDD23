@@ -16,7 +16,7 @@ public class CheckLevel : Node
 
     public override NodeState Evaluate()
     {
-        if (unitA.unitLevel <= thresHoldLevel)
+        if (unitA.unitLevel < thresHoldLevel)
         {
             Debug.Log("-CheckLevel- says: " + unitA.unitName + " has lower level then thresholdlevel " + thresHoldLevel );
             state = NodeState.SUCCESS;

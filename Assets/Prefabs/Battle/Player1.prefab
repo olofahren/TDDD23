@@ -48,19 +48,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Henrietta
-  unitLevel: 4
-  damage: 4
-  maxHP: 23
-  currentHP: 23
+  unitLevel: 12
+  damage: 12
+  maxHP: 82
+  currentHP: 82
   defense: 0
-  speed: 4
-  specialSkill1: 8
-  specialSkill2: 4
+  speed: 12
+  specialSkill1: 12
+  specialSkill2: 6
   specialSkill3: 0
-  noOfSpecialAttacks: 5
-  maxOfSpecialAttacks: 5
-  noOfHeals: 5
-  maxOfHeals: 5
+  noOfSpecialAttacks: 8
+  maxOfSpecialAttacks: 8
+  noOfHeals: 8
+  maxOfHeals: 8
   unitType: player
   unitNr: 1
   enemyUnit: 

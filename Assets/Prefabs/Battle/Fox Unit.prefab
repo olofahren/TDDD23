@@ -102,19 +102,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Fox
-  unitLevel: 20
-  damage: 205
-  maxHP: 200
-  currentHP: 200
+  unitLevel: 15
+  damage: 20
+  maxHP: 150
+  currentHP: 150
   defense: 0
-  speed: 15
-  specialSkill1: 50
+  speed: 12
+  specialSkill1: 80
   specialSkill2: 3
   specialSkill3: 0
-  noOfSpecialAttacks: 100
-  maxOfSpecialAttacks: 100
-  noOfHeals: 100
-  maxOfHeals: 100
+  noOfSpecialAttacks: 10
+  maxOfSpecialAttacks: 10
+  noOfHeals: 6
+  maxOfHeals: 6
   unitType: enemy
   unitNr: 0
   enemyUnit: fox
