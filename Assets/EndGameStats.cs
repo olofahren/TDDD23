@@ -25,11 +25,11 @@ public class EndGameStats : MonoBehaviour
     {
         if (collectedEggs.Count != 20)
         {
-            noOfEggsStat.text = "You collected " + (collectedEggs.Sum() - 1) + " of 20 eggs. Better luck collecting them all next time!";
+            noOfEggsStat.text = "You collected " + (collectedEggs.Sum()) + " of 20 eggs. Better luck collecting them all next time!";
         }
         else
         {
-            noOfEggsStat.text = "You collected " + (collectedEggs.Sum() - 1) + " of 20 eggs. ¨Good job collecting all eggs!";
+            noOfEggsStat.text = "You collected " + (collectedEggs.Sum()) + " of 20 eggs. ¨Good job collecting all eggs!";
 
         }
 
